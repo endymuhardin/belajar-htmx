@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Pelajaran 3: Forms & Validation</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Lesson Header -->
+        <div class="mb-6">
+            <div class="flex items-center space-x-3 mb-2">
+                <span class="text-4xl">3️⃣</span>
+                <h2 class="text-3xl font-bold text-gray-900">Pelajaran 3: Forms & Validation</h2>
+            </div>
+            <p class="text-gray-600 text-lg">
+                Menguasai form submission dengan <code class="bg-gray-200 px-2 py-1 rounded text-sm">hx-post</code>
+                dan server-side validation
+            </p>
+        </div>
+
+        <!-- Lesson Overview -->
+        <div class="card bg-indigo-50 border-l-4 border-indigo-500 mb-6">
+            <h3 class="text-xl font-bold text-indigo-900 mb-3">📚 Konsep Pelajaran 3</h3>
+
+            <div class="space-y-3 text-sm text-indigo-800">
+                <p>
+                    <strong>Konsep Baru:</strong> HTMX tidak hanya untuk GET request, tapi juga bisa handle form submission
+                    dengan POST dan menampilkan error validation secara inline.
+                </p>
+
+                <div class="bg-white rounded p-4 border border-indigo-200 space-y-3">
+                    <div>
+                        <p class="font-semibold mb-2">📝 Form dengan HTMX:</p>
+                        <ul class="space-y-1 ml-5 text-xs list-disc">
+                            <li><code class="bg-indigo-100 px-1 rounded">hx-post="/endpoint"</code> - Submit form via POST request</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">hx-target="#container"</code> - Target untuk response (form + errors atau success message)</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">hx-swap="innerHTML"</code> - Replace isi container dengan response</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">@Valid</code> - Jakarta Bean Validation untuk validasi otomatis</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <p class="font-semibold mb-2">✅ Validation Flow:</p>
+                        <ol class="space-y-1 ml-5 text-xs list-decimal">
+                            <li>User submit form dengan hx-post</li>
+                            <li>Server validasi data</li>
+                            <li>Jika error: return form dengan error messages</li>
+                            <li>Jika sukses: return success message</li>
+                        </ol>
+                    </div>
+
+                    <div>
+                        <p class="font-semibold mb-2">🔄 Key Benefits:</p>
+                        <ul class="space-y-1 ml-5 text-xs list-disc">
+                            <li>Tidak reload full page - user experience lebih baik</li>
+                            <li>Form tetap terisi saat ada error - data tidak hilang</li>
+                            <li>Error messages inline di sebelah field yang error</li>
+                            <li>Server-side validation tetap aman</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded p-3 border border-indigo-200">
+                    <p class="font-semibold mb-2">📂 Lihat di source code:</p>
+                    <ul class="space-y-1 ml-4 text-xs font-mono">
+                        <li>👉 <strong>Controller:</strong> controller/HomeController.java:75-112</li>
+                        <li>👉 <strong>DTO:</strong> dto/ContactForm.java</li>
+                        <li>👉 <strong>Form Fragment:</strong> templates/fragments/contact-form.html</li>
+                        <li>👉 <strong>Success Fragment:</strong> templates/fragments/contact-success.html</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Demo -->
+        <div class="card bg-white border-2 border-indigo-200 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                🎮 Demo Interaktif: Contact Form dengan Validation
+            </h3>
+
+            <div class="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-300">
+                <p class="text-sm text-yellow-900">
+                    <strong>💡 Coba Eksperimen:</strong>
+                </p>
+                <ul class="mt-2 ml-5 text-sm text-yellow-800 space-y-1 list-disc text-left">
+                    <li>Submit form kosong - lihat error messages muncul</li>
+                    <li>Isi nama kurang dari 3 karakter - lihat error validation</li>
+                    <li>Isi email dengan format salah - lihat regex validation</li>
+                    <li>Isi semua field dengan benar - lihat success message</li>
+                    <li>Perhatikan form tetap terisi saat ada error!</li>
+                </ul>
+            </div>
+
+            <div id="form-container">
+                <div
+                    hx-get="/contact-form"
+                    hx-trigger="load"
+                    hx-target="#form-container"
+                    hx-swap="innerHTML">
+                    <div class="min-h-[400px] border-2 border-dashed border-indigo-300 rounded-lg p-6 flex items-center justify-center text-indigo-400">
+                        <div class="text-center">
+                            <div class="animate-spin text-2xl mb-2">⏳</div>
+                            <p class="text-sm">Loading form...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Validation Rules -->
+        <div class="card bg-gray-50 border-l-4 border-gray-400 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                📋 Validation Rules
+            </h3>
+
+            <div class="space-y-3 text-sm">
+                <div class="flex items-start space-x-3">
+                    <span class="text-lg">📝</span>
+                    <div>
+                        <strong>Nama:</strong> Wajib diisi, minimal 3 karakter
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <span class="text-lg">📧</span>
+                    <div>
+                        <strong>Email:</strong> Wajib diisi, format email valid
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <span class="text-lg">💬</span>
+                    <div>
+                        <strong>Subjek:</strong> Wajib diisi
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <span class="text-lg">✉️</span>
+                    <div>
+                        <strong>Pesan:</strong> Wajib diisi, minimal 10 karakter
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Code Explanation -->
+        <div class="card bg-gray-50 border-l-4 border-gray-400 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                📝 Penjelasan Kode
+            </h3>
+
+            <div class="space-y-4">
+                <div>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">1. HTML Form (Frontend):</p>
+                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;form hx-post="/contact"
+      hx-target="#form-container"
+      hx-swap="innerHTML"&gt;
+    &lt;input type="text" name="name" /&gt;
+    &lt;input type="email" name="email" /&gt;
+    &lt;button type="submit"&gt;Kirim&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">2. ContactForm DTO (Validation Annotations):</p>
+                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>public class ContactForm {
+    @NotBlank(message = "Nama wajib diisi")
+    @Size(min = 3, message = "Nama minimal 3 karakter")
+    private String name;
+
+    @NotBlank(message = "Email wajib diisi")
+    @Email(message = "Format email tidak valid")
+    private String email;
+
+    @NotBlank(message = "Subjek wajib diisi")
+    private String subject;
+
+    @NotBlank(message = "Pesan wajib diisi")
+    @Size(min = 10, message = "Pesan minimal 10 karakter")
+    private String message;
+}</code></pre>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">3. Spring Controller (Backend):</p>
+                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@PostMapping("/contact")
+public String submitContact(@Valid ContactForm form,
+                           BindingResult bindingResult,
+                           Model model) {
+    if (bindingResult.hasErrors()) {
+        // Convert errors ke Map
+        Map&lt;String, String&gt; errors = new HashMap&lt;&gt;();
+        bindingResult.getFieldErrors().forEach(error -&gt;
+            errors.put(error.getField(), error.getDefaultMessage())
+        );
+        model.addAttribute("errors", errors);
+        model.addAttribute("form", form);
+        return "fragments/contact-form";
+    }
+
+    model.addAttribute("name", form.getName());
+    return "fragments/contact-success";
+}</code></pre>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">4. Error Display (Thymeleaf):</p>
+                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;input type="text" name="name"
+       th:value="${form != null ? form.name : ''}"
+       th:classappend="${errors != null && errors.containsKey('name')}
+                       ? 'border-red-500' : ''" /&gt;
+
+&lt;p th:if="${errors != null && errors.containsKey('name')}"
+   class="text-red-600"
+   th:text="${errors.get('name')}"&gt;&lt;/p&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="card bg-green-50 border-l-4 border-green-500 mb-6">
+            <h3 class="text-lg font-semibold text-green-900 mb-3">✅ Poin Penting Pelajaran 3</h3>
+            <ul class="space-y-2 text-sm text-green-800">
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>hx-post</strong> - Submit form tanpa reload page</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Jakarta Bean Validation</strong> - Menggunakan @Valid, @NotBlank, @Email, @Size annotations</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Server-side Validation</strong> - Validasi tetap di server, lebih aman</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Inline Error Messages</strong> - Error muncul langsung di sebelah field</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Form Preservation</strong> - Data form tidak hilang saat ada error</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Same Fragment Pattern</strong> - Server return fragment yang sama untuk error dan form kosong</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Progressive Enhancement</strong> - Form tetap bisa submit normal tanpa JavaScript</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex justify-between">
+            <a href="/lesson/2"
+               class="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors">
+                ← Pelajaran 2
+            </a>
+            <a href="/lesson/4"
+               class="px-6 py-3 bg-gray-300 text-gray-500 font-semibold rounded-lg cursor-not-allowed">
+                Pelajaran 4 (Coming Soon) →
+            </a>
+        </div>
+    </div>
+</body>
+</html>

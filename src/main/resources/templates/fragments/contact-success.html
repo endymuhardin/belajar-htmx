@@ -1,0 +1,21 @@
+<div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-6 border-l-4 border-green-500">
+    <div class="flex items-start space-x-4">
+        <div class="text-4xl">✅</div>
+        <div class="flex-1">
+            <h4 class="text-xl font-bold text-green-900 mb-2">Pesan Berhasil Dikirim!</h4>
+            <p class="text-green-800 mb-3">
+                Terima kasih, <strong th:text="${name}">User</strong>! Pesan Anda telah kami terima.
+            </p>
+            <p class="text-sm text-green-700 mb-4">
+                Waktu submit: <span class="font-mono bg-green-100 px-2 py-1 rounded" th:text="${submittedAt}">00:00:00</span>
+            </p>
+            <button
+                hx-get="/contact-form"
+                hx-target="#form-container"
+                hx-swap="innerHTML"
+                class="px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">
+                📝 Kirim Pesan Lagi
+            </button>
+        </div>
+    </div>
+</div>

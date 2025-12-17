@@ -1,0 +1,82 @@
+<form hx-post="/contact" hx-target="#form-container" hx-swap="innerHTML" class="space-y-4">
+    <!-- Name Field -->
+    <div>
+        <label for="name" class="label">
+            Nama <span class="text-red-500">*</span>
+        </label>
+        <input
+            type="text"
+            id="name"
+            name="name"
+            th:value="${form != null ? form.name : ''}"
+            class="input"
+            th:classappend="${errors != null && errors.containsKey('name')} ? 'border-red-500' : ''"
+            placeholder="Masukkan nama Anda">
+        <p th:if="${errors != null && errors.containsKey('name')}"
+           class="mt-1 text-sm text-red-600"
+           th:text="${errors.get('name')}"></p>
+    </div>
+
+    <!-- Email Field -->
+    <div>
+        <label for="email" class="label">
+            Email <span class="text-red-500">*</span>
+        </label>
+        <input
+            type="email"
+            id="email"
+            name="email"
+            th:value="${form != null ? form.email : ''}"
+            class="input"
+            th:classappend="${errors != null && errors.containsKey('email')} ? 'border-red-500' : ''"
+            placeholder="nama@example.com">
+        <p th:if="${errors != null && errors.containsKey('email')}"
+           class="mt-1 text-sm text-red-600"
+           th:text="${errors.get('email')}"></p>
+    </div>
+
+    <!-- Subject Field -->
+    <div>
+        <label for="subject" class="label">
+            Subjek <span class="text-red-500">*</span>
+        </label>
+        <input
+            type="text"
+            id="subject"
+            name="subject"
+            th:value="${form != null ? form.subject : ''}"
+            class="input"
+            th:classappend="${errors != null && errors.containsKey('subject')} ? 'border-red-500' : ''"
+            placeholder="Subjek pesan">
+        <p th:if="${errors != null && errors.containsKey('subject')}"
+           class="mt-1 text-sm text-red-600"
+           th:text="${errors.get('subject')}"></p>
+    </div>
+
+    <!-- Message Field -->
+    <div>
+        <label for="message" class="label">
+            Pesan <span class="text-red-500">*</span>
+        </label>
+        <textarea
+            id="message"
+            name="message"
+            rows="4"
+            class="input"
+            th:classappend="${errors != null && errors.containsKey('message')} ? 'border-red-500' : ''"
+            placeholder="Tulis pesan Anda di sini..."
+            th:text="${form != null ? form.message : ''}"></textarea>
+        <p th:if="${errors != null && errors.containsKey('message')}"
+           class="mt-1 text-sm text-red-600"
+           th:text="${errors.get('message')}"></p>
+    </div>
+
+    <!-- Submit Button -->
+    <div>
+        <button
+            type="submit"
+            class="w-full px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-200">
+            📤 Kirim Pesan
+        </button>
+    </div>
+</form>
