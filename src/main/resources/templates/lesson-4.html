@@ -62,11 +62,12 @@
                     </div>
 
                     <div>
-                        <p class="font-semibold mb-2">💾 In-Memory Storage:</p>
+                        <p class="font-semibold mb-2">💾 Database Persistence:</p>
                         <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li>TodoService dengan ConcurrentHashMap</li>
-                            <li>Data tersimpan selama aplikasi running</li>
-                            <li>Pelajaran 8 nanti migrate ke database</li>
+                            <li>Todo entity dengan JPA annotations (@Entity, @Id)</li>
+                            <li>TodoRepository extends JpaRepository</li>
+                            <li>Data tersimpan di H2 database (file-based)</li>
+                            <li>Data persist saat restart aplikasi</li>
                         </ul>
                     </div>
                 </div>
@@ -74,11 +75,13 @@
                 <div class="bg-white rounded p-3 border border-indigo-200">
                     <p class="font-semibold mb-2">📂 Lihat di source code:</p>
                     <ul class="space-y-1 ml-4 text-xs font-mono">
-                        <li>👉 <strong>Model:</strong> model/Todo.java</li>
+                        <li>👉 <strong>Entity:</strong> model/Todo.java (JPA entity)</li>
+                        <li>👉 <strong>Repository:</strong> repository/TodoRepository.java</li>
                         <li>👉 <strong>Service:</strong> service/TodoService.java</li>
                         <li>👉 <strong>Controller:</strong> controller/TodoController.java</li>
                         <li>👉 <strong>List Fragment:</strong> templates/fragments/todo-list.html</li>
                         <li>👉 <strong>Item Fragment:</strong> templates/fragments/todo-item.html</li>
+                        <li>👉 <strong>Migration:</strong> db/migration/V1__create_todos_table.sql</li>
                     </ul>
                 </div>
             </div>
@@ -125,38 +128,57 @@
 
             <div class="space-y-4">
                 <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">1. Todo Model (POJO):</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>public class Todo {
+                    <p class="text-sm font-semibold text-gray-700 mb-2">1. Todo Entity (JPA):</p>
+                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@Entity
+@Table(name = "todos")
+public class Todo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 500)
     private String title;
+
+    @Column(nullable = false)
     private boolean completed;
+
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
     // getters, setters...
 }</code></pre>
                 </div>
 
                 <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">2. TodoService (In-Memory Storage):</p>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">2. TodoRepository (JPA):</p>
+                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@Repository
+public interface TodoRepository extends JpaRepository&lt;Todo, Long&gt; {
+    List&lt;Todo&gt; findAllByOrderByCreatedAtDesc();
+}
+
+// JpaRepository provides: save(), findById(), deleteById(), count()
+// We only add custom query method for ordering</code></pre>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">3. TodoService (Database Layer):</p>
                     <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@Service
+@Transactional
 public class TodoService {
-    private final Map&lt;Long, Todo&gt; todos = new ConcurrentHashMap&lt;&gt;();
-    private final AtomicLong idGenerator = new AtomicLong(1);
+    private final TodoRepository todoRepository;
 
     public Todo create(String title) {
-        Long id = idGenerator.getAndIncrement();
-        Todo todo = new Todo(id, title);
-        todos.put(id, todo);
-        return todo;
+        Todo todo = new Todo(null, title);
+        return todoRepository.save(todo);  // Database INSERT
     }
 
     public void delete(Long id) {
-        todos.remove(id);
+        todoRepository.deleteById(id);  // Database DELETE
     }
 }</code></pre>
                 </div>
 
                 <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">3. TodoController (CRUD Endpoints):</p>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">4. TodoController (CRUD Endpoints):</p>
                     <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@PostMapping
 public String create(@RequestParam String title, Model model) {
     todoService.create(title.trim());
@@ -180,7 +202,7 @@ public ResponseEntity&lt;Void&gt; delete(@PathVariable Long id) {
                 </div>
 
                 <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">4. Todo Item Fragment (Checkbox + Delete):</p>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">5. Todo Item Fragment (Checkbox + Delete):</p>
                     <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;li th:id="'todo-' + ${todo.id}"&gt;
     &lt;!-- Toggle checkbox --&gt;
     &lt;button
@@ -203,6 +225,56 @@ public ResponseEntity&lt;Void&gt; delete(@PathVariable Long id) {
         ❌
     &lt;/button&gt;
 &lt;/li&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- H2 Console -->
+        <div class="card bg-white border-2 border-purple-200 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                🖥️ H2 Database Console
+            </h3>
+
+            <div class="space-y-3">
+                <p class="text-sm text-gray-700">
+                    H2 menyediakan web-based console untuk browse database secara langsung.
+                    Gunakan untuk verify bahwa data benar-benar tersimpan di database.
+                </p>
+
+                <div class="p-4 bg-purple-50 rounded-lg border border-purple-200">
+                    <p class="text-sm font-semibold text-purple-900 mb-2">Cara Akses H2 Console:</p>
+                    <ol class="space-y-1 ml-5 text-xs text-purple-800 list-decimal">
+                        <li>Pastikan aplikasi running: <code class="bg-purple-100 px-1 rounded">./mvnw spring-boot:run</code></li>
+                        <li>Buka browser: <a href="/h2-console" target="_blank" class="text-purple-600 hover:underline font-semibold">http://localhost:8080/h2-console</a></li>
+                        <li>Login dengan:
+                            <ul class="ml-5 mt-1 space-y-0.5 list-disc">
+                                <li><strong>JDBC URL:</strong> <code class="bg-purple-100 px-1 rounded">jdbc:h2:file:./data/belajardb</code></li>
+                                <li><strong>User Name:</strong> <code class="bg-purple-100 px-1 rounded">sa</code></li>
+                                <li><strong>Password:</strong> (kosong)</li>
+                            </ul>
+                        </li>
+                        <li>Klik "Connect"</li>
+                        <li>Run SQL query: <code class="bg-purple-100 px-1 rounded">SELECT * FROM TODOS</code></li>
+                    </ol>
+                </div>
+
+                <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                    <p class="text-sm font-semibold text-green-900 mb-2">✅ Testing Database Persistence:</p>
+                    <ol class="space-y-1 ml-5 text-xs text-green-800 list-decimal">
+                        <li>Tambah beberapa todos di widget demo di atas</li>
+                        <li>Buka H2 Console dan run query <code class="bg-green-100 px-1 rounded">SELECT * FROM TODOS</code></li>
+                        <li>Verify todos muncul di database dengan ID, title, completed status, created_at</li>
+                        <li>Refresh halaman - todos tetap ada (tidak hilang)</li>
+                        <li>Restart aplikasi - todos masih tetap ada (data persist!)</li>
+                    </ol>
+                </div>
+
+                <div class="p-3 bg-yellow-50 rounded border border-yellow-300">
+                    <p class="text-xs text-yellow-900">
+                        <strong>💡 Tips:</strong> H2 Console berguna untuk debugging. Bisa lihat struktur table,
+                        run custom SQL queries, dan verify data integrity. Database file tersimpan di
+                        <code class="bg-yellow-100 px-1 rounded">./data/belajardb.mv.db</code>.
+                    </p>
                 </div>
             </div>
         </div>
@@ -237,11 +309,19 @@ public ResponseEntity&lt;Void&gt; delete(@PathVariable Long id) {
                 </li>
                 <li class="flex items-start">
                     <span class="mr-2">•</span>
-                    <span><strong>In-Memory Storage</strong> - ConcurrentHashMap untuk thread-safe operations</span>
+                    <span><strong>Database Persistence</strong> - JPA/Hibernate dengan H2 database untuk data yang persist</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>@Transactional</strong> - Service methods dibungkus dalam transaction untuk data consistency</span>
                 </li>
                 <li class="flex items-start">
                     <span class="mr-2">•</span>
                     <span><strong>Fragment Pattern</strong> - todo-item.html reusable untuk create dan update</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Frontend Tidak Berubah</strong> - HTMX tetap sama, hanya backend yang pakai database</span>
                 </li>
             </ul>
         </div>
@@ -253,8 +333,8 @@ public ResponseEntity&lt;Void&gt; delete(@PathVariable Long id) {
                 ← Pelajaran 3
             </a>
             <a href="/lesson/5"
-               class="px-6 py-3 bg-gray-300 text-gray-500 font-semibold rounded-lg cursor-not-allowed">
-                Pelajaran 5 (Coming Soon) →
+               class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">
+                Pelajaran 5 →
             </a>
         </div>
     </div>

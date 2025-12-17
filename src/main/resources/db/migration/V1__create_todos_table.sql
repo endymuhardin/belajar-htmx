@@ -1,0 +1,8 @@
+CREATE TABLE todos (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(500) NOT NULL,
+    completed BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_todos_created_at ON todos(created_at DESC);

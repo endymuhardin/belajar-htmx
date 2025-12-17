@@ -21,7 +21,7 @@ Setiap pelajaran menambahkan fitur baru ke aplikasi yang terus berkembang ini.
   - HTMX 2.0.4 (hypermedia interactions)
   - Alpine.js 3.14.x (reactive client-side behavior)
   - Tailwind CSS 4.x (utility-first styling)
-- **Database**: PostgreSQL + Flyway migrations
+- **Database**: H2 (file-based) + Flyway migrations
 - **Build**: Maven
 - **Java**: 25
 
@@ -89,15 +89,15 @@ flowchart TB
     end
 
     subgraph Data["Database"]
-        PG["PostgreSQL"]
+        H2["H2 Database"]
     end
 
     HTML -->|"User Action<br/>(click, keyup, etc.)"| HTMX
     HTMX -->|"HTTP Request<br/>(GET/POST/PUT/DELETE)"| Controller
     Controller -->|"Business Logic"| Service
     Service -->|"Data Access"| Repo
-    Repo -->|"SQL Queries"| PG
-    PG -->|"Result Set"| Repo
+    Repo -->|"SQL Queries"| H2
+    H2 -->|"Result Set"| Repo
     Repo -->|"Entities"| Service
     Service -->|"Model Data"| Controller
     Controller -->|"Model + Template"| TH
@@ -124,7 +124,7 @@ flowchart TB
 4. **Services (Server)**: Business logic, koordinasi antara controller dan repository
 5. **Repositories (Server)**: Data access layer menggunakan Spring Data JPA
 6. **Thymeleaf (Server)**: Render fragment HTML dari template + model data
-7. **PostgreSQL**: Penyimpanan data persisten
+7. **H2 Database**: Penyimpanan data persisten (file-based untuk development)
 
 ### Contoh Request Flow
 
@@ -359,24 +359,34 @@ Backend:  Spring Boot + Thymeleaf
 
 ---
 
-### Pelajaran 4: Todo List (In-Memory)
-**Yang Dibangun**: Widget quick task untuk daily todos
+### Pelajaran 4: Todo List CRUD dengan Database
+**Yang Dibangun**: Widget quick task untuk daily todos dengan database persistence
 
-**Konsep HTMX**: `hx-post`, `hx-delete`, targeting individual elements
+**Konsep HTMX**: `hx-post`, `hx-put`, `hx-delete`, targeting individual elements
+
+**Konsep Database**: JPA entities, repositories, Flyway migrations
 
 **Fitur Ditambahkan:**
 - Tambah todo baru (text input + button)
 - Tampilkan todo list
-- Hapus individual todos
+- Hapus individual todos dengan konfirmasi
 - Mark todos sebagai complete (toggle)
-- In-memory storage (session-based)
+- Database persistence dengan H2 file-based
+- H2 Console untuk inspect database
 
 **File Dibuat:**
 - `TodoController.java` - operasi CRUD
-- `model/Todo.java` - simple POJO
-- `service/TodoService.java` - in-memory storage
-- `templates/fragments/todo-widget.html`
+- `model/Todo.java` - JPA entity dengan annotations
+- `repository/TodoRepository.java` - JPA repository
+- `service/TodoService.java` - business logic dengan database
+- `db/migration/V1__create_todos_table.sql` - Flyway migration
+- `templates/fragments/todo-list.html`
 - `templates/fragments/todo-item.html`
+
+**Catatan:**
+- Database sudah digunakan sejak Pelajaran 4 (bukan di Pelajaran 8)
+- Focus tetap pada HTMX, database hanya "behind the scene"
+- Data persist saat restart aplikasi
 
 ---
 
@@ -441,30 +451,8 @@ Backend:  Spring Boot + Thymeleaf
 
 ---
 
-### Pelajaran 8: Persistensi Database
-**Yang Dibangun**: Migrasi todos ke database, tambah fitur notes
-
-**Konsep**: JPA, Flyway, repositories
-
-**Fitur Ditambahkan:**
-- Persist todos ke PostgreSQL
-- Tambah fitur "Notes" (title, content, tags)
-- Operasi CRUD untuk notes
-- Flyway migration scripts
-
-**File Dibuat:**
-- `entity/TodoEntity.java` - JPA entity
-- `entity/Note.java` - JPA entity
-- `repository/TodoRepository.java`
-- `repository/NoteRepository.java`
-- `NoteController.java`
-- `db/migration/V1__initial_schema.sql`
-- `templates/notes.html` - halaman notes
-- `templates/fragments/note-card.html`
-
-**File Dimodifikasi:**
-- `TodoController.java` - gunakan repository
-- `TodoService.java` - gunakan database
+### Pelajaran 8: (Coming Soon)
+**Catatan**: Pelajaran 8 tentang database persistence telah dihapus karena database sudah digunakan sejak Pelajaran 4.
 
 ---
 

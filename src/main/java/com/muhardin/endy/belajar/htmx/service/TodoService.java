@@ -1,53 +1,55 @@
 package com.muhardin.endy.belajar.htmx.service;
 
 import com.muhardin.endy.belajar.htmx.model.Todo;
+import com.muhardin.endy.belajar.htmx.repository.TodoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
+@Transactional
 public class TodoService {
-    private final Map<Long, Todo> todos = new ConcurrentHashMap<>();
-    private final AtomicLong idGenerator = new AtomicLong(1);
+    private final TodoRepository todoRepository;
+
+    public TodoService(TodoRepository todoRepository) {
+        this.todoRepository = todoRepository;
+    }
 
     public List<Todo> findAll() {
-        return new ArrayList<>(todos.values());
+        return todoRepository.findAllByOrderByCreatedAtDesc();
     }
 
     public Todo findById(Long id) {
-        return todos.get(id);
+        return todoRepository.findById(id).orElse(null);
     }
 
     public Todo create(String title) {
-        Long id = idGenerator.getAndIncrement();
-        Todo todo = new Todo(id, title);
-        todos.put(id, todo);
-        return todo;
+        Todo todo = new Todo(null, title);
+        return todoRepository.save(todo);
     }
 
     public Todo toggleComplete(Long id) {
-        Todo todo = todos.get(id);
+        Todo todo = todoRepository.findById(id).orElse(null);
         if (todo != null) {
             todo.setCompleted(!todo.isCompleted());
+            todoRepository.save(todo);
         }
         return todo;
     }
 
     public void delete(Long id) {
-        todos.remove(id);
+        todoRepository.deleteById(id);
     }
 
     public long count() {
-        return todos.size();
+        return todoRepository.count();
     }
 
     public long countCompleted() {
-        return todos.values().stream()
+        return todoRepository.findAll().stream()
                 .filter(Todo::isCompleted)
                 .count();
     }
 }
+

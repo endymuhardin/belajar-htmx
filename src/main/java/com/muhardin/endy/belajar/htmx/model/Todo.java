@@ -1,11 +1,22 @@
 package com.muhardin.endy.belajar.htmx.model;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "todos")
 public class Todo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 500)
     private String title;
+
+    @Column(nullable = false)
     private boolean completed;
+
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     public Todo() {
