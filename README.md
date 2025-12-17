@@ -20,7 +20,7 @@ Each lesson adds new features to this single, evolving application.
 - **Frontend Libraries**:
   - HTMX 2.0.4 (hypermedia interactions)
   - Alpine.js 3.14.x (reactive client-side behavior)
-  - Tailwind CSS 4.x (utility-first styling)
+  - Tailwind CSS 3.4.x (utility-first styling)
 - **Database**: PostgreSQL + Flyway migrations
 - **Build**: Maven
 - **Java**: 25

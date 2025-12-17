@@ -32,4 +32,11 @@ build/
 ### VS Code ###
 .vscode/
 
+### Frontend Build ###
+node/
+node_modules/
+package-lock.json
+src/main/resources/static/css/output.css
+
+### Database ###
 db-belajar
