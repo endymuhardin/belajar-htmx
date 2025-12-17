@@ -79,11 +79,22 @@
 
                     <!-- Lesson 4 -->
                     <a href="/lesson/4"
-                       class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-400 cursor-not-allowed"
-                       onclick="return false;">
+                       class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors hover:bg-indigo-50 hover:text-indigo-700"
+                       th:classappend="${lessonNumber != null && lessonNumber == 4} ? 'bg-indigo-100 text-indigo-700' : 'text-gray-700'">
                         <span class="mr-3 text-lg">4️⃣</span>
                         <div class="flex-1">
                             <div class="font-semibold">Pelajaran 4</div>
+                            <div class="text-xs text-gray-500">Todo List CRUD</div>
+                        </div>
+                    </a>
+
+                    <!-- Lesson 5 -->
+                    <a href="/lesson/5"
+                       class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-400 cursor-not-allowed"
+                       onclick="return false;">
+                        <span class="mr-3 text-lg">5️⃣</span>
+                        <div class="flex-1">
+                            <div class="font-semibold">Pelajaran 5</div>
                             <div class="text-xs">Coming Soon</div>
                         </div>
                     </a>
