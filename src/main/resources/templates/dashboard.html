@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Welcome Section -->
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-2">Selamat Datang di TaskFlow Hub</h2>
+            <p class="text-gray-600">Aplikasi produktivitas personal dengan HTMX, Alpine.js, dan Spring Boot</p>
+        </div>
+
+        <!-- Lesson 1: Basic HTMX GET Request -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Explanation Panel -->
+            <div class="card bg-blue-50 border-l-4 border-blue-500">
+                <h3 class="text-lg font-semibold text-blue-900 mb-3">📚 Pelajaran 1: Request HTMX Pertama</h3>
+
+                <div class="space-y-3 text-sm text-blue-800">
+                    <p>
+                        <strong>Konsep:</strong> HTMX memungkinkan elemen HTML melakukan request HTTP tanpa JavaScript.
+                    </p>
+
+                    <div class="bg-white rounded p-3 border border-blue-200">
+                        <p class="font-semibold mb-2">Atribut yang digunakan:</p>
+                        <ul class="space-y-1 ml-4">
+                            <li><code class="bg-blue-100 px-1 rounded">hx-get="/stats"</code> - URL endpoint yang akan dipanggil</li>
+                            <li><code class="bg-blue-100 px-1 rounded">hx-target="#stats-container"</code> - Element tujuan untuk response</li>
+                            <li><code class="bg-blue-100 px-1 rounded">hx-swap="innerHTML"</code> - Cara memasukkan response (default)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white rounded p-3 border border-blue-200">
+                        <p class="font-semibold mb-2">📂 Lihat di source code:</p>
+                        <ul class="space-y-1 ml-4 text-xs font-mono">
+                            <li>👉 <strong>Template:</strong> templates/dashboard.html:68-74</li>
+                            <li>👉 <strong>Controller:</strong> controller/HomeController.java:18-24</li>
+                            <li>👉 <strong>Fragment:</strong> templates/fragments/stats-widget.html</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-yellow-50 rounded p-3 border border-yellow-200">
+                        <p class="font-semibold text-yellow-900 mb-1">💡 Yang Terjadi:</p>
+                        <ol class="list-decimal ml-4 space-y-1 text-yellow-900">
+                            <li>User klik tombol "Muat Statistik"</li>
+                            <li>HTMX kirim GET request ke <code>/stats</code></li>
+                            <li>Spring Controller render fragment HTML</li>
+                            <li>HTMX masukkan HTML ke <code>#stats-container</code></li>
+                            <li>Tidak ada page reload!</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Demo -->
+            <div class="card">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">🧪 Coba Sendiri</h3>
+
+                <p class="text-sm text-gray-600 mb-4">
+                    Klik tombol di bawah untuk melihat HTMX bekerja. Perhatikan tidak ada page reload!
+                </p>
+
+                <button
+                    hx-get="/stats"
+                    hx-target="#stats-container"
+                    class="btn-primary mb-4">
+                    Muat Statistik
+                </button>
+
+                <div id="stats-container" class="min-h-[100px] border-2 border-dashed border-gray-300 rounded-lg p-4 text-center text-gray-400">
+                    <!-- Stats widget akan muncul di sini -->
+                    <p class="text-sm">Area kosong - klik tombol untuk memuat konten</p>
+                </div>
+
+                <div class="mt-4 p-3 bg-gray-50 rounded text-xs text-gray-600">
+                    <p class="font-semibold mb-1">🔍 Inspect Element:</p>
+                    <p>Buka DevTools (F12) → Network tab → Klik tombol → Lihat request HTMX!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="card bg-green-50 border-l-4 border-green-500">
+            <h3 class="text-lg font-semibold text-green-900 mb-3">✅ Poin Penting</h3>
+            <ul class="space-y-2 text-sm text-green-800">
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Tidak perlu JavaScript</strong> - HTMX bekerja dengan atribut HTML saja</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Server render HTML</strong> - Spring Controller return Thymeleaf template</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Partial page update</strong> - Hanya bagian tertentu yang di-update</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>UX lebih baik</strong> - Interaksi cepat tanpa full page reload</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

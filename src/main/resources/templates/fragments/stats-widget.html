@@ -1,0 +1,35 @@
+<div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-6 text-white">
+    <h4 class="text-lg font-semibold mb-4">📊 Statistik Real-time</h4>
+
+    <div class="grid grid-cols-3 gap-4">
+        <div class="bg-white bg-opacity-20 rounded-lg p-4 text-center">
+            <div class="text-3xl font-bold" th:text="${userCount}">0</div>
+            <div class="text-sm opacity-90 mt-1">Total Users</div>
+        </div>
+
+        <div class="bg-white bg-opacity-20 rounded-lg p-4 text-center">
+            <div class="text-3xl font-bold" th:text="${taskCount}">0</div>
+            <div class="text-sm opacity-90 mt-1">Tasks</div>
+        </div>
+
+        <div class="bg-white bg-opacity-20 rounded-lg p-4 text-center">
+            <div class="text-3xl font-bold"><span th:text="${completionRate}">0</span>%</div>
+            <div class="text-sm opacity-90 mt-1">Completion</div>
+        </div>
+    </div>
+
+    <div class="mt-4 pt-4 border-t border-white border-opacity-30">
+        <p class="text-sm opacity-90">
+            ⏰ Dimuat pada: <span class="font-semibold" th:text="${currentTime}">00:00:00</span>
+        </p>
+    </div>
+
+    <div class="mt-4 p-3 bg-blue-800 bg-opacity-30 rounded text-xs">
+        <p class="font-semibold mb-1">💡 Perhatikan:</p>
+        <ul class="list-disc ml-4 space-y-1 opacity-90">
+            <li>Fragment HTML ini di-render di server (controller/HomeController.java:18-24)</li>
+            <li>HTMX memasukkan response langsung ke DOM</li>
+            <li>Waktu berubah setiap klik - data fresh dari server!</li>
+        </ul>
+    </div>
+</div>
