@@ -1,18 +1,18 @@
-# HTMX + Alpine.js + Spring Boot Learning Path
+# Jalur Pembelajaran HTMX + Alpine.js + Spring Boot
 
-Progressive tutorial building a **Personal Productivity Hub** - a complete application that evolves from simple content loading to a full-featured, real-time interactive dashboard.
+Tutorial progresif untuk membangun **Personal Productivity Hub** - aplikasi lengkap yang berkembang dari loading konten sederhana menjadi dashboard interaktif real-time yang lengkap.
 
-## The Application: TaskFlow Hub
+## Aplikasi: TaskFlow Hub
 
-A personal productivity application featuring:
-- Dashboard with dynamic widgets
-- Task management (todos, notes, projects)
-- Bookmark collections
-- Search across all content
-- Real-time activity feed
-- Contact/feedback system
+Aplikasi produktivitas personal dengan fitur:
+- Dashboard dengan widget dinamis
+- Manajemen task (todos, notes, projects)
+- Koleksi bookmark
+- Pencarian di semua konten
+- Activity feed real-time
+- Sistem kontak/feedback
 
-Each lesson adds new features to this single, evolving application.
+Setiap pelajaran menambahkan fitur baru ke aplikasi yang terus berkembang ini.
 
 ## Tech Stack
 
@@ -25,32 +25,32 @@ Each lesson adds new features to this single, evolving application.
 - **Build**: Maven
 - **Java**: 25
 
-## Core Concepts
+## Konsep Inti
 
 ### HTMX
-Extends HTML with attributes to achieve AJAX, WebSockets, and Server-Sent Events directly in markup. Server returns HTML fragments, not JSON.
+Memperluas HTML dengan atribut untuk mencapai AJAX, WebSockets, dan Server-Sent Events langsung di markup. Server mengembalikan fragment HTML, bukan JSON.
 
-**Key Attributes:**
-- `hx-get/post/put/delete` - HTTP request on element
-- `hx-trigger` - event that triggers request
-- `hx-target` - where to insert response
-- `hx-swap` - how to insert response (innerHTML, outerHTML, etc.)
+**Atribut Utama:**
+- `hx-get/post/put/delete` - HTTP request pada element
+- `hx-trigger` - event yang memicu request
+- `hx-target` - tempat memasukkan response
+- `hx-swap` - cara memasukkan response (innerHTML, outerHTML, dll.)
 
 ### Alpine.js
-Lightweight JavaScript framework for reactive behavior, similar to Vue.js but in HTML attributes.
+Framework JavaScript ringan untuk behavior reaktif, mirip Vue.js tapi dalam atribut HTML.
 
-**Key Directives:**
-- `x-data` - component state
+**Directive Utama:**
+- `x-data` - state component
 - `x-show/x-if` - conditional rendering
 - `x-on` - event handling
 - `x-bind` - attribute binding
 
-### Architecture Pattern
-**Hypermedia-driven**: Server owns state and UI logic. Client handles presentation and immediate feedback. No separate REST API needed for UI.
+### Pola Arsitektur
+**Hypermedia-driven**: Server memiliki state dan UI logic. Client menangani presentasi dan feedback langsung. Tidak perlu REST API terpisah untuk UI.
 
 ---
 
-## High-Level Architecture
+## Arsitektur High-Level
 
 ```mermaid
 flowchart TB
@@ -116,19 +116,19 @@ flowchart TB
     class Data,PG dataClass
 ```
 
-### Key Architecture Components
+### Komponen Arsitektur Utama
 
-1. **HTMX (Browser)**: Intercepts user actions, makes HTTP requests, swaps HTML responses into DOM
-2. **Alpine.js (Browser)**: Handles client-side state for UI interactions (modals, dropdowns, tabs)
-3. **Controllers (Server)**: Handle HTTP requests, return HTML fragments via Thymeleaf
-4. **Services (Server)**: Business logic, coordinate between controllers and repositories
-5. **Repositories (Server)**: Data access layer using Spring Data JPA
-6. **Thymeleaf (Server)**: Renders HTML fragments from templates + model data
-7. **PostgreSQL**: Persistent data storage
+1. **HTMX (Browser)**: Menangkap aksi user, membuat HTTP request, menukar HTML response ke DOM
+2. **Alpine.js (Browser)**: Menangani state client-side untuk interaksi UI (modals, dropdowns, tabs)
+3. **Controllers (Server)**: Menangani HTTP request, mengembalikan fragment HTML via Thymeleaf
+4. **Services (Server)**: Business logic, koordinasi antara controller dan repository
+5. **Repositories (Server)**: Data access layer menggunakan Spring Data JPA
+6. **Thymeleaf (Server)**: Render fragment HTML dari template + model data
+7. **PostgreSQL**: Penyimpanan data persisten
 
-### Request Flow Example
+### Contoh Request Flow
 
-**User clicks "Delete Todo" button:**
+**User mengklik tombol "Delete Todo":**
 
 ```mermaid
 sequenceDiagram
@@ -156,9 +156,9 @@ sequenceDiagram
 
 ---
 
-## Architecture Comparison: Three Approaches
+## Perbandingan Arsitektur: Tiga Pendekatan
 
-### 1. Pure Server-Side Rendering (Traditional Thymeleaf)
+### 1. Pure Server-Side Rendering (Thymeleaf Tradisional)
 
 ```mermaid
 flowchart LR
@@ -167,19 +167,19 @@ flowchart LR
     Browser1 -->|"Every Action =<br/>Full Page Reload"| Server1
 ```
 
-**Characteristics:**
-- Every interaction requires full page reload
-- Server renders complete HTML pages
-- Simple architecture, no JavaScript needed
-- Poor UX for interactive features
+**Karakteristik:**
+- Setiap interaksi memerlukan full page reload
+- Server render halaman HTML lengkap
+- Arsitektur sederhana, tidak perlu JavaScript
+- UX kurang baik untuk fitur interaktif
 
-**Example Flow:**
-1. User submits form
-2. Browser sends POST request
-3. Server processes, redirects to new page
-4. Browser requests new page
-5. Server renders entire HTML page
-6. Browser displays new page (full reload)
+**Contoh Flow:**
+1. User submit form
+2. Browser kirim POST request
+3. Server proses, redirect ke halaman baru
+4. Browser request halaman baru
+5. Server render seluruh halaman HTML
+6. Browser tampilkan halaman baru (full reload)
 
 ---
 
@@ -192,21 +192,21 @@ flowchart LR
     Browser2 -->|"Client-side<br/>Rendering"| Browser2
 ```
 
-**Characteristics:**
-- Client-side routing and rendering
-- Server provides JSON API only
-- Heavy JavaScript bundle
-- Complex state management (Redux, Vuex)
-- Separate frontend/backend codebases
+**Karakteristik:**
+- Client-side routing dan rendering
+- Server hanya menyediakan JSON API
+- JavaScript bundle besar
+- State management kompleks (Redux, Vuex)
+- Codebase frontend/backend terpisah
 
-**Example Flow:**
-1. User submits form
-2. JavaScript intercepts submit
-3. AJAX POST to `/api/todos` with JSON
-4. Server returns JSON: `{"id": 123, "title": "..."}`
-5. React/Vue updates virtual DOM
-6. Browser re-renders affected components
-7. Client-side state management syncs
+**Contoh Flow:**
+1. User submit form
+2. JavaScript intercept submit
+3. AJAX POST ke `/api/todos` dengan JSON
+4. Server return JSON: `{"id": 123, "title": "..."}`
+5. React/Vue update virtual DOM
+6. Browser re-render affected components
+7. Client-side state management sync
 
 **Stack:**
 ```
@@ -225,21 +225,21 @@ flowchart LR
     Browser3 -->|"Client-side state<br/>(Alpine.js)"| Browser3
 ```
 
-**Characteristics:**
-- Server renders HTML fragments (not full pages, not JSON)
-- HTMX handles AJAX transparently via HTML attributes
-- Alpine.js for client-side UI state
-- Minimal JavaScript
+**Karakteristik:**
+- Server render fragment HTML (bukan full page, bukan JSON)
+- HTMX menangani AJAX secara transparan via atribut HTML
+- Alpine.js untuk UI state client-side
+- JavaScript minimal
 - Single codebase (server-side templates)
 
-**Example Flow:**
-1. User submits form
-2. HTMX intercepts: `hx-post="/todos"`
-3. AJAX POST to server
-4. Server processes, renders HTML fragment
-5. Server returns: `<li class="todo-item">New Todo</li>`
-6. HTMX swaps fragment into DOM
-7. No page reload, no JSON parsing
+**Contoh Flow:**
+1. User submit form
+2. HTMX intercept: `hx-post="/todos"`
+3. AJAX POST ke server
+4. Server proses, render fragment HTML
+5. Server return: `<li class="todo-item">New Todo</li>`
+6. HTMX swap fragment ke DOM
+7. Tidak ada page reload, tidak ada JSON parsing
 
 **Stack:**
 ```
@@ -249,130 +249,130 @@ Backend:  Spring Boot + Thymeleaf
 
 ---
 
-## Side-by-Side Comparison
+## Perbandingan Side-by-Side
 
-| Aspect | Pure Server-Side | SPA (React/Vue) | HTMX Hybrid |
+| Aspek | Pure Server-Side | SPA (React/Vue) | HTMX Hybrid |
 |--------|-----------------|-----------------|-------------|
-| **Page Loads** | Full reload every action | Initial load only | Initial load only |
-| **Data Format** | HTML pages | JSON | HTML fragments |
-| **JavaScript Size** | ~0 KB | 200-500 KB | ~30 KB |
-| **State Management** | Server session | Client-side (complex) | Server-side (simple) |
+| **Page Loads** | Full reload setiap aksi | Initial load saja | Initial load saja |
+| **Format Data** | HTML pages | JSON | HTML fragments |
+| **Ukuran JavaScript** | ~0 KB | 200-500 KB | ~30 KB |
+| **State Management** | Server session | Client-side (kompleks) | Server-side (sederhana) |
 | **Routing** | Server-side | Client-side | Server-side |
-| **SEO** | Excellent | Requires SSR | Excellent |
-| **Developer Experience** | Simple | Complex (2 codebases) | Simple (1 codebase) |
-| **Learning Curve** | Low | High | Low-Medium |
-| **Real-time Updates** | Polling/Manual refresh | WebSocket/Complex | SSE (built-in) |
+| **SEO** | Excellent | Butuh SSR | Excellent |
+| **Developer Experience** | Sederhana | Kompleks (2 codebase) | Sederhana (1 codebase) |
+| **Learning Curve** | Rendah | Tinggi | Rendah-Sedang |
+| **Real-time Updates** | Polling/Manual refresh | WebSocket/Kompleks | SSE (built-in) |
 | **Form Handling** | Traditional POST | JSON + Validation libs | HTMX + Server validation |
 | **Error Handling** | Server redirects | Client-side logic | Server-rendered errors |
-| **Build Complexity** | None | Webpack/Vite + bundling | None |
-| **Testing** | Server-side only | Unit + Integration + E2E | Server-side + minimal JS |
-| **Network Payload** | Large (full pages) | Small (JSON) | Medium (fragments) |
-| **Time to Interactive** | Fast (no JS) | Slow (large bundle) | Fast (minimal JS) |
-| **Code Duplication** | None | Validation on both sides | None |
+| **Build Complexity** | Tidak ada | Webpack/Vite + bundling | Tidak ada |
+| **Testing** | Server-side saja | Unit + Integration + E2E | Server-side + minimal JS |
+| **Network Payload** | Besar (full pages) | Kecil (JSON) | Sedang (fragments) |
+| **Time to Interactive** | Cepat (no JS) | Lambat (large bundle) | Cepat (minimal JS) |
+| **Code Duplication** | Tidak ada | Validation di kedua sisi | Tidak ada |
 | **Backend Coupling** | Tight | Loose (API contract) | Tight |
 
 ---
 
-## When to Choose HTMX
+## Kapan Memilih HTMX
 
-**Choose HTMX when:**
-- Building content-driven applications (dashboards, admin panels, CRUD apps)
-- Team prefers server-side development
-- Want simple architecture with minimal JavaScript
-- Need fast development cycles
-- SEO is important
-- Real-time updates are needed but not complex
+**Pilih HTMX ketika:**
+- Membangun aplikasi content-driven (dashboard, admin panel, CRUD apps)
+- Tim lebih suka server-side development
+- Ingin arsitektur sederhana dengan JavaScript minimal
+- Butuh development cycle cepat
+- SEO penting
+- Real-time updates diperlukan tapi tidak kompleks
 
-**Choose SPA when:**
-- Building highly interactive applications (games, design tools, real-time collaboration)
-- Need offline-first capabilities
-- Complex client-side state management required
-- Mobile app planned (React Native/Vue Native)
-- Team has strong frontend expertise
+**Pilih SPA ketika:**
+- Membangun aplikasi highly interactive (games, design tools, real-time collaboration)
+- Butuh offline-first capabilities
+- Client-side state management kompleks diperlukan
+- Mobile app direncanakan (React Native/Vue Native)
+- Tim punya expertise frontend kuat
 
-**Choose Pure Server-Side when:**
-- Building simple CRUD applications with minimal interactivity
-- No JavaScript requirements
-- Maximum simplicity needed
-- Legacy system maintenance
+**Pilih Pure Server-Side ketika:**
+- Membangun CRUD application sederhana dengan interaktivitas minimal
+- Tidak ada requirement JavaScript
+- Butuh kesederhanaan maksimal
+- Maintenance sistem legacy
 
 ---
 
-## Application Evolution: Lesson-by-Lesson
+## Evolusi Aplikasi: Pelajaran Demi Pelajaran
 
-### Lesson 1: Foundation - Basic Dashboard
-**What We Build**: Empty dashboard with "Load Stats" button
+### Pelajaran 1: Foundation - Dashboard Dasar
+**Yang Dibangun**: Dashboard kosong dengan tombol "Load Stats"
 
-**HTMX Concepts**: `hx-get`, `hx-target`, `hx-swap`
+**Konsep HTMX**: `hx-get`, `hx-target`, `hx-swap`
 
-**Features Added:**
-- Dashboard page with welcome message
-- Button that loads server-generated stats widget
-- Basic layout with Tailwind CSS
-- CDN setup for HTMX, Alpine.js, Tailwind
+**Fitur Ditambahkan:**
+- Halaman dashboard dengan pesan selamat datang
+- Tombol yang memuat widget stats dari server
+- Layout dasar dengan Tailwind CSS
+- Setup CDN untuk HTMX, Alpine.js, Tailwind
 
-**Files Created:**
-- `HomeController.java` - serves dashboard and stats fragment
+**File Dibuat:**
+- `HomeController.java` - melayani dashboard dan stats fragment
 - `templates/layout.html` - base Thymeleaf layout
-- `templates/dashboard.html` - main dashboard page
+- `templates/dashboard.html` - halaman dashboard utama
 - `templates/fragments/stats-widget.html` - stats fragment
 
 ---
 
-### Lesson 2: Interactive Widgets
-**What We Build**: Multiple dashboard widgets with different triggers
+### Pelajaran 2: Widget Interaktif
+**Yang Dibangun**: Multiple dashboard widget dengan trigger berbeda
 
-**HTMX Concepts**: `hx-trigger` (load, click, every), `hx-swap` strategies
+**Konsep HTMX**: `hx-trigger` (load, click, every), strategi `hx-swap`
 
-**Features Added:**
-- Quote of the day (loads on page load)
-- Current time widget (updates every 30s)
-- Weather widget (click to refresh)
-- Different swap strategies demonstrated
+**Fitur Ditambahkan:**
+- Quote of the day (load saat page load)
+- Widget current time (update setiap 30s)
+- Widget weather (click untuk refresh)
+- Demonstrasi strategi swap berbeda
 
-**Files Modified:**
-- `HomeController.java` - add widget endpoints
-- `templates/dashboard.html` - add widget containers
+**File Dimodifikasi:**
+- `HomeController.java` - tambah widget endpoints
+- `templates/dashboard.html` - tambah widget containers
 - `templates/fragments/quote-widget.html`
 - `templates/fragments/time-widget.html`
 - `templates/fragments/weather-widget.html`
 
 ---
 
-### Lesson 3: Contact Form
-**What We Build**: Feedback/contact form in dashboard
+### Pelajaran 3: Form Kontak
+**Yang Dibangun**: Form feedback/kontak di dashboard
 
-**HTMX Concepts**: `hx-post`, form validation, error handling
+**Konsep HTMX**: `hx-post`, validasi form, error handling
 
-**Features Added:**
-- Contact form widget in dashboard
-- Server-side validation
-- Display validation errors inline
-- Success message after submission
-- Form reset after success
+**Fitur Ditambahkan:**
+- Widget contact form di dashboard
+- Validasi server-side
+- Tampilkan validation error inline
+- Success message setelah submission
+- Form reset setelah sukses
 
-**Files Created:**
+**File Dibuat:**
 - `ContactController.java` - handle form submission
-- `dto/ContactRequest.java` - form DTO with validation
+- `dto/ContactRequest.java` - form DTO dengan validasi
 - `templates/fragments/contact-form.html`
 - `templates/fragments/contact-success.html`
 
 ---
 
-### Lesson 4: Todo List (In-Memory)
-**What We Build**: Quick task widget for daily todos
+### Pelajaran 4: Todo List (In-Memory)
+**Yang Dibangun**: Widget quick task untuk daily todos
 
-**HTMX Concepts**: `hx-post`, `hx-delete`, targeting individual elements
+**Konsep HTMX**: `hx-post`, `hx-delete`, targeting individual elements
 
-**Features Added:**
-- Add new todo (text input + button)
-- Display todo list
-- Delete individual todos
-- Mark todos as complete (toggle)
+**Fitur Ditambahkan:**
+- Tambah todo baru (text input + button)
+- Tampilkan todo list
+- Hapus individual todos
+- Mark todos sebagai complete (toggle)
 - In-memory storage (session-based)
 
-**Files Created:**
-- `TodoController.java` - CRUD operations
+**File Dibuat:**
+- `TodoController.java` - operasi CRUD
 - `model/Todo.java` - simple POJO
 - `service/TodoService.java` - in-memory storage
 - `templates/fragments/todo-widget.html`
@@ -380,128 +380,128 @@ Backend:  Spring Boot + Thymeleaf
 
 ---
 
-### Lesson 5: Search Across Content
-**What We Build**: Global search for todos and future content
+### Pelajaran 5: Pencarian di Seluruh Konten
+**Yang Dibangun**: Global search untuk todos dan konten future
 
-**HTMX Concepts**: `hx-trigger="keyup changed delay:500ms"`, debouncing
+**Konsep HTMX**: `hx-trigger="keyup changed delay:500ms"`, debouncing
 
-**Features Added:**
-- Search input in navbar
-- Live search with debounce
+**Fitur Ditambahkan:**
+- Search input di navbar
+- Live search dengan debounce
 - Search results dropdown
 - Highlight matching terms
-- Loading indicator during search
+- Loading indicator saat search
 
-**Files Created:**
-- `SearchController.java` - search logic
+**File Dibuat:**
+- `SearchController.java` - logic search
 - `service/SearchService.java` - search across todos
 - `templates/fragments/search-results.html`
 
-**Files Modified:**
-- `templates/layout.html` - add search to navbar
+**File Dimodifikasi:**
+- `templates/layout.html` - tambah search ke navbar
 
 ---
 
-### Lesson 6: UI Enhancements with Alpine.js
-**What We Build**: Better UX with client-side interactions
+### Pelajaran 6: Peningkatan UI dengan Alpine.js
+**Yang Dibangun**: UX lebih baik dengan interaksi client-side
 
-**Alpine Concepts**: `x-data`, `x-show`, `x-on`, `x-transition`
+**Konsep Alpine**: `x-data`, `x-show`, `x-on`, `x-transition`
 
-**Features Added:**
-- Dropdown menu for user profile
-- Modal for settings
-- Tabs for dashboard sections
+**Fitur Ditambahkan:**
+- Dropdown menu untuk user profile
+- Modal untuk settings
+- Tabs untuk dashboard sections
 - Collapsible widget panels
 - Dark mode toggle (client-side only)
 
-**Files Modified:**
-- `templates/layout.html` - add dropdown menu
-- `templates/dashboard.html` - add tabs and collapsible panels
+**File Dimodifikasi:**
+- `templates/layout.html` - tambah dropdown menu
+- `templates/dashboard.html` - tambah tabs dan collapsible panels
 - `templates/fragments/settings-modal.html`
 
 ---
 
-### Lesson 7: Combined HTMX + Alpine
-**What We Build**: Enhanced todo with confirm dialogs
+### Pelajaran 7: Kombinasi HTMX + Alpine
+**Yang Dibangun**: Enhanced todo dengan confirm dialog
 
-**Concepts**: Alpine for UI state, HTMX for server sync
+**Konsep**: Alpine untuk UI state, HTMX untuk server sync
 
-**Features Added:**
-- Confirm dialog before delete (Alpine)
+**Fitur Ditambahkan:**
+- Confirm dialog sebelum delete (Alpine)
 - Multi-step "Add Project" form (Alpine tabs + HTMX submit)
-- Form validation preview (Alpine) before server submit (HTMX)
+- Form validation preview (Alpine) sebelum server submit (HTMX)
 - Optimistic UI updates
 
-**Files Created:**
+**File Dibuat:**
 - `ProjectController.java` - handle project creation
 - `templates/fragments/project-form-modal.html`
 
-**Files Modified:**
-- `templates/fragments/todo-item.html` - add confirm dialog
+**File Dimodifikasi:**
+- `templates/fragments/todo-item.html` - tambah confirm dialog
 
 ---
 
-### Lesson 8: Database Persistence
-**What We Build**: Migrate todos to database, add notes feature
+### Pelajaran 8: Persistensi Database
+**Yang Dibangun**: Migrasi todos ke database, tambah fitur notes
 
-**Concepts**: JPA, Flyway, repositories
+**Konsep**: JPA, Flyway, repositories
 
-**Features Added:**
-- Persist todos to PostgreSQL
-- Add "Notes" feature (title, content, tags)
-- CRUD operations for notes
+**Fitur Ditambahkan:**
+- Persist todos ke PostgreSQL
+- Tambah fitur "Notes" (title, content, tags)
+- Operasi CRUD untuk notes
 - Flyway migration scripts
 
-**Files Created:**
+**File Dibuat:**
 - `entity/TodoEntity.java` - JPA entity
 - `entity/Note.java` - JPA entity
 - `repository/TodoRepository.java`
 - `repository/NoteRepository.java`
 - `NoteController.java`
 - `db/migration/V1__initial_schema.sql`
-- `templates/notes.html` - notes page
+- `templates/notes.html` - halaman notes
 - `templates/fragments/note-card.html`
 
-**Files Modified:**
-- `TodoController.java` - use repository
-- `TodoService.java` - use database
+**File Dimodifikasi:**
+- `TodoController.java` - gunakan repository
+- `TodoService.java` - gunakan database
 
 ---
 
-### Lesson 9: Infinite Scroll for Notes
-**What We Build**: Notes archive with infinite scroll
+### Pelajaran 9: Infinite Scroll untuk Notes
+**Yang Dibangun**: Notes archive dengan infinite scroll
 
-**Concepts**: `hx-trigger="revealed"`, pagination, lazy loading
+**Konsep**: `hx-trigger="revealed"`, pagination, lazy loading
 
-**Features Added:**
-- Notes archive page
-- Load 20 notes initially
-- Infinite scroll to load more
-- Loading spinner at bottom
-- "No more notes" indicator
+**Fitur Ditambahkan:**
+- Halaman notes archive
+- Load 20 notes awalnya
+- Infinite scroll untuk load more
+- Loading spinner di bottom
+- Indikator "No more notes"
 
-**Files Created:**
+**File Dibuat:**
 - `templates/notes-archive.html`
 - `templates/fragments/notes-page.html`
 
-**Files Modified:**
-- `NoteController.java` - add pagination endpoint
+**File Dimodifikasi:**
+- `NoteController.java` - tambah pagination endpoint
 
 ---
 
-### Lesson 10: Bookmark Collections with OOB
-**What We Build**: Save bookmarks, update navbar counter
+### Pelajaran 10: Koleksi Bookmark dengan OOB
+**Yang Dibangun**: Simpan bookmarks, update navbar counter
 
-**Concepts**: `hx-swap-oob`, multi-element updates
+**Konsep**: `hx-swap-oob`, multi-element updates
 
-**Features Added:**
-- Bookmark collections feature
-- Add bookmark button (updates list + navbar counter)
-- Bookmark counter badge in navbar
+**Fitur Ditambahkan:**
+- Fitur bookmark collections
+- Tombol add bookmark (update list + navbar counter)
+- Bookmark counter badge di navbar
 - Toast notifications
-- Update multiple page areas from one request
+- Update multiple page area dari satu request
 
-**Files Created:**
+**File Dibuat:**
 - `entity/Bookmark.java`
 - `repository/BookmarkRepository.java`
 - `BookmarkController.java`
@@ -511,62 +511,62 @@ Backend:  Spring Boot + Thymeleaf
 - `templates/fragments/bookmark-counter.html`
 - `templates/fragments/toast.html`
 
-**Files Modified:**
-- `templates/layout.html` - add bookmark counter
+**File Dimodifikasi:**
+- `templates/layout.html` - tambah bookmark counter
 
 ---
 
-### Lesson 11: Advanced Interactions
-**What We Build**: Inline editing, attachments
+### Pelajaran 11: Interaksi Advanced
+**Yang Dibangun**: Inline editing, attachments
 
-**Concepts**: Edit-in-place, file upload, complex workflows
+**Konsep**: Edit-in-place, file upload, complex workflows
 
-**Features Added:**
-- Click to edit note title/content inline
-- Save on blur or Enter key
+**Fitur Ditambahkan:**
+- Click untuk edit note title/content inline
+- Save on blur atau Enter key
 - Cancel on Escape
-- File attachments for notes
+- File attachments untuk notes
 - Upload progress indicator
 - Drag-and-drop file upload
 
-**Files Created:**
+**File Dibuat:**
 - `AttachmentController.java` - handle file uploads
 - `entity/Attachment.java`
 - `templates/fragments/note-edit-inline.html`
 - `templates/fragments/file-upload.html`
 
-**Files Modified:**
-- `templates/fragments/note-card.html` - add inline editing
+**File Dimodifikasi:**
+- `templates/fragments/note-card.html` - tambah inline editing
 - `db/migration/V3__attachments.sql`
 
 ---
 
-### Lesson 12: Real-Time Activity Feed
-**What We Build**: Live activity stream with SSE
+### Pelajaran 12: Real-Time Activity Feed
+**Yang Dibangun**: Live activity stream dengan SSE
 
-**Concepts**: Server-Sent Events, `hx-sse`, real-time updates
+**Konsep**: Server-Sent Events, `hx-sse`, real-time updates
 
-**Features Added:**
-- Activity feed widget on dashboard
-- Real-time updates when actions occur
-- "User created a note" notifications
-- "User completed a todo" notifications
+**Fitur Ditambahkan:**
+- Activity feed widget di dashboard
+- Real-time updates saat aksi terjadi
+- Notifikasi "User created a note"
+- Notifikasi "User completed a todo"
 - Live timestamp updates
 
-**Files Created:**
+**File Dibuat:**
 - `ActivityController.java` - SSE endpoint
 - `service/ActivityService.java` - broadcast events
 - `model/Activity.java`
 - `templates/fragments/activity-feed.html`
 - `templates/fragments/activity-item.html`
 
-**Files Modified:**
-- All controllers - emit activity events
-- `templates/dashboard.html` - add activity feed
+**File Dimodifikasi:**
+- Semua controller - emit activity events
+- `templates/dashboard.html` - tambah activity feed
 
 ---
 
-## Final Project Structure
+## Struktur Proyek Final
 
 ```
 src/main/
@@ -597,7 +597,7 @@ src/main/
 │   │   ├── TodoRequest.java
 │   │   └── NoteRequest.java
 │   ├── model/
-│   │   ├── Todo.java                  # POJO for lessons 4-7
+│   │   ├── Todo.java                  # POJO untuk pelajaran 4-7
 │   │   └── Activity.java
 │   └── service/
 │       ├── TodoService.java           # Business logic
@@ -605,11 +605,11 @@ src/main/
 │       └── ActivityService.java       # SSE broadcaster
 ├── resources/
 │   ├── templates/
-│   │   ├── layout.html                # Base layout with navbar
-│   │   ├── dashboard.html             # Main dashboard
-│   │   ├── notes.html                 # Notes page
+│   │   ├── layout.html                # Base layout dengan navbar
+│   │   ├── dashboard.html             # Dashboard utama
+│   │   ├── notes.html                 # Halaman notes
 │   │   ├── notes-archive.html         # Notes archive
-│   │   ├── bookmarks.html             # Bookmarks page
+│   │   ├── bookmarks.html             # Halaman bookmarks
 │   │   └── fragments/
 │   │       ├── stats-widget.html
 │   │       ├── quote-widget.html
@@ -632,15 +632,15 @@ src/main/
 │   │       ├── activity-feed.html
 │   │       └── activity-item.html
 │   ├── static/
-│   │   └── uploads/                   # File upload directory
+│   │   └── uploads/                   # Direktori file upload
 │   ├── db/migration/
-│   │   ├── V1__initial_schema.sql     # Todos & Notes tables
-│   │   ├── V2__bookmarks.sql          # Bookmarks table
-│   │   └── V3__attachments.sql        # Attachments table
+│   │   ├── V1__initial_schema.sql     # Tabel Todos & Notes
+│   │   ├── V2__bookmarks.sql          # Tabel Bookmarks
+│   │   └── V3__attachments.sql        # Tabel Attachments
 │   └── application.properties
 ```
 
-## Running the Application
+## Menjalankan Aplikasi
 
 ```bash
 # Start PostgreSQL (via Docker Compose)
@@ -649,23 +649,23 @@ docker compose up -d
 # Run application
 ./mvnw spring-boot:run
 
-# Access at http://localhost:8080
+# Akses di http://localhost:8080
 ```
 
-## Learning Approach
+## Pendekatan Pembelajaran
 
-1. **Start at Lesson 1** - Build foundation with simplest HTMX example
-2. **Progress sequentially** - Each lesson builds on previous code
-3. **Understand before moving on** - Each concept is isolated and explained
-4. **Refactor as you learn** - Code evolves naturally (in-memory → database)
-5. **Complete working app** - After Lesson 12, you have a full application
+1. **Mulai di Pelajaran 1** - Bangun fondasi dengan contoh HTMX paling sederhana
+2. **Progress secara berurutan** - Setiap pelajaran membangun di atas kode sebelumnya
+3. **Pahami sebelum lanjut** - Setiap konsep diisolasi dan dijelaskan
+4. **Refactor sambil belajar** - Kode berkembang secara natural (in-memory → database)
+5. **Aplikasi lengkap** - Setelah Pelajaran 12, Anda punya aplikasi penuh
 
-## Key Takeaways
+## Poin-Poin Penting
 
-By the end, you'll understand:
-- **Hypermedia-driven architecture** vs traditional SPA
-- **When to use HTMX** vs Alpine.js vs vanilla JS
-- **Server-side rendering** with progressive enhancement
-- **Real-time updates** without WebSocket complexity
-- **Form handling** without JavaScript frameworks
-- **Database integration** in hypermedia context
+Di akhir pembelajaran, Anda akan memahami:
+- **Arsitektur Hypermedia-driven** vs SPA tradisional
+- **Kapan menggunakan HTMX** vs Alpine.js vs vanilla JS
+- **Server-side rendering** dengan progressive enhancement
+- **Real-time updates** tanpa kompleksitas WebSocket
+- **Form handling** tanpa JavaScript framework
+- **Integrasi database** dalam konteks hypermedia
