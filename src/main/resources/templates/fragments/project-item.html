@@ -1,0 +1,37 @@
+<div class="p-4 bg-white rounded-lg border-2 border-purple-200 hover:border-purple-400 transition-colors">
+    <div class="flex items-start justify-between mb-2">
+        <h4 class="font-bold text-gray-900" th:text="${project.name}">Project Name</h4>
+        <span
+            th:classappend="${project.priority.name() == 'HIGH' ? 'bg-red-100 text-red-800' : (project.priority.name() == 'MEDIUM' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800')}"
+            class="text-xs px-2 py-1 rounded-full font-semibold"
+            th:text="${project.priority}">
+            Priority
+        </span>
+    </div>
+    <p class="text-sm text-gray-600 mb-3" th:text="${project.description}">Project description here...</p>
+    <div class="flex items-center space-x-4 text-xs text-gray-500">
+        <div class="flex items-center space-x-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            <span th:text="${#temporals.format(project.startDate, 'dd MMM yyyy')}">Start Date</span>
+        </div>
+        <div th:if="${project.budget != null}" class="flex items-center space-x-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span th:text="'Rp ' + ${#numbers.formatDecimal(project.budget, 1, 'COMMA', 0, 'POINT')}">Budget</span>
+        </div>
+    </div>
+    <div class="mt-3 pt-3 border-t border-gray-200 flex items-center justify-between">
+        <span class="text-xs text-gray-400" th:text="'Dibuat ' + ${#temporals.format(project.createdAt, 'dd MMM yyyy HH:mm')}">
+            Created at
+        </span>
+        <span class="inline-flex items-center text-xs text-green-600 font-semibold">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Berhasil dibuat!
+        </span>
+    </div>
+</div>

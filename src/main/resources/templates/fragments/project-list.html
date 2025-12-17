@@ -1,0 +1,7 @@
+<th:block th:if="${projects.isEmpty()}">
+    <p class="text-sm text-gray-500 italic">Belum ada project. Coba buat project baru di atas!</p>
+</th:block>
+
+<th:block th:each="project : ${projects}">
+    <div th:replace="~{fragments/project-item}"></div>
+</th:block>

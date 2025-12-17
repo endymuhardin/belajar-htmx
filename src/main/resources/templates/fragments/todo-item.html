@@ -1,4 +1,5 @@
 <li th:id="'todo-' + ${todo.id}"
+    x-data="{ showConfirm: false }"
     class="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200 hover:border-indigo-300 transition-colors">
     <div class="flex items-center space-x-3 flex-1">
         <!-- Checkbox untuk toggle complete -->
@@ -26,15 +27,64 @@
         </span>
     </div>
 
-    <!-- Delete button -->
+    <!-- Delete button (shows confirm dialog) -->
     <button
-        th:hx-delete="'/todos/' + ${todo.id}"
-        hx-target="closest li"
-        hx-swap="outerHTML swap:1s"
-        hx-confirm="Hapus todo ini?"
+        @click="showConfirm = true"
         class="flex-shrink-0 ml-3 text-gray-400 hover:text-red-500 transition-colors">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
     </button>
+
+    <!-- Confirm Dialog (Alpine.js Modal) -->
+    <div
+        x-show="showConfirm"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+        @click.self="showConfirm = false"
+        style="display: none;">
+        <div
+            class="bg-white rounded-lg shadow-xl p-6 max-w-sm mx-4"
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 transform scale-95"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-95"
+            @click.stop>
+            <div class="text-center">
+                <div class="mb-4">
+                    <svg class="w-12 h-12 text-red-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Konfirmasi Hapus</h3>
+                <p class="text-sm text-gray-600 mb-6">
+                    Yakin ingin menghapus todo "<span th:text="${todo.title}">Todo title</span>"?
+                    <br>
+                    <strong class="text-red-600">Tindakan ini tidak bisa dibatalkan.</strong>
+                </p>
+                <div class="flex space-x-3">
+                    <button
+                        @click="showConfirm = false"
+                        class="flex-1 px-4 py-2 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors">
+                        Batal
+                    </button>
+                    <button
+                        th:hx-delete="'/todos/' + ${todo.id}"
+                        hx-target="closest li"
+                        hx-swap="outerHTML swap:1s"
+                        @click="showConfirm = false"
+                        class="flex-1 px-4 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-colors">
+                        Ya, Hapus
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </li>
