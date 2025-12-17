@@ -357,6 +357,10 @@
             <!-- Project List -->
             <div class="mt-6">
                 <h4 class="text-sm font-semibold text-gray-700 mb-3">Project yang sudah dibuat:</h4>
+                <p class="text-xs text-gray-500 mb-2">
+                    💡 Klik icon <svg class="w-3 h-3 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    di pojok kanan project untuk menghapus (dengan konfirmasi)
+                </p>
                 <div id="project-list"
                      class="space-y-2"
                      hx-get="/projects"
@@ -374,9 +378,10 @@
                         <li><strong>Alpine.js:</strong> Menangani currentStep, formData state, dan client-side validation</li>
                         <li><strong>x-show:</strong> Toggle step visibility tanpa reload</li>
                         <li><strong>canProceed():</strong> Validate sebelum allow next step</li>
-                        <li><strong>HTMX POST:</strong> hx-post="/projects" hanya dipanggil saat final submit</li>
-                        <li><strong>HTMX GET:</strong> hx-get="/projects" dengan hx-trigger="load" untuk load project list</li>
-                        <li><strong>HX-Trigger Header:</strong> Server mengirim event "projectCreated, refreshProjects"</li>
+                        <li><strong>HTMX POST:</strong> hx-post="/projects" untuk create project</li>
+                        <li><strong>HTMX DELETE:</strong> hx-delete="/projects/{id}" untuk delete project</li>
+                        <li><strong>HTMX GET:</strong> hx-get="/projects" dengan hx-trigger="load, refreshProjects" untuk load/refresh list</li>
+                        <li><strong>HX-Trigger Header:</strong> Server mengirim event "projectCreated, refreshProjects" untuk koordinasi</li>
                         <li><strong>Event Handling:</strong> Alpine close modal, HTMX refresh list dari server</li>
                     </ul>
                 </div>
@@ -409,7 +414,11 @@
                 </li>
                 <li class="flex items-start">
                     <span class="mr-2">•</span>
-                    <span><strong>List Refresh Pattern</strong> - POST trigger event, GET reload full list untuk consistency</span>
+                    <span><strong>List Refresh Pattern</strong> - POST/DELETE trigger event, GET reload full list untuk consistency</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Delete dengan Confirm</strong> - Setiap project punya delete button dengan Alpine confirm modal</span>
                 </li>
                 <li class="flex items-start">
                     <span class="mr-2">•</span>

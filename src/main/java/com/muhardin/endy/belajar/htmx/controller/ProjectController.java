@@ -2,11 +2,10 @@ package com.muhardin.endy.belajar.htmx.controller;
 
 import com.muhardin.endy.belajar.htmx.model.Project;
 import com.muhardin.endy.belajar.htmx.repository.ProjectRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -53,5 +52,18 @@ public class ProjectController {
 
         // Return empty response since we'll refresh the whole list
         return "fragments/empty";
+    }
+
+    @DeleteMapping("/projects/{id}")
+    public ResponseEntity<Void> deleteProject(
+            @PathVariable Long id,
+            jakarta.servlet.http.HttpServletResponse response) {
+
+        projectRepository.deleteById(id);
+
+        // Trigger refresh of project list
+        response.setHeader("HX-Trigger", "refreshProjects");
+
+        return ResponseEntity.ok().build();
     }
 }
