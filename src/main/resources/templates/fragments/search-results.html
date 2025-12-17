@@ -1,0 +1,70 @@
+<div id="search-results" class="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-lg border border-gray-200 max-h-96 overflow-y-auto z-50">
+    <!-- Loading state (akan di-handle oleh HTMX htmx-indicator) -->
+
+    <!-- Empty state - tidak ada query -->
+    <div th:if="${isEmpty && (query == null || query.isEmpty())}" class="p-4 text-center text-gray-400 text-sm">
+        <svg class="w-10 h-10 mx-auto mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <p>Ketik untuk mencari...</p>
+    </div>
+
+    <!-- No results found -->
+    <div th:if="${isEmpty && query != null && !query.isEmpty()}" class="p-4 text-center text-gray-500 text-sm">
+        <svg class="w-10 h-10 mx-auto mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <p>Tidak ditemukan hasil untuk "<span class="font-semibold" th:text="${query}"></span>"</p>
+    </div>
+
+    <!-- Results list -->
+    <div th:if="${!isEmpty}" class="divide-y divide-gray-100">
+        <!-- Header -->
+        <div class="px-4 py-2 bg-gray-50 border-b border-gray-200">
+            <p class="text-xs text-gray-600">
+                Ditemukan <span class="font-semibold" th:text="${results.size()}">0</span> hasil untuk
+                "<span class="font-semibold" th:text="${query}"></span>"
+            </p>
+        </div>
+
+        <!-- Result items -->
+        <a th:each="result : ${results}"
+           th:href="${result.url}"
+           class="block px-4 py-3 hover:bg-gray-50 transition-colors">
+            <div class="flex items-start space-x-3">
+                <!-- Icon based on type -->
+                <div class="flex-shrink-0 mt-1">
+                    <div th:if="${result.type == 'todo'}" class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm text-gray-900 mb-1" th:utext="${result.highlightedTitle}">
+                        Result title
+                    </p>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded">
+                            <span th:if="${result.type == 'todo'}">📋 Todo</span>
+                        </span>
+                        <span th:if="${result.badge != null}"
+                              class="text-xs px-2 py-0.5 rounded"
+                              th:classappend="${result.badge == 'Selesai'} ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'"
+                              th:text="${result.badge}">
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Arrow icon -->
+                <div class="flex-shrink-0 mt-1">
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
