@@ -473,6 +473,169 @@
             </div>
         </div>
 
+        <!-- Alpine.js Attributes Explained -->
+        <div class="card bg-green-50 border-l-4 border-green-500 mb-6">
+            <h3 class="text-lg font-semibold text-green-900 mb-3">
+                📖 Penjelasan Alpine.js Attributes
+            </h3>
+
+            <div class="space-y-4 text-sm text-green-800">
+                <p>
+                    <strong>Pertanyaan:</strong> Apa maksud <code class="bg-green-100 px-2 py-1 rounded">x-data</code>,
+                    <code class="bg-green-100 px-2 py-1 rounded">x-show</code>,
+                    <code class="bg-green-100 px-2 py-1 rounded">@click</code>, dll?
+                </p>
+
+                <div class="bg-white rounded p-4 border border-green-200 space-y-3">
+                    <div>
+                        <p class="font-semibold mb-2">🏔️ Alpine.js = JavaScript in HTML Attributes</p>
+                        <p class="text-xs">
+                            Alpine.js adalah framework JavaScript yang bekerja <strong>purely di browser (client-side)</strong>.
+                            Berbeda dengan Thymeleaf yang process di server, Alpine.js bekerja setelah HTML sampai di browser.
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="font-semibold mb-2">🔤 Prefix <code>x-</code> dan <code>@</code></p>
+                        <table class="w-full text-xs mt-2 border-collapse">
+                            <tr class="border-b border-green-200 bg-green-50">
+                                <th class="text-left py-2 px-2">Prefix</th>
+                                <th class="text-left py-2 px-2">Arti</th>
+                                <th class="text-left py-2 px-2">Contoh</th>
+                            </tr>
+                            <tr class="border-b border-green-100">
+                                <td class="py-2 px-2"><code class="bg-green-100 px-1 rounded">x-</code></td>
+                                <td class="py-2 px-2">Alpine.js directive</td>
+                                <td class="py-2 px-2 font-mono">x-data, x-show, x-if, x-model</td>
+                            </tr>
+                            <tr class="border-b border-green-100">
+                                <td class="py-2 px-2"><code class="bg-green-100 px-1 rounded">@</code></td>
+                                <td class="py-2 px-2">Shorthand untuk x-on:</td>
+                                <td class="py-2 px-2 font-mono">@click = x-on:click</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-2"><code class="bg-green-100 px-1 rounded">:</code></td>
+                                <td class="py-2 px-2">Shorthand untuk x-bind:</td>
+                                <td class="py-2 px-2 font-mono">:class = x-bind:class</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div>
+                        <p class="font-semibold mb-2">📋 Directive Utama:</p>
+                        <div class="space-y-2">
+                            <div class="bg-blue-50 border border-blue-200 rounded p-2">
+                                <p class="font-semibold text-blue-900 text-xs mb-1">
+                                    <code class="bg-blue-100 px-1 rounded">x-data="{'{'}count: 0{'}'}"</code>
+                                </p>
+                                <p class="text-xs">
+                                    Mendefinisikan <strong>reactive state</strong> untuk component.
+                                    Semua child elements bisa akses state ini.
+                                </p>
+                                <pre class="bg-gray-800 text-gray-100 p-2 rounded mt-1 text-xs overflow-x-auto"><code>&lt;div x-data="{'{'}count: 0, name: 'John'{'}'}"&gt;
+    &lt;!-- count dan name tersedia di sini --&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+
+                            <div class="bg-blue-50 border border-blue-200 rounded p-2">
+                                <p class="font-semibold text-blue-900 text-xs mb-1">
+                                    <code class="bg-blue-100 px-1 rounded">@click="count++"</code>
+                                </p>
+                                <p class="text-xs">
+                                    Event listener. <code>@click</code> adalah shorthand untuk <code>x-on:click</code>.
+                                    Bisa pakai event apapun: @submit, @keyup, @change, dll.
+                                </p>
+                                <pre class="bg-gray-800 text-gray-100 p-2 rounded mt-1 text-xs overflow-x-auto"><code>&lt;button @click="count++"&gt;Increment&lt;/button&gt;
+&lt;button @click="showModal = true"&gt;Open Modal&lt;/button&gt;</code></pre>
+                            </div>
+
+                            <div class="bg-blue-50 border border-blue-200 rounded p-2">
+                                <p class="font-semibold text-blue-900 text-xs mb-1">
+                                    <code class="bg-blue-100 px-1 rounded">x-show="isVisible"</code>
+                                </p>
+                                <p class="text-xs">
+                                    Toggle visibility dengan <code>display: none</code>.
+                                    Element tetap ada di DOM, hanya hidden.
+                                </p>
+                                <pre class="bg-gray-800 text-gray-100 p-2 rounded mt-1 text-xs overflow-x-auto"><code>&lt;div x-show="showModal"&gt;
+    Modal content (tersembunyi jika showModal = false)
+&lt;/div&gt;</code></pre>
+                            </div>
+
+                            <div class="bg-blue-50 border border-blue-200 rounded p-2">
+                                <p class="font-semibold text-blue-900 text-xs mb-1">
+                                    <code class="bg-blue-100 px-1 rounded">x-model="name"</code>
+                                </p>
+                                <p class="text-xs">
+                                    Two-way data binding. Input value sync dengan state.
+                                </p>
+                                <pre class="bg-gray-800 text-gray-100 p-2 rounded mt-1 text-xs overflow-x-auto"><code>&lt;input x-model="name"&gt;
+&lt;p&gt;Hello, &lt;span x-text="name"&gt;&lt;/span&gt;!&lt;/p&gt;
+&lt;!-- Ketik di input, langsung update di p --&gt;</code></pre>
+                            </div>
+
+                            <div class="bg-blue-50 border border-blue-200 rounded p-2">
+                                <p class="font-semibold text-blue-900 text-xs mb-1">
+                                    <code class="bg-blue-100 px-1 rounded">:class="{'{'}'active': isActive{'}'}"</code>
+                                </p>
+                                <p class="text-xs">
+                                    Dynamic class binding. <code>:</code> adalah shorthand untuk <code>x-bind:</code>.
+                                </p>
+                                <pre class="bg-gray-800 text-gray-100 p-2 rounded mt-1 text-xs overflow-x-auto"><code>&lt;div :class="{'{'}'bg-red-500': hasError, 'text-white': isDark{'}'}"&gt;
+    Conditional classes
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="font-semibold mb-2">🔄 Alpine vs Thymeleaf:</p>
+                        <table class="w-full text-xs mt-2 border-collapse">
+                            <tr class="border-b border-green-200 bg-green-50">
+                                <th class="text-left py-2 px-2">Aspek</th>
+                                <th class="text-left py-2 px-2">Thymeleaf (<code>th:</code>)</th>
+                                <th class="text-left py-2 px-2">Alpine.js (<code>x-</code>)</th>
+                            </tr>
+                            <tr class="border-b border-green-100">
+                                <td class="py-2 px-2 font-semibold">Eksekusi</td>
+                                <td class="py-2 px-2">Server-side (sebelum kirim)</td>
+                                <td class="py-2 px-2">Client-side (di browser)</td>
+                            </tr>
+                            <tr class="border-b border-green-100">
+                                <td class="py-2 px-2 font-semibold">Data Source</td>
+                                <td class="py-2 px-2">Dari database/server</td>
+                                <td class="py-2 px-2">Dari user interaction</td>
+                            </tr>
+                            <tr class="border-b border-green-100">
+                                <td class="py-2 px-2 font-semibold">Reactivity</td>
+                                <td class="py-2 px-2">Tidak reaktif (static HTML)</td>
+                                <td class="py-2 px-2">Reaktif (auto-update)</td>
+                            </tr>
+                            <tr class="border-b border-green-100">
+                                <td class="py-2 px-2 font-semibold">Network</td>
+                                <td class="py-2 px-2">Butuh server request</td>
+                                <td class="py-2 px-2">Purely local, no request</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-2 font-semibold">Use Case</td>
+                                <td class="py-2 px-2">Dynamic URLs, loop data</td>
+                                <td class="py-2 px-2">Toggle UI, form validation</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="bg-yellow-50 border border-yellow-300 rounded p-3">
+                        <p class="font-semibold text-yellow-900 text-xs mb-1">💡 Key Insight:</p>
+                        <p class="text-xs text-yellow-800">
+                            Alpine.js attributes (x-data, @click, :class) <strong>TIDAK di-process di server</strong>.
+                            Server mengirim HTML dengan Alpine attributes as-is, lalu Alpine.js di browser yang handle reactivity.
+                            Ini berbeda dengan <code>th:</code> yang hilang setelah server processing.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Key Takeaways -->
         <div class="card bg-green-50 border-l-4 border-green-500 mb-6">
             <h3 class="text-lg font-semibold text-green-900 mb-3">✅ Poin Penting Pelajaran 6</h3>
