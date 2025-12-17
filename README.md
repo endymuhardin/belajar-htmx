@@ -384,7 +384,6 @@ Backend:  Spring Boot + Thymeleaf
 - `templates/fragments/todo-item.html`
 
 **Catatan:**
-- Database sudah digunakan sejak Pelajaran 4 (bukan di Pelajaran 8)
 - Focus tetap pada HTMX, database hanya "behind the scene"
 - Data persist saat restart aplikasi
 
@@ -451,12 +450,7 @@ Backend:  Spring Boot + Thymeleaf
 
 ---
 
-### Pelajaran 8: (Coming Soon)
-**Catatan**: Pelajaran 8 tentang database persistence telah dihapus karena database sudah digunakan sejak Pelajaran 4.
-
----
-
-### Pelajaran 9: Infinite Scroll untuk Notes
+### Pelajaran 8: Infinite Scroll untuk Notes
 **Yang Dibangun**: Notes archive dengan infinite scroll
 
 **Konsep**: `hx-trigger="revealed"`, pagination, lazy loading
@@ -477,7 +471,7 @@ Backend:  Spring Boot + Thymeleaf
 
 ---
 
-### Pelajaran 10: Koleksi Bookmark dengan OOB
+### Pelajaran 9: Koleksi Bookmark dengan OOB
 **Yang Dibangun**: Simpan bookmarks, update navbar counter
 
 **Konsep**: `hx-swap-oob`, multi-element updates
@@ -504,7 +498,7 @@ Backend:  Spring Boot + Thymeleaf
 
 ---
 
-### Pelajaran 11: Interaksi Advanced
+### Pelajaran 10: Interaksi Advanced
 **Yang Dibangun**: Inline editing, attachments
 
 **Konsep**: Edit-in-place, file upload, complex workflows
@@ -529,7 +523,7 @@ Backend:  Spring Boot + Thymeleaf
 
 ---
 
-### Pelajaran 12: Real-Time Activity Feed
+### Pelajaran 11: Real-Time Activity Feed
 **Yang Dibangun**: Live activity stream dengan SSE
 
 **Konsep**: Server-Sent Events, `hx-sse`, real-time updates
@@ -646,7 +640,7 @@ docker compose up -d
 2. **Progress secara berurutan** - Setiap pelajaran membangun di atas kode sebelumnya
 3. **Pahami sebelum lanjut** - Setiap konsep diisolasi dan dijelaskan
 4. **Refactor sambil belajar** - Kode berkembang secara natural (in-memory → database)
-5. **Aplikasi lengkap** - Setelah Pelajaran 12, Anda punya aplikasi penuh
+5. **Aplikasi lengkap** - Setelah Pelajaran 11, Anda punya aplikasi penuh
 
 ## Poin-Poin Penting
 
