@@ -3,11 +3,11 @@
   "version": "0.0.1",
   "description": "HTMX + Alpine.js + Spring Boot learning project",
   "scripts": {
-    "build": "tailwindcss -i ./src/main/resources/static/css/input.css -o ./src/main/resources/static/css/output.css --minify",
-    "watch": "tailwindcss -i ./src/main/resources/static/css/input.css -o ./src/main/resources/static/css/output.css --watch"
+    "build": "tailwindcss --input ./src/main/resources/static/css/input.css --output ./src/main/resources/static/css/output.css --minify",
+    "watch": "tailwindcss --input ./src/main/resources/static/css/input.css --output ./src/main/resources/static/css/output.css --watch"
   },
   "dependencies": {
-    "tailwindcss": "^3.4.17"
+    "@tailwindcss/cli": "^4.0.0"
   },
   "devDependencies": {}
 }
