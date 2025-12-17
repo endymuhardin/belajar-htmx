@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Pelajaran 6: Alpine.js Basics</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Lesson Header -->
+        <div class="mb-6">
+            <div class="flex items-center space-x-3 mb-2">
+                <span class="text-4xl">6️⃣</span>
+                <h2 class="text-3xl font-bold text-gray-900">Pelajaran 6: Alpine.js Basics</h2>
+            </div>
+            <p class="text-gray-600 text-lg">
+                Menambahkan reactivity di client-side dengan Alpine.js untuk interaksi yang lebih dinamis
+            </p>
+        </div>
+
+        <!-- Why Alpine.js? -->
+        <div class="card bg-yellow-50 border-l-4 border-yellow-500 mb-6">
+            <h3 class="text-xl font-bold text-yellow-900 mb-3">🤔 Kenapa Perlu Alpine.js?</h3>
+
+            <div class="space-y-3 text-sm text-yellow-800">
+                <p>
+                    <strong>Pertanyaan:</strong> Pelajaran sebelumnya sudah canggih dengan HTMX saja, kenapa harus tambah Alpine.js?
+                </p>
+
+                <div class="bg-white rounded p-4 border border-yellow-200 space-y-3">
+                    <div>
+                        <p class="font-semibold mb-2">❌ Masalah dengan HTMX Saja:</p>
+                        <ul class="space-y-1 ml-5 text-xs list-disc">
+                            <li><strong>Setiap interaksi butuh server</strong> - Toggle dropdown butuh request ke server (waste!)</li>
+                            <li><strong>Network latency</strong> - UI terasa lambat karena waiting for server response</li>
+                            <li><strong>Server load</strong> - Server harus handle request untuk hal trivial seperti show/hide modal</li>
+                            <li><strong>Tidak bisa offline</strong> - Tanpa koneksi, semua interaksi mati total</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <p class="font-semibold mb-2">✅ Alpine.js Solves This:</p>
+                        <ul class="space-y-1 ml-5 text-xs list-disc">
+                            <li><strong>Instant response</strong> - Toggle, tabs, dropdown langsung tanpa network delay</li>
+                            <li><strong>Zero server load</strong> - Pure client-side untuk UI state yang tidak perlu persist</li>
+                            <li><strong>Better UX</strong> - Feedback langsung, tidak ada loading spinner untuk hal simpel</li>
+                            <li><strong>Less bandwidth</strong> - Tidak kirim request untuk setiap klik dropdown</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <p class="font-semibold mb-2">🎯 Contoh Real-World:</p>
+                        <ul class="space-y-1 ml-5 text-xs list-disc">
+                            <li><strong>Dropdown menu:</strong> HTMX = server request, Alpine.js = instant toggle</li>
+                            <li><strong>Modal/Dialog:</strong> HTMX = fetch content dari server, Alpine.js = langsung show/hide</li>
+                            <li><strong>Tabs:</strong> HTMX = load tab content dari server, Alpine.js = switch langsung (jika data sudah ada)</li>
+                            <li><strong>Form validation:</strong> HTMX = submit dulu baru error, Alpine.js = validate before submit</li>
+                            <li><strong>Counter/Timer:</strong> HTMX = tidak bisa (butuh server polling), Alpine.js = purely client-side</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <p class="font-semibold mb-2">⚖️ Decision Framework:</p>
+                        <table class="w-full text-xs mt-2">
+                            <tr class="border-b border-yellow-200">
+                                <th class="text-left py-1 pr-2">Use Case</th>
+                                <th class="text-left py-1 px-2">HTMX</th>
+                                <th class="text-left py-1 pl-2">Alpine.js</th>
+                            </tr>
+                            <tr class="border-b border-yellow-100">
+                                <td class="py-1 pr-2">Submit form, save data</td>
+                                <td class="py-1 px-2">✅ Yes</td>
+                                <td class="py-1 pl-2">❌ No</td>
+                            </tr>
+                            <tr class="border-b border-yellow-100">
+                                <td class="py-1 pr-2">Search, load data from DB</td>
+                                <td class="py-1 px-2">✅ Yes</td>
+                                <td class="py-1 pl-2">❌ No</td>
+                            </tr>
+                            <tr class="border-b border-yellow-100">
+                                <td class="py-1 pr-2">Toggle dropdown/modal</td>
+                                <td class="py-1 px-2">❌ Waste</td>
+                                <td class="py-1 pl-2">✅ Yes</td>
+                            </tr>
+                            <tr class="border-b border-yellow-100">
+                                <td class="py-1 pr-2">Switch tabs (data sudah ada)</td>
+                                <td class="py-1 px-2">❌ Waste</td>
+                                <td class="py-1 pl-2">✅ Yes</td>
+                            </tr>
+                            <tr class="border-b border-yellow-100">
+                                <td class="py-1 pr-2">Client-side form validation</td>
+                                <td class="py-1 px-2">❌ No</td>
+                                <td class="py-1 pl-2">✅ Yes</td>
+                            </tr>
+                            <tr>
+                                <td class="py-1 pr-2">Dynamic styling/animation</td>
+                                <td class="py-1 px-2">❌ No</td>
+                                <td class="py-1 pl-2">✅ Yes</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-green-100 rounded p-3 border border-green-300">
+                    <p class="font-semibold text-green-900 mb-1">💡 Best Practice:</p>
+                    <p class="text-green-800 text-xs">
+                        <strong>HTMX untuk data persistence</strong> (anything yang butuh server/database),
+                        <strong>Alpine.js untuk UI state</strong> (anything yang purely frontend interaction).
+                        Keduanya complement each other, bukan kompetisi!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lesson Overview -->
+        <div class="card bg-indigo-50 border-l-4 border-indigo-500 mb-6">
+            <h3 class="text-xl font-bold text-indigo-900 mb-3">📚 Konsep Pelajaran 6</h3>
+
+            <div class="space-y-3 text-sm text-indigo-800">
+                <p>
+                    <strong>Konsep Baru:</strong> Alpine.js adalah lightweight JavaScript framework untuk menambahkan
+                    reactivity dan interactivity langsung di HTML, tanpa perlu round-trip ke server.
+                </p>
+
+                <div class="bg-white rounded p-4 border border-indigo-200 space-y-3">
+                    <div>
+                        <p class="font-semibold mb-2">🏔️ Alpine.js Core Directives:</p>
+                        <ul class="space-y-1 ml-5 text-xs list-disc">
+                            <li><code class="bg-indigo-100 px-1 rounded">x-data</code> - Declare reactive data component</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">x-text</code> - Set text content reactively</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">x-on (@)</code> - Listen to events</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">x-show</code> - Toggle visibility (CSS display)</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">x-if</code> - Conditional rendering (add/remove from DOM)</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">x-model</code> - Two-way data binding</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">x-bind (:)</code> - Bind attributes reactively</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <p class="font-semibold mb-2">⚡ HTMX vs Alpine.js:</p>
+                        <ul class="space-y-1 ml-5 text-xs list-disc">
+                            <li><strong>HTMX:</strong> Server-driven, returns HTML fragments from backend</li>
+                            <li><strong>Alpine.js:</strong> Client-driven, pure frontend reactivity</li>
+                            <li><strong>Best Together:</strong> HTMX untuk data persistence, Alpine.js untuk UI interactivity</li>
+                            <li>HTMX mengirim request ke server, Alpine.js hanya manipulasi DOM lokal</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <p class="font-semibold mb-2">🎯 Use Cases Alpine.js:</p>
+                        <ul class="space-y-1 ml-5 text-xs list-disc">
+                            <li>Toggle dropdowns, modals, tabs tanpa server request</li>
+                            <li>Form validation di client-side sebelum submit</li>
+                            <li>Counter, timer, animasi interaktif</li>
+                            <li>Dynamic styling berdasarkan state</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded p-3 border border-indigo-200">
+                    <p class="font-semibold mb-2">📂 Alpine.js sudah included:</p>
+                    <ul class="space-y-1 ml-4 text-xs font-mono">
+                        <li>👉 <strong>Layout:</strong> templates/layout.html:16 (Alpine.js 3.14.8 CDN)</li>
+                        <li>👉 Semua demo di halaman ini purely client-side, tidak ada controller</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Demo 1: Simple Counter -->
+        <div class="card bg-white border-2 border-indigo-200 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                🎮 Demo 1: Simple Counter (x-data, x-on, x-text)
+            </h3>
+
+            <div class="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-300">
+                <p class="text-sm text-yellow-900">
+                    <strong>💡 Konsep:</strong> x-data mendefinisikan reactive state, x-on menangani events, x-text menampilkan data.
+                </p>
+            </div>
+
+            <!-- Interactive Counter -->
+            <div class="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border-2 border-indigo-300"
+                 x-data="{ count: 0 }">
+                <div class="text-center">
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600 mb-2">Count:</p>
+                        <div class="text-6xl font-bold text-indigo-600" x-text="count"></div>
+                    </div>
+                    <div class="flex justify-center space-x-3">
+                        <button
+                            @click="count--"
+                            class="px-6 py-3 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-colors">
+                            ➖ Decrement
+                        </button>
+                        <button
+                            @click="count = 0"
+                            class="px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition-colors">
+                            🔄 Reset
+                        </button>
+                        <button
+                            @click="count++"
+                            class="px-6 py-3 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition-colors">
+                            ➕ Increment
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code -->
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-gray-700 mb-2">Code:</p>
+                <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;div x-data="{ count: 0 }"&gt;
+    &lt;div x-text="count"&gt;&lt;/div&gt;
+    &lt;button @click="count--"&gt;Decrement&lt;/button&gt;
+    &lt;button @click="count = 0"&gt;Reset&lt;/button&gt;
+    &lt;button @click="count++"&gt;Increment&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+        </div>
+
+        <!-- Demo 2: Toggle Visibility -->
+        <div class="card bg-white border-2 border-purple-200 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                🎮 Demo 2: Toggle Visibility (x-show vs x-if)
+            </h3>
+
+            <div class="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-300">
+                <p class="text-sm text-yellow-900">
+                    <strong>💡 Konsep:</strong> x-show menggunakan CSS display:none, x-if menambah/hapus element dari DOM.
+                </p>
+            </div>
+
+            <!-- Interactive Toggle -->
+            <div class="p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg border-2 border-purple-300"
+                 x-data="{ showMessage: false, showAlert: false }">
+                <div class="space-y-4">
+                    <!-- x-show example -->
+                    <div>
+                        <button
+                            @click="showMessage = !showMessage"
+                            class="px-4 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-colors">
+                            Toggle Message (x-show)
+                        </button>
+                        <div
+                            x-show="showMessage"
+                            class="mt-2 p-4 bg-purple-100 border-l-4 border-purple-500 rounded">
+                            <p class="text-purple-900">
+                                👋 Halo! Ini menggunakan <strong>x-show</strong>. Element tetap ada di DOM, hanya display:none.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- x-if example -->
+                    <div>
+                        <button
+                            @click="showAlert = !showAlert"
+                            class="px-4 py-2 bg-pink-500 text-white font-semibold rounded-lg hover:bg-pink-600 transition-colors">
+                            Toggle Alert (x-if)
+                        </button>
+                        <template x-if="showAlert">
+                            <div class="mt-2 p-4 bg-pink-100 border-l-4 border-pink-500 rounded">
+                                <p class="text-pink-900">
+                                    ⚠️ Alert! Ini menggunakan <strong>x-if</strong>. Element ditambah/dihapus dari DOM.
+                                </p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code -->
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-gray-700 mb-2">Code:</p>
+                <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;div x-data="{ showMessage: false, showAlert: false }"&gt;
+    &lt;!-- x-show: element tetap di DOM --&gt;
+    &lt;button @click="showMessage = !showMessage"&gt;Toggle&lt;/button&gt;
+    &lt;div x-show="showMessage"&gt;Message&lt;/div&gt;
+
+    &lt;!-- x-if: element ditambah/dihapus dari DOM --&gt;
+    &lt;button @click="showAlert = !showAlert"&gt;Toggle&lt;/button&gt;
+    &lt;template x-if="showAlert"&gt;
+        &lt;div&gt;Alert&lt;/div&gt;
+    &lt;/template&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+        </div>
+
+        <!-- Demo 3: Two-Way Binding -->
+        <div class="card bg-white border-2 border-green-200 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                🎮 Demo 3: Two-Way Data Binding (x-model)
+            </h3>
+
+            <div class="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-300">
+                <p class="text-sm text-yellow-900">
+                    <strong>💡 Konsep:</strong> x-model membuat two-way binding antara input dan data.
+                    Perubahan di input langsung update data, dan sebaliknya.
+                </p>
+            </div>
+
+            <!-- Interactive Form -->
+            <div class="p-6 bg-gradient-to-br from-green-50 to-teal-50 rounded-lg border-2 border-green-300"
+                 x-data="{ name: '', email: '', message: '' }">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Nama:</label>
+                        <input
+                            type="text"
+                            x-model="name"
+                            placeholder="Masukkan nama..."
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Email:</label>
+                        <input
+                            type="email"
+                            x-model="email"
+                            placeholder="Masukkan email..."
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Pesan:</label>
+                        <textarea
+                            x-model="message"
+                            placeholder="Tulis pesan..."
+                            rows="3"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
+                    </div>
+
+                    <!-- Live Preview -->
+                    <div class="p-4 bg-white rounded-lg border-2 border-green-200">
+                        <p class="text-sm font-semibold text-gray-700 mb-2">Live Preview:</p>
+                        <div class="space-y-1 text-sm text-gray-600">
+                            <p><strong>Nama:</strong> <span x-text="name || '(belum diisi)'"></span></p>
+                            <p><strong>Email:</strong> <span x-text="email || '(belum diisi)'"></span></p>
+                            <p><strong>Pesan:</strong> <span x-text="message || '(belum diisi)'"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code -->
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-gray-700 mb-2">Code:</p>
+                <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;div x-data="{ name: '', email: '', message: '' }"&gt;
+    &lt;input type="text" x-model="name" placeholder="Nama..."&gt;
+    &lt;input type="email" x-model="email" placeholder="Email..."&gt;
+    &lt;textarea x-model="message" placeholder="Pesan..."&gt;&lt;/textarea&gt;
+
+    &lt;!-- Live preview --&gt;
+    &lt;p&gt;Nama: &lt;span x-text="name || '(belum diisi)'"&gt;&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;Email: &lt;span x-text="email || '(belum diisi)'"&gt;&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;Pesan: &lt;span x-text="message || '(belum diisi)'"&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+        </div>
+
+        <!-- Demo 4: Dynamic Styling -->
+        <div class="card bg-white border-2 border-orange-200 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                🎮 Demo 4: Dynamic Styling (x-bind:class)
+            </h3>
+
+            <div class="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-300">
+                <p class="text-sm text-yellow-900">
+                    <strong>💡 Konsep:</strong> x-bind:class (atau :class) untuk menambahkan class secara kondisional.
+                    Bisa gunakan object syntax untuk multiple classes.
+                </p>
+            </div>
+
+            <!-- Interactive Styling -->
+            <div class="p-6 bg-gradient-to-br from-orange-50 to-red-50 rounded-lg border-2 border-orange-300"
+                 x-data="{ isDark: false, size: 'medium', isActive: true }">
+                <div class="space-y-4">
+                    <!-- Controls -->
+                    <div class="flex flex-wrap gap-3">
+                        <button
+                            @click="isDark = !isDark"
+                            class="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition-colors">
+                            <span x-text="isDark ? '☀️ Light Mode' : '🌙 Dark Mode'"></span>
+                        </button>
+                        <button
+                            @click="isActive = !isActive"
+                            class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
+                            <span x-text="isActive ? '❌ Deactivate' : '✅ Activate'"></span>
+                        </button>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Size:</label>
+                        <div class="flex space-x-2">
+                            <button
+                                @click="size = 'small'"
+                                :class="size === 'small' ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg font-semibold transition-colors">
+                                Small
+                            </button>
+                            <button
+                                @click="size = 'medium'"
+                                :class="size === 'medium' ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg font-semibold transition-colors">
+                                Medium
+                            </button>
+                            <button
+                                @click="size = 'large'"
+                                :class="size === 'large' ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg font-semibold transition-colors">
+                                Large
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Box -->
+                    <div
+                        :class="{
+                            'bg-gray-800 text-white': isDark,
+                            'bg-white text-gray-900': !isDark,
+                            'text-sm': size === 'small',
+                            'text-base': size === 'medium',
+                            'text-2xl': size === 'large',
+                            'opacity-100 border-green-500': isActive,
+                            'opacity-50 border-red-500': !isActive
+                        }"
+                        class="p-6 rounded-lg border-4 transition-all duration-300">
+                        <p class="font-bold mb-2">Dynamic Box</p>
+                        <p class="text-sm opacity-75">
+                            Mode: <span x-text="isDark ? 'Dark' : 'Light'"></span> •
+                            Size: <span x-text="size"></span> •
+                            Status: <span x-text="isActive ? 'Active' : 'Inactive'"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code -->
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-gray-700 mb-2">Code:</p>
+                <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;div x-data="{ isDark: false, size: 'medium', isActive: true }"&gt;
+    &lt;button @click="isDark = !isDark"&gt;Toggle Theme&lt;/button&gt;
+
+    &lt;!-- Dynamic class binding with object syntax --&gt;
+    &lt;div :class="{
+        'bg-gray-800 text-white': isDark,
+        'bg-white text-gray-900': !isDark,
+        'text-sm': size === 'small',
+        'text-base': size === 'medium',
+        'text-2xl': size === 'large',
+        'opacity-100': isActive,
+        'opacity-50': !isActive
+    }"&gt;
+        Dynamic content
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+        </div>
+
+        <!-- HTMX + Alpine.js Integration -->
+        <div class="card bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 mb-6">
+            <h3 class="text-lg font-semibold text-indigo-900 mb-3">🔗 Combining HTMX + Alpine.js</h3>
+            <div class="space-y-2 text-sm text-indigo-800">
+                <p>
+                    <strong>Best Practice:</strong> Gunakan HTMX untuk operasi yang membutuhkan server (CRUD, persistence),
+                    dan Alpine.js untuk UI interactivity (dropdown, tabs, modals).
+                </p>
+                <ul class="ml-5 space-y-1 list-disc">
+                    <li><strong>HTMX:</strong> Form submission, data fetching, search</li>
+                    <li><strong>Alpine.js:</strong> Toggle UI, client-side validation, animations</li>
+                    <li><strong>Together:</strong> Form dengan Alpine.js validation + HTMX submission</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="card bg-green-50 border-l-4 border-green-500 mb-6">
+            <h3 class="text-lg font-semibold text-green-900 mb-3">✅ Poin Penting Pelajaran 6</h3>
+            <ul class="space-y-2 text-sm text-green-800">
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>x-data</strong> - Mendefinisikan reactive component dengan initial state</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>x-text</strong> - Set text content reactively (auto-update saat data berubah)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>@click (x-on:click)</strong> - Event listener shorthand</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>x-show vs x-if</strong> - x-show = CSS display, x-if = add/remove DOM</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>x-model</strong> - Two-way binding untuk form inputs</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>:class (x-bind:class)</strong> - Dynamic class binding dengan object syntax</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>No Server Required</strong> - Semua Alpine.js purely client-side</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Lightweight</strong> - Alpine.js hanya ~15KB, perfect untuk progressive enhancement</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex justify-between">
+            <a href="/lesson/5"
+               class="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors">
+                ← Pelajaran 5
+            </a>
+            <a href="/lesson/7"
+               class="px-6 py-3 bg-gray-300 text-gray-500 font-semibold rounded-lg cursor-not-allowed">
+                Pelajaran 7 (Coming Soon) →
+            </a>
+        </div>
+    </div>
+</body>
+</html>
