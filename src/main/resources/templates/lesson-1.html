@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Pelajaran 1: HTMX Basics</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Lesson Header -->
+        <div class="mb-6">
+            <div class="flex items-center space-x-3 mb-2">
+                <span class="text-4xl">1️⃣</span>
+                <h2 class="text-3xl font-bold text-gray-900">Pelajaran 1: HTMX Basics</h2>
+            </div>
+            <p class="text-gray-600 text-lg">
+                Memahami konsep dasar HTMX: <code class="bg-gray-200 px-2 py-1 rounded text-sm">hx-get</code> dan
+                <code class="bg-gray-200 px-2 py-1 rounded text-sm">hx-target</code>
+            </p>
+        </div>
+
+        <!-- Lesson Overview -->
+        <div class="card bg-indigo-50 border-l-4 border-indigo-500 mb-6">
+            <h3 class="text-xl font-bold text-indigo-900 mb-3">📚 Konsep Pelajaran 1</h3>
+
+            <div class="space-y-3 text-sm text-indigo-800">
+                <p>
+                    <strong>Ide Utama:</strong> HTMX memungkinkan kita membuat request HTTP langsung dari elemen HTML
+                    tanpa menulis JavaScript, dan menerima fragment HTML sebagai response.
+                </p>
+
+                <div class="bg-white rounded p-4 border border-indigo-200 space-y-3">
+                    <div>
+                        <p class="font-semibold mb-2">🎯 Atribut HTMX Dasar:</p>
+                        <ul class="space-y-1 ml-5 text-xs list-disc">
+                            <li><code class="bg-indigo-100 px-1 rounded">hx-get="/endpoint"</code> - Kirim GET request ke server</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">hx-target="#element-id"</code> - Target element untuk meletakkan response</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">hx-swap="innerHTML"</code> - Cara memasukkan response (default: innerHTML)</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <p class="font-semibold mb-2">💡 Alur Kerja:</p>
+                        <ol class="space-y-1 ml-5 text-xs list-decimal">
+                            <li>User klik button dengan atribut <code class="bg-indigo-100 px-1 rounded">hx-get</code></li>
+                            <li>HTMX kirim request ke server</li>
+                            <li>Server return HTML fragment (bukan JSON!)</li>
+                            <li>HTMX masukkan fragment ke element target</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded p-3 border border-indigo-200">
+                    <p class="font-semibold mb-2">📂 Lihat di source code:</p>
+                    <ul class="space-y-1 ml-4 text-xs font-mono">
+                        <li>👉 <strong>Controller:</strong> controller/HomeController.java:30-37</li>
+                        <li>👉 <strong>Template:</strong> templates/lesson-1.html:75-80</li>
+                        <li>👉 <strong>Fragment:</strong> templates/fragments/stats-widget.html</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Demo -->
+        <div class="card bg-white border-2 border-indigo-200 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                🎮 Demo Interaktif: Klik untuk Memuat Statistik
+            </h3>
+
+            <div class="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-300">
+                <p class="text-sm text-yellow-900">
+                    <strong>💡 Perhatikan:</strong> Saat kamu klik tombol di bawah:
+                </p>
+                <ul class="mt-2 ml-5 text-sm text-yellow-800 space-y-1 list-disc text-left">
+                    <li>HTMX akan kirim GET request ke <code class="bg-yellow-200 px-1 rounded">/stats</code></li>
+                    <li>Server return fragment HTML (bukan JSON)</li>
+                    <li>Fragment dimasukkan ke dalam <code class="bg-yellow-200 px-1 rounded">#stats-container</code></li>
+                    <li>Tidak ada JavaScript yang kamu tulis!</li>
+                </ul>
+            </div>
+
+            <button
+                hx-get="/stats"
+                hx-target="#stats-container"
+                class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-indigo-700 hover:to-purple-700 transform hover:-translate-y-0.5 transition-all duration-200 mb-4">
+                🚀 Muat Statistik
+            </button>
+
+            <div id="stats-container" class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-6 flex items-center justify-center text-gray-400">
+                <div class="text-center">
+                    <p class="text-lg mb-2">📭 Area kosong</p>
+                    <p class="text-sm">Klik tombol di atas untuk memuat konten dari server</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Code Explanation -->
+        <div class="card bg-gray-50 border-l-4 border-gray-400 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                📝 Penjelasan Kode
+            </h3>
+
+            <div class="space-y-4">
+                <div>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">1. HTML Button (Frontend):</p>
+                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;button
+    hx-get="/stats"
+    hx-target="#stats-container"&gt;
+    Muat Statistik
+&lt;/button&gt;</code></pre>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">2. Spring Controller (Backend):</p>
+                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@GetMapping("/stats")
+public String stats(Model model) {
+    model.addAttribute("userCount", 42);
+    model.addAttribute("taskCount", 127);
+    return "fragments/stats-widget";
+}</code></pre>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">3. HTML Fragment Response:</p>
+                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;div class="bg-gradient-to-br from-indigo-600..."&gt;
+    &lt;div th:text="${userCount}"&gt;0&lt;/div&gt;
+    &lt;div th:text="${taskCount}"&gt;0&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="card bg-green-50 border-l-4 border-green-500">
+            <h3 class="text-lg font-semibold text-green-900 mb-3">✅ Poin Penting Pelajaran 1</h3>
+            <ul class="space-y-2 text-sm text-green-800">
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>HTMX = Hypermedia</strong> - Server return HTML, bukan JSON</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>hx-get</strong> - Kirim GET request tanpa JavaScript</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>hx-target</strong> - Tentukan di mana response diletakkan</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Partial Updates</strong> - Update sebagian halaman, bukan reload full page</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Progressive Enhancement</strong> - HTML yang simple, JavaScript yang minimal</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Next Lesson -->
+        <div class="mt-8 flex justify-end">
+            <a href="/lesson/2"
+               class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200">
+                Lanjut ke Pelajaran 2 →
+            </a>
+        </div>
+    </div>
+</body>
+</html>

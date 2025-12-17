@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Pelajaran 2: HTMX Triggers & Swap</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Lesson Header -->
+        <div class="mb-6">
+            <div class="flex items-center space-x-3 mb-2">
+                <span class="text-4xl">2️⃣</span>
+                <h2 class="text-3xl font-bold text-gray-900">Pelajaran 2: HTMX Triggers & Swap Strategies</h2>
+            </div>
+            <p class="text-gray-600 text-lg">
+                Menguasai berbagai cara trigger request dan memasukkan response ke DOM
+            </p>
+        </div>
+
+        <!-- Lesson Overview -->
+        <div class="card bg-indigo-50 border-l-4 border-indigo-500 mb-6">
+            <h3 class="text-xl font-bold text-indigo-900 mb-3">📚 Konsep Pelajaran 2</h3>
+
+            <div class="space-y-3 text-sm text-indigo-800">
+                <p>
+                    <strong>Konsep Baru:</strong> HTMX memiliki berbagai cara untuk memicu request dan memasukkan response ke DOM.
+                </p>
+
+                <div class="bg-white rounded p-4 border border-indigo-200 space-y-3">
+                    <div>
+                        <p class="font-semibold mb-2">📋 hx-trigger Options:</p>
+                        <ul class="space-y-1 ml-5 text-xs list-disc">
+                            <li><code class="bg-indigo-100 px-1 rounded">load</code> - Trigger saat element dimuat (page load)</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">click</code> - Trigger saat element di-klik (default untuk button)</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">every 30s</code> - Trigger otomatis setiap interval waktu</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <p class="font-semibold mb-2">🔄 hx-swap Options:</p>
+                        <ul class="space-y-1 ml-5 text-xs list-disc">
+                            <li><code class="bg-indigo-100 px-1 rounded">innerHTML</code> - Replace konten dalam element (default)</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">outerHTML</code> - Replace element itu sendiri</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">beforeend</code> - Append konten di akhir</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">afterbegin</code> - Prepend konten di awal</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded p-3 border border-indigo-200">
+                    <p class="font-semibold mb-2">📂 Lihat di source code:</p>
+                    <ul class="space-y-1 ml-4 text-xs font-mono">
+                        <li>👉 <strong>Controller:</strong> controller/HomeController.java:39-69</li>
+                        <li>👉 <strong>Quote Widget:</strong> templates/fragments/quote-widget.html</li>
+                        <li>👉 <strong>Time Widget:</strong> templates/fragments/time-widget.html</li>
+                        <li>👉 <strong>Weather Widget:</strong> templates/fragments/weather-widget.html</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Widgets Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Quote Widget - Loads on page load -->
+            <div>
+                <div class="mb-3 p-3 bg-amber-100 rounded-lg border border-amber-300">
+                    <p class="text-sm font-semibold text-amber-900 mb-1">💡 Widget #1: Load on Page Load</p>
+                    <p class="text-xs text-amber-800">
+                        <code class="bg-amber-200 px-1 rounded">hx-trigger="load"</code> memuat konten saat halaman dibuka
+                    </p>
+                </div>
+                <div
+                    hx-get="/quote"
+                    hx-trigger="load"
+                    hx-target="#quote-container">
+                    <div id="quote-container" class="min-h-[160px] border-2 border-dashed border-amber-300 rounded-lg p-4 flex items-center justify-center text-amber-400">
+                        <div class="text-center">
+                            <div class="animate-spin text-2xl mb-2">⏳</div>
+                            <p class="text-sm">Loading quote...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time Widget - Auto refresh every 30s -->
+            <div>
+                <div class="mb-3 p-3 bg-blue-100 rounded-lg border border-blue-300">
+                    <p class="text-sm font-semibold text-blue-900 mb-1">⏰ Widget #2: Auto Refresh</p>
+                    <p class="text-xs text-blue-800">
+                        <code class="bg-blue-200 px-1 rounded">hx-trigger="load, every 30s"</code> update otomatis tiap 30 detik
+                    </p>
+                </div>
+                <div
+                    hx-get="/time"
+                    hx-trigger="load, every 30s"
+                    hx-target="#time-container"
+                    hx-swap="innerHTML">
+                    <div id="time-container" class="min-h-[160px] border-2 border-dashed border-blue-300 rounded-lg p-4 flex items-center justify-center text-blue-400">
+                        <div class="text-center">
+                            <div class="animate-spin text-2xl mb-2">⏳</div>
+                            <p class="text-sm">Loading time...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather Widget - Manual refresh on click -->
+            <div>
+                <div class="mb-3 p-3 bg-sky-100 rounded-lg border border-sky-300">
+                    <p class="text-sm font-semibold text-sky-900 mb-1">🌤️ Widget #3: Click to Refresh</p>
+                    <p class="text-xs text-sky-800">
+                        Klik tombol untuk refresh. <code class="bg-sky-200 px-1 rounded">hx-trigger="click"</code>
+                    </p>
+                </div>
+                <div>
+                    <button
+                        hx-get="/weather"
+                        hx-target="#weather-container"
+                        hx-swap="innerHTML"
+                        class="w-full mb-3 px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-500 text-white font-semibold rounded-lg shadow hover:shadow-lg hover:from-sky-600 hover:to-blue-600 transition-all duration-200">
+                        🔄 Refresh Cuaca
+                    </button>
+                    <div id="weather-container" class="min-h-[160px] border-2 border-dashed border-sky-300 rounded-lg p-4 flex items-center justify-center text-sky-400">
+                        <p class="text-sm text-center">Klik tombol untuk melihat cuaca</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="card bg-green-50 border-l-4 border-green-500 mb-6">
+            <h3 class="text-lg font-semibold text-green-900 mb-3">✅ Poin Penting Pelajaran 2</h3>
+            <ul class="space-y-2 text-sm text-green-800">
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>hx-trigger</strong> - Kontrol kapan request dipicu (load, click, interval, dll)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Polling dengan "every"</strong> - Update otomatis tanpa WebSocket</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>hx-swap</strong> - Tentukan cara response dimasukkan ke DOM</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Multiple triggers</strong> - Bisa kombinasi: "load, every 30s"</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Loading states</strong> - Bisa tampilkan spinner/placeholder saat loading</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex justify-between">
+            <a href="/lesson/1"
+               class="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors">
+                ← Pelajaran 1
+            </a>
+            <a href="/lesson/3"
+               class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200">
+                Lanjut ke Pelajaran 3 →
+            </a>
+        </div>
+    </div>
+</body>
+</html>
