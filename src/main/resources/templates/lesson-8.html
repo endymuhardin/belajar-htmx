@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Pelajaran 8: Infinite Scroll</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Lesson Header -->
+        <div class="mb-6">
+            <div class="flex items-center space-x-3 mb-2">
+                <span class="text-4xl">8️⃣</span>
+                <h2 class="text-3xl font-bold text-gray-900">Pelajaran 8: Infinite Scroll dengan Lazy Loading</h2>
+            </div>
+            <p class="text-gray-600 text-lg">
+                Implementasi infinite scroll dengan <code class="bg-gray-200 px-2 py-1 rounded text-sm">hx-trigger="revealed"</code>
+                dan pagination
+            </p>
+        </div>
+
+        <!-- Lesson Overview -->
+        <div class="card bg-indigo-50 border-l-4 border-indigo-500 mb-6">
+            <h3 class="text-xl font-bold text-indigo-900 mb-3">📚 Konsep Pelajaran 8</h3>
+
+            <div class="space-y-3 text-sm text-indigo-800">
+                <p>
+                    <strong>Konsep Baru:</strong> Infinite scroll memungkinkan user scroll tanpa batas untuk load content.
+                    HTMX menyediakan <code class="bg-indigo-100 px-1 rounded">hx-trigger="revealed"</code> yang perfect untuk pattern ini.
+                </p>
+
+                <div class="bg-white rounded p-4 border border-indigo-200 space-y-3">
+                    <div>
+                        <p class="font-semibold mb-2">🔄 Infinite Scroll Pattern:</p>
+                        <ul class="space-y-1 ml-5 text-xs list-disc">
+                            <li><code class="bg-indigo-100 px-1 rounded">hx-trigger="revealed"</code> - Trigger saat element visible di viewport</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">hx-get="/notes/page?page=1"</code> - Load page berikutnya</li>
+                            <li><code class="bg-indigo-100 px-1 rounded">hx-swap="afterend"</code> - Append setelah current element</li>
+                            <li>Pagination di server dengan Spring Data Page</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <p class="font-semibold mb-2">⚡ Keuntungan Infinite Scroll:</p>
+                        <ul class="space-y-1 ml-5 text-xs list-disc">
+                            <li>User tidak perlu klik "Load More" button</li>
+                            <li>Smooth scrolling experience seperti social media feed</li>
+                            <li>Lazy loading: hanya load data saat dibutuhkan</li>
+                            <li>Mengurangi initial page load time</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <p class="font-semibold mb-2">🎯 Kapan Pakai Infinite Scroll:</p>
+                        <ul class="space-y-1 ml-5 text-xs list-disc">
+                            <li>✅ Feed/Timeline: Social media posts, activity logs</li>
+                            <li>✅ Search Results: Large result sets</li>
+                            <li>✅ Archives: Blog posts, notes, history</li>
+                            <li>❌ Structured Data: Tables with sorting/filtering</li>
+                            <li>❌ Goal-Oriented: User mencari item spesifik</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded p-3 border border-indigo-200">
+                    <p class="font-semibold mb-2">📂 Lihat di source code:</p>
+                    <ul class="space-y-1 ml-4 text-xs font-mono">
+                        <li>👉 <strong>Model:</strong> model/Note.java</li>
+                        <li>👉 <strong>Repository:</strong> repository/NoteRepository.java</li>
+                        <li>👉 <strong>Controller:</strong> controller/NoteController.java</li>
+                        <li>👉 <strong>Page:</strong> templates/notes-archive.html</li>
+                        <li>👉 <strong>Fragment:</strong> templates/fragments/notes-page.html</li>
+                        <li>👉 <strong>Migration:</strong> db/migration/V3__create_notes_table.sql</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- How it Works -->
+        <div class="card bg-purple-50 border-l-4 border-purple-500 mb-6">
+            <h3 class="text-lg font-semibold text-purple-900 mb-3">
+                ⚙️ Cara Kerja Infinite Scroll
+            </h3>
+
+            <div class="space-y-3 text-sm text-purple-800">
+                <div class="bg-white rounded p-4 border border-purple-200">
+                    <p class="font-semibold mb-2">📊 Flow Diagram:</p>
+                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>1. User load page /notes
+   → Server return 10 notes pertama (page 0)
+   → Di akhir list ada "load more" trigger element
+
+2. User scroll sampai trigger element terlihat
+   → HTMX detect "revealed" event
+   → GET /notes/page?page=1
+
+3. Server return 10 notes berikutnya (page 1)
+   → HTMX append setelah trigger element
+   → Trigger element pindah ke akhir list baru
+
+4. Ulangi step 2-3 sampai tidak ada data lagi
+   → Server return hasMore=false
+   → Tampilkan "No more notes" message
+   → Remove trigger element</code></pre>
+                </div>
+
+                <div class="bg-white rounded p-4 border border-purple-200">
+                    <p class="font-semibold mb-2">🔍 Key HTMX Attributes:</p>
+                    <table class="w-full text-xs mt-2 border-collapse">
+                        <tr class="border-b border-purple-200 bg-purple-50">
+                            <th class="text-left py-2 px-2">Attribute</th>
+                            <th class="text-left py-2 px-2">Value</th>
+                            <th class="text-left py-2 px-2">Fungsi</th>
+                        </tr>
+                        <tr class="border-b border-purple-100">
+                            <td class="py-2 px-2 font-mono">hx-get</td>
+                            <td class="py-2 px-2 font-mono">"/notes/page?page=1"</td>
+                            <td class="py-2 px-2">URL untuk load page berikutnya</td>
+                        </tr>
+                        <tr class="border-b border-purple-100">
+                            <td class="py-2 px-2 font-mono">hx-trigger</td>
+                            <td class="py-2 px-2 font-mono">"revealed"</td>
+                            <td class="py-2 px-2">Trigger saat element visible</td>
+                        </tr>
+                        <tr class="border-b border-purple-100">
+                            <td class="py-2 px-2 font-mono">hx-swap</td>
+                            <td class="py-2 px-2 font-mono">"afterend"</td>
+                            <td class="py-2 px-2">Insert content setelah element</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-2 font-mono">hx-indicator</td>
+                            <td class="py-2 px-2 font-mono">"#loading"</td>
+                            <td class="py-2 px-2">Show loading spinner</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Code Explanation -->
+        <div class="card bg-gray-50 border-l-4 border-gray-400 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                📝 Penjelasan Kode
+            </h3>
+
+            <div class="space-y-4">
+                <div>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">1. Note Entity (JPA):</p>
+                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@Entity
+@Table(name = "notes")
+public class Note {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, length = 200)
+    private String title;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String content;
+
+    @Column(nullable = false, length = 50)
+    private String category;
+
+    @Column(nullable = false)
+    private boolean pinned = false;  // Pinned notes di atas
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+}</code></pre>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">2. NoteRepository (Spring Data Pagination):</p>
+                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@Repository
+public interface NoteRepository extends JpaRepository&lt;Note, Long&gt; {
+    // Pinned notes first, then by created date
+    Page&lt;Note&gt; findAllByOrderByPinnedDescCreatedAtDesc(Pageable pageable);
+}</code></pre>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">3. NoteController (Pagination Endpoint):</p>
+                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@GetMapping("/notes/page")
+public String getNotesPage(
+        @RequestParam(defaultValue = "0") int page,
+        Model model) {
+
+    Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+    Page&lt;Note&gt; notesPage = repository.findAllByOrderByPinnedDescCreatedAtDesc(pageable);
+
+    model.addAttribute("notes", notesPage.getContent());
+    model.addAttribute("hasMore", notesPage.hasNext());  // Ada page berikutnya?
+    model.addAttribute("nextPage", page + 1);
+    model.addAttribute("currentPage", page);
+
+    return "fragments/notes-page";
+}</code></pre>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">4. Infinite Scroll Trigger (HTML Fragment):</p>
+                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;!-- Render notes --&gt;
+&lt;div th:each="note : ${"{"}notes{'}'}"&gt;
+    &lt;!-- Note card content --&gt;
+&lt;/div&gt;
+
+&lt;!-- Infinite scroll trigger --&gt;
+&lt;div th:if="${"{"}hasMore{'}'}"
+     th:hx-get="'/notes/page?page=' + ${"{"}nextPage{'}'}"
+     hx-trigger="revealed"
+     hx-swap="afterend"
+     hx-indicator="#loading"&gt;
+    &lt;!-- Loading spinner --&gt;
+&lt;/div&gt;
+
+&lt;!-- End message jika tidak ada data lagi --&gt;
+&lt;div th:if="${"{"}!hasMore{'}'}" class="text-center text-gray-500"&gt;
+    ✓ Semua notes sudah dimuat
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Demo Link -->
+        <div class="card bg-white border-2 border-indigo-200 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                🎮 Demo Interaktif: Notes Archive
+            </h3>
+
+            <div class="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-300">
+                <p class="text-sm text-yellow-900">
+                    <strong>💡 Cara Test:</strong>
+                </p>
+                <ul class="mt-2 ml-5 text-sm text-yellow-800 space-y-1 list-disc text-left">
+                    <li>Klik tombol di bawah untuk buka Notes Archive</li>
+                    <li>Scroll ke bawah - notes akan load otomatis</li>
+                    <li>Perhatikan loading spinner saat fetch data</li>
+                    <li>Database akan di-populate dengan 50 sample notes saat first load</li>
+                    <li>Open browser DevTools Network tab untuk lihat AJAX requests</li>
+                </ul>
+            </div>
+
+            <div class="text-center">
+                <a href="/notes"
+                   class="inline-block px-8 py-4 bg-indigo-600 text-white font-bold text-lg rounded-lg hover:bg-indigo-700 transition-colors shadow-lg">
+                    📝 Buka Notes Archive →
+                </a>
+            </div>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="card bg-green-50 border-l-4 border-green-500 mb-6">
+            <h3 class="text-lg font-semibold text-green-900 mb-3">✅ Poin Penting Pelajaran 8</h3>
+            <ul class="space-y-2 text-sm text-green-800">
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>hx-trigger="revealed"</strong> - Auto-trigger saat element visible di viewport</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>hx-swap="afterend"</strong> - Append content setelah element (untuk infinite scroll)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Spring Data Page</strong> - Pagination dengan findAll(Pageable) dan hasNext()</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Lazy Loading</strong> - Load data on-demand, bukan sekaligus</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Progressive Enhancement</strong> - Works tanpa JavaScript (fallback ke pagination)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>Performance</strong> - Mengurangi initial load time dengan chunking data</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">•</span>
+                    <span><strong>UX Pattern</strong> - Seamless scrolling experience seperti social media feeds</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex justify-between">
+            <a href="/lesson/7"
+               class="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors">
+                ← Pelajaran 7
+            </a>
+            <a href="/lesson/9"
+               class="px-6 py-3 bg-gray-300 text-gray-500 font-semibold rounded-lg cursor-not-allowed">
+                Pelajaran 9 (Coming Soon) →
+            </a>
+        </div>
+    </div>
+</body>
+</html>

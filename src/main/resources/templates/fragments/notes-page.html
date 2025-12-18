@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Page Separator for Learning (shows pagination boundaries) -->
+<div th:if="${currentPage > 0}" class="my-8 relative">
+    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+        <div class="w-full border-t-2 border-dashed border-indigo-300"></div>
+    </div>
+    <div class="relative flex justify-center">
+        <span class="px-4 py-2 bg-indigo-100 text-indigo-800 text-sm font-bold rounded-full border-2 border-indigo-300">
+            📄 Page <span th:text="${currentPage + 1}">2</span> loaded via HTMX
+        </span>
+    </div>
+</div>
+
+<!-- Render Notes Cards -->
+<div th:each="note : ${notes}" class="card hover:shadow-lg transition-shadow">
+    <div class="flex items-start justify-between mb-3">
+        <div class="flex-1">
+            <div class="flex items-center gap-2 mb-2">
+                <h3 class="text-lg font-bold text-gray-900" th:text="${note.title}">Note Title</h3>
+                <span th:if="${note.pinned}"
+                      class="inline-flex items-center px-2 py-1 text-xs font-bold text-red-700 bg-red-100 rounded">
+                    📌 Pinned
+                </span>
+            </div>
+            <p class="text-sm text-gray-600 mb-3" th:text="${note.content}">Note content goes here...</p>
+        </div>
+    </div>
+
+    <div class="flex items-center justify-between text-xs text-gray-500">
+        <div class="flex items-center gap-3">
+            <span class="inline-flex items-center px-2 py-1 bg-gray-100 rounded" th:text="${note.category}">
+                Category
+            </span>
+            <span class="flex items-center">
+                🕒 <span th:text="${#temporals.format(note.createdAt, 'dd MMM yyyy HH:mm')}" class="ml-1">
+                    12 Dec 2024 10:30
+                </span>
+            </span>
+        </div>
+        <span class="text-gray-400" th:text="'#' + ${note.id}">#123</span>
+    </div>
+</div>
+
+<!-- Infinite Scroll Trigger (only if there are more pages) -->
+<div th:if="${hasMore}"
+     th:hx-get="'/notes/page?page=' + ${nextPage}"
+     hx-trigger="revealed"
+     hx-swap="afterend"
+     hx-indicator="#loading"
+     class="py-4">
+
+    <!-- Enhanced Loading Indicator -->
+    <div id="loading" class="htmx-indicator">
+        <div class="my-8 p-6 bg-gradient-to-r from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-lg">
+            <div class="flex flex-col items-center justify-center space-y-3">
+                <svg class="animate-spin h-10 w-10 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <div class="text-center">
+                    <p class="text-indigo-900 font-bold text-lg">Loading next page...</p>
+                    <p class="text-indigo-700 text-sm mt-1">⚡ HTMX is fetching data via AJAX</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- End of Results Message (when no more pages) -->
+<div th:if="${!hasMore}" class="card bg-gray-50 border-2 border-dashed border-gray-300 text-center">
+    <p class="text-gray-500">
+        <span class="text-2xl">✓</span><br>
+        <span class="font-semibold">All notes loaded</span><br>
+        <span class="text-sm">You've reached the end of the archive</span>
+    </p>
+</div>
+
+</body>
+</html>
