@@ -183,10 +183,16 @@
                         </div>
                     </a>
 
-                    <!-- More lessons placeholder -->
-                    <div class="px-3 py-2 text-xs text-gray-400">
-                        ... 1 pelajaran lagi
-                    </div>
+                    <!-- Lesson 11 -->
+                    <a href="/lesson/11"
+                       class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors hover:bg-indigo-50 hover:text-indigo-700"
+                       th:classappend="${lessonNumber != null && lessonNumber == 11} ? 'bg-indigo-100 text-indigo-700' : 'text-gray-700'">
+                        <span class="mr-3 text-lg">🎓</span>
+                        <div class="flex-1">
+                            <div class="font-semibold">Pelajaran 11</div>
+                            <div class="text-xs text-gray-500">Best Practices</div>
+                        </div>
+                    </a>
                 </nav>
             </div>
         </aside>
