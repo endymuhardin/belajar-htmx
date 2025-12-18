@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="document-list">
+    <!-- Empty State -->
+    <div th:if="${documents.empty}" class="text-center py-8">
+        <span class="text-6xl">📭</span>
+        <p class="text-gray-500 mt-2">No documents uploaded yet</p>
+        <p class="text-sm text-gray-400">Upload your first file to get started!</p>
+    </div>
+
+    <!-- Document List -->
+    <div th:if="${!documents.empty}" class="space-y-3">
+        <div th:each="doc : ${documents}"
+             class="p-4 bg-gray-50 rounded-lg border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all">
+
+            <div class="flex items-start justify-between">
+                <div class="flex-1 min-w-0 mr-4">
+                    <!-- Filename -->
+                    <h4 class="text-sm font-bold text-gray-900 truncate mb-1" th:text="${doc.originalFilename}">
+                        document.pdf
+                    </h4>
+
+                    <!-- Description -->
+                    <p th:if="${doc.description != null}"
+                       class="text-xs text-gray-600 mb-2"
+                       th:text="${doc.description}">
+                        Description of the document
+                    </p>
+
+                    <!-- Metadata -->
+                    <div class="flex items-center gap-3 text-xs text-gray-500">
+                        <span class="flex items-center">
+                            📊 <span th:text="${doc.formattedFileSize}" class="ml-1">1.2 MB</span>
+                        </span>
+                        <span class="flex items-center">
+                            🕒 <span th:text="${#temporals.format(doc.uploadedAt, 'dd MMM yyyy HH:mm')}" class="ml-1">
+                                12 Dec 2024 10:30
+                            </span>
+                        </span>
+                        <span class="text-gray-400" th:text="'#' + ${doc.id}">#1</span>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-col gap-2">
+                    <a th:href="@{/documents/download/{id}(id=${doc.id})}"
+                       class="px-3 py-1 bg-indigo-600 text-white text-xs font-semibold rounded hover:bg-indigo-700 transition-colors text-center">
+                        ⬇️ Download
+                    </a>
+                    <button th:hx-delete="@{/documents/{id}(id=${doc.id})}"
+                            hx-target="#document-list"
+                            hx-swap="innerHTML"
+                            hx-confirm="Are you sure you want to delete this file?"
+                            class="px-3 py-1 bg-red-600 text-white text-xs font-semibold rounded hover:bg-red-700 transition-colors">
+                        🗑️ Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Count -->
+        <div class="pt-3 border-t border-gray-200 text-center">
+            <p class="text-sm text-gray-600">
+                Total: <strong th:text="${documents.size()}">0</strong> document(s)
+            </p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

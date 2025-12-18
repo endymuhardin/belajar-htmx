@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Success Message -->
+<div th:if="${success}" class="p-4 bg-green-50 border-l-4 border-green-500 rounded-lg">
+    <div class="flex items-start">
+        <span class="text-2xl mr-3">✅</span>
+        <div class="flex-1">
+            <h4 class="font-bold text-green-900 mb-1">Upload Successful!</h4>
+            <p class="text-sm text-green-800">
+                File <strong th:text="${document.originalFilename}">filename.pdf</strong>
+                (<span th:text="${document.formattedFileSize}">1.2 MB</span>)
+                has been uploaded successfully.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Error Message -->
+<div th:if="${error}" class="p-4 bg-red-50 border-l-4 border-red-500 rounded-lg">
+    <div class="flex items-start">
+        <span class="text-2xl mr-3">❌</span>
+        <div class="flex-1">
+            <h4 class="font-bold text-red-900 mb-1">Upload Failed</h4>
+            <p class="text-sm text-red-800" th:text="${error}">
+                Error message here
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Update document list after successful upload -->
+<div th:if="${success}"
+     hx-get="/documents/list"
+     hx-target="#document-list"
+     hx-swap="innerHTML"
+     hx-trigger="load delay:500ms">
+</div>
+
+</body>
+</html>
