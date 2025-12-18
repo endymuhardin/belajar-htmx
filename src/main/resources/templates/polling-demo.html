@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Polling Demo - Real-time Notifications</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Page Header -->
+        <div class="mb-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">🔔 Real-time Notification Center</h1>
+                    <p class="text-gray-600">Automatic polling demo with live updates</p>
+                </div>
+                <a href="/lesson/10"
+                   class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                    ← Back to Lesson
+                </a>
+            </div>
+        </div>
+
+        <!-- Info Banner -->
+        <div class="card bg-blue-50 border-l-4 border-blue-500 mb-6">
+            <div class="flex items-start">
+                <span class="text-2xl mr-3">ℹ️</span>
+                <div>
+                    <h3 class="font-bold text-blue-900 mb-1">How Polling Works</h3>
+                    <p class="text-sm text-blue-800">
+                        This page polls the server every 3-5 seconds for updates. The server generates random
+                        notifications every 15 seconds (30% chance). Watch the Network tab in DevTools to see
+                        the polling requests!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Stats Cards -->
+            <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Unread Count Card -->
+                <div class="card bg-gradient-to-br from-red-500 to-pink-500 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-90 mb-1">Unread Notifications</p>
+                            <div class="text-4xl font-bold"
+                                 hx-get="/notifications/count"
+                                 hx-trigger="load, every 3s"
+                                 hx-swap="innerHTML">
+                                <span th:text="${unreadCount}">0</span>
+                            </div>
+                        </div>
+                        <div class="text-5xl opacity-50">🔔</div>
+                    </div>
+                    <p class="text-xs mt-2 opacity-75">Updates every 3 seconds</p>
+                </div>
+
+                <!-- Polling Status Card -->
+                <div class="card bg-gradient-to-br from-green-500 to-emerald-500 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-90 mb-1">Polling Status</p>
+                            <div class="text-2xl font-bold">Active</div>
+                        </div>
+                        <div class="text-5xl opacity-50">✅</div>
+                    </div>
+                    <p class="text-xs mt-2 opacity-75">HTMX polling in background</p>
+                </div>
+
+                <!-- Info Card -->
+                <div class="card bg-gradient-to-br from-blue-500 to-indigo-500 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-90 mb-1">Server Activity</p>
+                            <div class="text-2xl font-bold">Every 15s</div>
+                        </div>
+                        <div class="text-5xl opacity-50">⚡</div>
+                    </div>
+                    <p class="text-xs mt-2 opacity-75">New notifications generated</p>
+                </div>
+            </div>
+
+            <!-- Notifications List -->
+            <div class="lg:col-span-2">
+                <div class="card bg-white">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-900">Recent Notifications</h3>
+                        <button hx-post="/notifications/clear-all"
+                                hx-target="#notification-list"
+                                hx-swap="innerHTML"
+                                hx-confirm="Clear all notifications?"
+                                class="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 transition-colors">
+                            🗑️ Clear All
+                        </button>
+                    </div>
+
+                    <div id="notification-list"
+                         hx-get="/notifications/list"
+                         hx-trigger="load, every 5s"
+                         hx-swap="innerHTML">
+                        <div th:replace="~{fragments/notification-list :: notification-list}"></div>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-gray-200 text-center text-xs text-gray-500">
+                        ⏱️ Auto-refreshes every 5 seconds
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Panel -->
+            <div class="space-y-4">
+                <!-- Polling Info -->
+                <div class="card bg-purple-50 border-l-4 border-purple-500">
+                    <h4 class="font-bold text-purple-900 mb-2">🔄 Active Polling</h4>
+                    <ul class="space-y-1 text-xs text-purple-800">
+                        <li>✓ Counter: every 3 seconds</li>
+                        <li>✓ List: every 5 seconds</li>
+                        <li>✓ Background: automatic</li>
+                        <li>✓ No manual refresh needed</li>
+                    </ul>
+                </div>
+
+                <!-- Server Info -->
+                <div class="card bg-green-50 border-l-4 border-green-500">
+                    <h4 class="font-bold text-green-900 mb-2">⚡ Server Activity</h4>
+                    <ul class="space-y-1 text-xs text-green-800">
+                        <li>✓ Generate notification: 15s</li>
+                        <li>✓ 30% chance per cycle</li>
+                        <li>✓ Types: info, success, warning, error</li>
+                        <li>✓ Random content</li>
+                    </ul>
+                </div>
+
+                <!-- Tips -->
+                <div class="card bg-yellow-50 border-l-4 border-yellow-500">
+                    <h4 class="font-bold text-yellow-900 mb-2">💡 Testing Tips</h4>
+                    <ul class="space-y-1 text-xs text-yellow-800">
+                        <li>• Open DevTools Network tab</li>
+                        <li>• Watch for polling requests</li>
+                        <li>• Wait 1-2 minutes for notifications</li>
+                        <li>• Try mark read & delete actions</li>
+                        <li>• Notice counter updates</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

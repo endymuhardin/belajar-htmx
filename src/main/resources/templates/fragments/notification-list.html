@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="notification-list">
+    <!-- Empty State -->
+    <div th:if="${notifications.empty}" class="text-center py-12">
+        <span class="text-6xl">🔕</span>
+        <p class="text-gray-500 mt-2">No notifications yet</p>
+        <p class="text-sm text-gray-400">Wait a moment for new notifications...</p>
+    </div>
+
+    <!-- Notification List -->
+    <div th:if="${!notifications.empty}" class="space-y-3">
+        <div th:each="notif : ${notifications}"
+             class="p-4 rounded-lg border transition-all"
+             th:classappend="${notif.read} ? 'bg-gray-50 border-gray-200 opacity-75' : |bg-${notif.typeColor}-50 border-${notif.typeColor}-200|">
+
+            <div class="flex items-start justify-between">
+                <div class="flex-1 min-w-0">
+                    <!-- Icon & Title -->
+                    <div class="flex items-start gap-2 mb-2">
+                        <span class="text-xl flex-shrink-0" th:text="${notif.typeIcon}">ℹ️</span>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-bold text-gray-900 mb-1" th:text="${notif.title}">
+                                Notification Title
+                            </h4>
+                            <p class="text-xs text-gray-600" th:text="${notif.message}">
+                                Notification message content
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Metadata -->
+                    <div class="flex items-center gap-3 text-xs text-gray-500 mt-2">
+                        <span class="flex items-center">
+                            🕒 <span th:text="${#temporals.format(notif.createdAt, 'HH:mm:ss')}" class="ml-1">10:30:45</span>
+                        </span>
+                        <span th:if="${notif.read}"
+                              class="px-2 py-0.5 bg-gray-200 text-gray-600 rounded text-xs font-semibold">
+                            ✓ Read
+                        </span>
+                        <span th:if="${!notif.read}"
+                              th:class="|px-2 py-0.5 bg-${notif.typeColor}-200 text-${notif.typeColor}-800 rounded text-xs font-semibold|">
+                            • Unread
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-col gap-1 ml-2">
+                    <button th:if="${!notif.read}"
+                            th:hx-post="@{/notifications/{id}/mark-read(id=${notif.id})}"
+                            hx-target="#notification-list"
+                            hx-swap="innerHTML"
+                            class="px-2 py-1 bg-gray-200 text-gray-700 text-xs rounded hover:bg-gray-300 transition-colors whitespace-nowrap">
+                        ✓ Read
+                    </button>
+                    <button th:hx-delete="@{/notifications/{id}(id=${notif.id})}"
+                            hx-target="#notification-list"
+                            hx-swap="innerHTML"
+                            hx-confirm="Delete this notification?"
+                            class="px-2 py-1 bg-red-100 text-red-700 text-xs rounded hover:bg-red-200 transition-colors">
+                        🗑️
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
