@@ -1,288 +1,205 @@
 <!DOCTYPE html>
-<html lang="id" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+<html lang="id" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
 <head>
     <title>Pelajaran 10: Polling & Real-time Updates</title>
 </head>
+
 <body>
     <div layout:fragment="content">
         <!-- Lesson Header -->
-        <div class="mb-6">
-            <div class="flex items-center space-x-3 mb-2">
-                <span class="text-4xl">🔟</span>
-                <h2 class="text-3xl font-bold text-gray-900">Pelajaran 10: Polling & Real-time Updates</h2>
+        <div class="mb-8">
+            <div class="flex items-center gap-3 mb-3">
+                <span
+                    class="flex items-center justify-center w-12 h-12 rounded-xl bg-pink-100 text-pink-600 text-2xl shadow-sm">
+                    🔟
+                </span>
+                <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">Polling & Real-time</h2>
             </div>
-            <p class="text-gray-600 text-lg">
-                Real-time updates dengan <code class="bg-gray-200 px-2 py-1 rounded text-sm">hx-trigger="every Xs"</code>
-                dan automatic polling
+            <p class="text-xl text-gray-600 max-w-3xl leading-relaxed">
+                Memastikan tampilan selalu up-to-date dengan server secara otomatis menggunakan teknik polling.
             </p>
         </div>
 
-        <!-- Lesson Overview -->
-        <div class="card bg-indigo-50 border-l-4 border-indigo-500 mb-6">
-            <h3 class="text-xl font-bold text-indigo-900 mb-3">📚 Konsep Pelajaran 10</h3>
+        <!-- Strategy Section -->
+        <div class="card bg-pink-50 border-pink-100 mb-8">
+            <h3 class="text-lg font-bold text-pink-900 mb-4 flex items-center gap-2">
+                <span>⏱️</span> Mekanisme Polling
+            </h3>
 
-            <div class="space-y-3 text-sm text-indigo-800">
-                <p>
-                    <strong>Konsep Baru:</strong> Polling adalah teknik untuk mendapatkan data terbaru dari server
-                    secara periodik. HTMX mempermudah polling dengan <code>hx-trigger="every Xs"</code>.
-                </p>
-
-                <div class="bg-white rounded p-4 border border-indigo-200 space-y-3">
-                    <div>
-                        <p class="font-semibold mb-2">🔄 Polling Pattern:</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li><code class="bg-indigo-100 px-1 rounded">hx-trigger="every 3s"</code> - Poll setiap 3 detik</li>
-                            <li><code class="bg-indigo-100 px-1 rounded">hx-trigger="load, every 5s"</code> - Load immediately + poll every 5s</li>
-                            <li><code class="bg-indigo-100 px-1 rounded">hx-get="/notifications/count"</code> - Endpoint untuk polling</li>
-                            <li>Server return updated content setiap request</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <p class="font-semibold mb-2">⚡ Use Cases untuk Polling:</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li>✅ Notification counter & unread badges</li>
-                            <li>✅ Server status & health monitoring</li>
-                            <li>✅ Live dashboard & metrics</li>
-                            <li>✅ Chat messages & activity feeds</li>
-                            <li>✅ Progress tracking untuk long-running tasks</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <p class="font-semibold mb-2">⚖️ Polling vs WebSockets:</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li><strong>Polling:</strong> Simple, reliable, works everywhere</li>
-                            <li><strong>Polling:</strong> Fixed interval, controllable load</li>
-                            <li><strong>WebSockets:</strong> True real-time, instant updates</li>
-                            <li><strong>WebSockets:</strong> More complex, requires persistent connection</li>
-                        </ul>
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Concept -->
+                <div class="bg-white p-5 rounded-xl border border-pink-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-pink-50 rounded-full blur-xl"></div>
+                    <h4 class="font-bold text-gray-900 mb-2">Apa itu Polling?</h4>
+                    <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+                        Teknik di mana browser secara berkala "bertanya" ke server: <em>"Ada data baru gak?"</em>.
+                        Jika ada, server merespon dengan HTML baru yang langsung di-swap oleh HTMX.
+                    </p>
+                    <div class="flex gap-2">
+                        <span class="px-2 py-1 bg-pink-100 text-pink-700 text-xs font-bold rounded">Simpel</span>
+                        <span class="px-2 py-1 bg-pink-100 text-pink-700 text-xs font-bold rounded">Reliable</span>
+                        <span class="px-2 py-1 bg-pink-100 text-pink-700 text-xs font-bold rounded">No WebSocket
+                            Required</span>
                     </div>
                 </div>
 
-                <div class="bg-white rounded p-3 border border-indigo-200">
-                    <p class="font-semibold mb-2">📂 Lihat di source code:</p>
-                    <ul class="space-y-1 ml-4 text-xs font-mono">
-                        <li>👉 <strong>Model:</strong> model/Notification.java</li>
-                        <li>👉 <strong>Repository:</strong> repository/NotificationRepository.java</li>
-                        <li>👉 <strong>Service:</strong> service/NotificationService.java</li>
-                        <li>👉 <strong>Controller:</strong> controller/NotificationController.java</li>
-                        <li>👉 <strong>Page:</strong> templates/polling-demo.html</li>
-                        <li>👉 <strong>Fragments:</strong> templates/fragments/notification-*.html</li>
-                        <li>👉 <strong>Migration:</strong> db/migration/V5__create_notifications_table.sql</li>
-                    </ul>
+                <!-- Visual Timeline -->
+                <div class="bg-white p-5 rounded-xl border border-pink-200 shadow-sm flex items-center justify-center">
+                    <div class="relative w-full max-w-xs">
+                        <!-- Line -->
+                        <div class="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-100"></div>
+
+                        <!-- Points -->
+                        <div class="relative flex justify-between z-10 text-xs text-center font-mono text-gray-500">
+                            <div>
+                                <div class="w-3 h-3 bg-pink-500 rounded-full mx-auto mb-1 animate-pulse"></div>
+                                0s<br>(Load)
+                            </div>
+                            <div>
+                                <div class="w-2 h-2 bg-pink-300 rounded-full mx-auto mb-1 mt-0.5"></div>
+                                3s
+                            </div>
+                            <div>
+                                <div class="w-2 h-2 bg-pink-300 rounded-full mx-auto mb-1 mt-0.5"></div>
+                                6s
+                            </div>
+                            <div>
+                                <div class="w-2 h-2 bg-pink-300 rounded-full mx-auto mb-1 mt-0.5"></div>
+                                9s
+                            </div>
+                        </div>
+
+                        <div class="mt-8 text-center">
+                            <code
+                                class="bg-pink-50 text-pink-600 px-2 py-1 rounded border border-pink-100">hx-trigger="every 3s"</code>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- How it Works -->
-        <div class="card bg-purple-50 border-l-4 border-purple-500 mb-6">
-            <h3 class="text-lg font-semibold text-purple-900 mb-3">
-                ⚙️ Cara Kerja Polling
-            </h3>
+        <!-- Demo Section -->
+        <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <span>🎮</span> Live Demo
+        </h3>
 
-            <div class="space-y-3 text-sm text-purple-800">
-                <div class="bg-white rounded p-4 border border-purple-200">
-                    <p class="font-semibold mb-2">📊 Flow Diagram:</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>1. Page load
-   → Element with hx-trigger="every 3s" initialized
-   → HTMX start polling timer
-
-2. Every 3 seconds:
-   → HTMX send GET request to endpoint
-   → Server return current data
-   → HTMX swap content ke target element
-
-3. Background: NotificationService (@Scheduled)
-   → Every 15 seconds, generate random notification
-   → Save to database
-   → Next poll akan fetch notification baru
-
-4. User dapat:
-   → Mark notification as read
-   → Delete notification
-   → Clear all notifications
-   → Polling tetap berjalan di background</code></pre>
-                </div>
-
-                <div class="bg-white rounded p-4 border border-purple-200">
-                    <p class="font-semibold mb-2">🔍 Key HTMX Attributes:</p>
-                    <table class="w-full text-xs mt-2 border-collapse">
-                        <tr class="border-b border-purple-200 bg-purple-50">
-                            <th class="text-left py-2 px-2">Attribute</th>
-                            <th class="text-left py-2 px-2">Value</th>
-                            <th class="text-left py-2 px-2">Fungsi</th>
-                        </tr>
-                        <tr class="border-b border-purple-100">
-                            <td class="py-2 px-2 font-mono">hx-trigger</td>
-                            <td class="py-2 px-2 font-mono">"every 3s"</td>
-                            <td class="py-2 px-2">Poll every 3 seconds</td>
-                        </tr>
-                        <tr class="border-b border-purple-100">
-                            <td class="py-2 px-2 font-mono">hx-trigger</td>
-                            <td class="py-2 px-2 font-mono">"load, every 5s"</td>
-                            <td class="py-2 px-2">Load immediately + poll</td>
-                        </tr>
-                        <tr class="border-b border-purple-100">
-                            <td class="py-2 px-2 font-mono">hx-get</td>
-                            <td class="py-2 px-2 font-mono">"/notifications/count"</td>
-                            <td class="py-2 px-2">Polling endpoint</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-2 font-mono">hx-swap</td>
-                            <td class="py-2 px-2 font-mono">"innerHTML"</td>
-                            <td class="py-2 px-2">Replace inner content</td>
-                        </tr>
-                    </table>
-                </div>
+        <div
+            class="card border-2 border-dashed border-pink-300 bg-gradient-to-br from-pink-50 to-rose-50 p-8 text-center mb-8">
+            <div
+                class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-4xl animate-bounce">
+                🔔
             </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">Real-time Notifications</h3>
+            <p class="text-gray-600 mb-6 max-w-lg mx-auto">
+                Sistem simulasi notifikasi yang akan muncul secara otomatis setiap beberapa detik tanpa Anda perlu
+                refresh halaman.
+            </p>
+
+            <a href="/polling" target="_blank"
+                class="inline-flex items-center gap-2 px-8 py-4 bg-pink-600 text-white font-bold text-lg rounded-xl hover:bg-pink-700 transition-all shadow-lg hover:shadow-pink-500/30 hover:-translate-y-1">
+                Buka Demo Polling
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+            </a>
+            <p class="text-xs text-pink-600 mt-4 opacity-75">*Server akan generate notifikasi random di background</p>
         </div>
 
         <!-- Code Explanation -->
-        <div class="card bg-gray-50 border-l-4 border-gray-400 mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-3">
-                📝 Penjelasan Kode
-            </h3>
+        <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <span>📝</span> Bedah Kode
+        </h3>
 
-            <div class="space-y-4">
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">1. NotificationService (@Scheduled):</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@Service
-public class NotificationService {
-    @Scheduled(fixedRate = 15000) // Every 15 seconds
-    public void generateRandomNotification() {
-        // 30% chance to generate notification
-        if (random.nextInt(100) < 30) {
-            Notification notif = new Notification();
-            notif.setTitle("System Update");
-            notif.setMessage("New update available");
-            notif.setType("info");
-            repository.save(notif);
-        }
-    }
-}</code></pre>
+        <div class="grid lg:grid-cols-2 gap-8 mb-8">
+            <div class="card bg-gray-900 text-gray-300 border-gray-800">
+                <div class="flex items-center justify-between mb-4 border-b border-gray-800 pb-2">
+                    <h3 class="font-semibold text-white flex items-center gap-2">
+                        <span>The Polling Trigger</span>
+                    </h3>
+                    <span class="text-xs font-mono bg-gray-800 px-2 py-1 rounded text-gray-400">polling-demo.html</span>
                 </div>
-
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">2. Polling Endpoint:</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@GetMapping("/notifications/count")
-public String getNotificationCount(Model model) {
-    long unreadCount = service.getUnreadCount();
-    model.addAttribute("count", unreadCount);
-    return "fragments/notification-count";
-}</code></pre>
-                </div>
-
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">3. HTML dengan Polling (every 3s):</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;!-- Poll notification count every 3 seconds --&gt;
-&lt;div hx-get="/notifications/count"
-     hx-trigger="load, every 3s"
-     hx-swap="innerHTML"&gt;
-    &lt;span&gt;0&lt;/span&gt;
+                <div class="font-mono text-sm leading-relaxed overflow-x-auto">
+                    <pre><code class="language-html">&lt;!-- Poll Count --&gt;
+&lt;div <span class="text-blue-400">hx-get</span>="/notif/count"
+     <span class="text-fuchsia-400">hx-trigger</span>="load, every 3s"&gt;
+     0
 &lt;/div&gt;
 
-&lt;!-- Poll notification list every 5 seconds --&gt;
-&lt;div hx-get="/notifications/list"
-     hx-trigger="load, every 5s"
-     hx-swap="innerHTML"&gt;
-    &lt;!-- Initial content or loading message --&gt;
-&lt;/div&gt;</code></pre>
-                </div>
-
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">4. Notification Fragment:</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;!-- notification-count.html --&gt;
-&lt;span th:text="${count}"&gt;0&lt;/span&gt;
-
-&lt;!-- notification-list.html --&gt;
-&lt;div th:each="notif : ${notifications}"&gt;
-    &lt;div th:class="|alert-${notif.typeColor}|"&gt;
-        &lt;span th:text="${notif.typeIcon}"&gt;&lt;/span&gt;
-        &lt;span th:text="${notif.title}"&gt;&lt;/span&gt;
-    &lt;/div&gt;
+&lt;!-- Poll List --&gt;
+&lt;div <span class="text-blue-400">hx-get</span>="/notif/list"
+     <span class="text-fuchsia-400">hx-trigger</span>="load, every 5s"&gt;
+     &lt;!-- List items --&gt;
 &lt;/div&gt;</code></pre>
                 </div>
             </div>
-        </div>
 
-        <!-- Demo Link -->
-        <div class="card bg-white border-2 border-indigo-200 mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">
-                🎮 Demo Interaktif: Real-time Notifications
-            </h3>
-
-            <div class="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-300">
-                <p class="text-sm text-yellow-900">
-                    <strong>💡 Cara Test:</strong>
-                </p>
-                <ul class="mt-2 ml-5 text-sm text-yellow-800 space-y-1 list-disc text-left">
-                    <li>Klik tombol di bawah untuk buka Polling Demo</li>
-                    <li>Perhatikan notification counter yang update otomatis setiap 3 detik</li>
-                    <li>Notification list update setiap 5 detik</li>
-                    <li>Server generate random notification every 15 detik (30% chance)</li>
-                    <li>Test mark as read, delete, dan clear all</li>
-                    <li>Open browser DevTools Network tab untuk lihat polling requests</li>
-                    <li>Biarkan page terbuka beberapa menit untuk lihat notifications datang</li>
-                </ul>
-            </div>
-
-            <div class="text-center">
-                <a href="/polling"
-                   class="inline-block px-8 py-4 bg-indigo-600 text-white font-bold text-lg rounded-lg hover:bg-indigo-700 transition-colors shadow-lg">
-                    🔔 Buka Polling Demo →
-                </a>
+            <div class="card bg-gray-900 text-gray-300 border-gray-800">
+                <div class="flex items-center justify-between mb-4 border-b border-gray-800 pb-2">
+                    <h3 class="font-semibold text-white flex items-center gap-2">
+                        <span>Background Service</span>
+                    </h3>
+                    <span class="text-xs font-mono bg-gray-800 px-2 py-1 rounded text-gray-400">NotifService.java</span>
+                </div>
+                <div class="font-mono text-sm leading-relaxed overflow-x-auto">
+                    <pre><code class="language-java">@Scheduled(fixedRate = 15000)
+public void backgroundTask() {
+    // Generate notification
+    // Save to DB
+    // Client poll will pick this up!
+}</code></pre>
+                </div>
             </div>
         </div>
 
         <!-- Key Takeaways -->
-        <div class="card bg-green-50 border-l-4 border-green-500 mb-6">
-            <h3 class="text-lg font-semibold text-green-900 mb-3">✅ Poin Penting Pelajaran 10</h3>
-            <ul class="space-y-2 text-sm text-green-800">
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>hx-trigger="every Xs"</strong> - Automatic polling dengan interval tetap</span>
+        <div class="card bg-gradient-to-br from-green-50 to-emerald-50 border-l-4 border-green-500 mb-8">
+            <h3 class="text-lg font-bold text-green-900 mb-3 flex items-center gap-2">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Poin Penting
+            </h3>
+            <ul class="grid sm:grid-cols-2 gap-3 text-sm text-green-800">
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>Every X Seconds:</strong> Syntax <code>every 3s</code> sangat mudah dibaca dan
+                        diimplementasikan.</span>
                 </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>load, every Xs</strong> - Load immediately + start polling</span>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>Load Trigger:</strong> Gunakan <code>load, every 3s</code> agar data fetched langsung
+                        saat halaman dibuka.</span>
                 </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>@Scheduled</strong> - Spring Boot scheduled tasks untuk background jobs</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Polling Best Practices</strong> - Reasonable interval (3-10s), not too aggressive</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Server Load</strong> - Consider impact dengan banyak users polling</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Use Cases</strong> - Notifications, dashboards, monitoring, activity feeds</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Alternative</strong> - WebSockets untuk true real-time (Lesson 11)</span>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>vs WebSocket:</strong> Polling lebih mudah di-setup (stateless) dibanding WebSocket
+                        (stateful), cocok untuk update yang "tidak harus instant".</span>
                 </li>
             </ul>
         </div>
 
         <!-- Navigation -->
-        <div class="flex justify-between">
-            <a href="/lesson/9"
-               class="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors">
-                ← Pelajaran 9
+        <div class="flex justify-between items-center border-t border-gray-200 pt-6">
+            <a href="/lesson/9" class="btn btn-ghost flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Pelajaran 9
             </a>
-            <a href="/lesson/11"
-               class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">
-                Pelajaran 11 →
+            <a href="/lesson/11" class="btn btn-primary flex items-center gap-2 shadow-lg shadow-primary-500/20">
+                Lanjut ke Pelajaran 11
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3">
+                    </path>
+                </svg>
             </a>
         </div>
     </div>
 </body>
+
 </html>

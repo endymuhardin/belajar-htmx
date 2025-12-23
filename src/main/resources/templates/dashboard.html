@@ -1,366 +1,496 @@
 <!DOCTYPE html>
-<html lang="id" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+<html lang="id" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
 <head>
     <title>Dashboard</title>
 </head>
+
 <body>
     <div layout:fragment="content">
         <!-- Welcome Section -->
-        <div class="mb-8">
-            <h2 class="text-4xl font-bold text-gray-900 mb-3">Selamat Datang di TaskFlow Hub</h2>
-            <p class="text-xl text-gray-600 mb-2">
-                Belajar HTMX, Alpine.js, dan Spring Boot dengan pendekatan praktis
-            </p>
-            <p class="text-gray-500">
-                Kurikulum 11 pelajaran yang dirancang untuk membawa kamu dari pemula hingga mahir
+        <div class="mb-10 text-center lg:text-left">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
+                Selamat Datang di <span
+                    class="bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-secondary-500">TaskFlow
+                    Hub</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-2xl leading-relaxed">
+                Belajar <strong class="text-primary-600">HTMX</strong>, <strong
+                    class="text-primary-600">Alpine.js</strong>, dan <strong class="text-primary-600">Spring
+                    Boot</strong> dengan pendekatan praktis melalui studi kasus nyata.
             </p>
         </div>
 
-        <!-- Progress Overview -->
-        <div class="card bg-gradient-to-r from-indigo-500 to-purple-600 text-white mb-8">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h3 class="text-2xl font-bold mb-2">Progress Belajar</h3>
-                    <p class="text-indigo-100">11 dari 11 pelajaran selesai 🎉</p>
+        <!-- Progress Stats -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+            <!-- Main Progress Card -->
+            <div
+                class="lg:col-span-2 relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-600 to-indigo-700 p-8 text-white shadow-xl shadow-primary-500/20">
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 h-64 w-64 rounded-full bg-white/10 blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 -mb-10 -ml-10 h-64 w-64 rounded-full bg-secondary-500/20 blur-3xl">
                 </div>
-                <div class="text-right">
-                    <div class="text-5xl font-bold">100%</div>
-                    <div class="text-indigo-100">Completed!</div>
+
+                <div class="relative z-10 flex flex-col md:flex-row justify-between items-center h-full">
+                    <div class="text-center md:text-left mb-6 md:mb-0">
+                        <h3 class="text-2xl font-bold mb-2">Perjalanan Belajarmu</h3>
+                        <p class="text-indigo-100 opacity-90 text-lg">Kamu telah menyelesaikan semua materi! 🎉</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="text-right">
+                            <span class="text-xs font-bold uppercase tracking-wider text-indigo-200">Total
+                                Completion</span>
+                            <div class="text-5xl font-bold tracking-tighter">100%</div>
+                        </div>
+                        <div
+                            class="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative z-10 mt-8">
+                    <div class="flex justify-between text-xs font-medium text-indigo-200 mb-2">
+                        <span>Lesson 1</span>
+                        <span>Lesson 11</span>
+                    </div>
+                    <div class="h-2 w-full bg-black/20 rounded-full overflow-hidden backdrop-blur-sm">
+                        <div class="h-full bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+                            style="width: 100%"></div>
+                    </div>
                 </div>
             </div>
-            <div class="mt-4 bg-white bg-opacity-20 rounded-full h-3">
-                <div class="bg-white rounded-full h-3" style="width: 100%"></div>
+
+            <!-- Quick Start / Next Action -->
+            <div
+                class="card border-0 shadow-lg shadow-gray-200/50 flex flex-col justify-center items-center text-center p-8 hover:transform hover:scale-[1.02] transition-all duration-300">
+                <div
+                    class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-4 text-3xl shadow-sm">
+                    🚀
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Siap untuk Review?</h3>
+                <p class="text-sm text-gray-500 mb-6 px-4">
+                    Ulangi materi yang dirasa sulit atau eksplorasi kode sumber untuk pemahaman lebih dalam.
+                </p>
+                <div class="flex flex-col w-full gap-3">
+                    <a href="/lesson/1" class="btn btn-primary w-full justify-center">Mulai dari Awal</a>
+                    <a href="/lesson/11" class="btn btn-secondary w-full justify-center">Lihat Best Practices</a>
+                </div>
             </div>
         </div>
 
-        <!-- Lesson Grid -->
-        <div class="mb-8">
-            <h3 class="text-2xl font-bold text-gray-900 mb-4">Daftar Pelajaran</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Lessons Grid -->
+        <div class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">Daftar Pelajaran</h3>
+                <span class="text-sm font-medium text-gray-500 bg-gray-100 px-3 py-1 rounded-full">11 Modul</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Lessons 1-11 -->
+
                 <!-- Lesson 1 -->
-                <a href="/lesson/1" class="card bg-white border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all duration-200">
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl">
+                <a href="/lesson/1"
+                    class="group card border border-gray-100 hover:border-primary-100 hover:shadow-xl hover:shadow-primary-900/5 transition-all duration-300 p-0 overflow-hidden flex flex-col h-full">
+                    <div class="p-6 flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
                                 1️⃣
                             </div>
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Selesai
+                            </span>
                         </div>
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <h4 class="text-lg font-bold text-gray-900">HTMX Basics</h4>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">✓ Selesai</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-2">
-                                Memahami hx-get, hx-target, dan konsep dasar Hypermedia
-                            </p>
-                            <div class="flex items-center text-xs text-gray-500">
-                                <span>⏱️ 15 menit</span>
-                                <span class="mx-2">•</span>
-                                <span>📝 1 demo interaktif</span>
-                            </div>
-                        </div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                            HTMX Basics</h4>
+                        <p class="text-sm text-gray-500 line-clamp-2">
+                            Memahami konsep dasar hypermedia, hx-get, hx-target, dan integrasi awal Spring Boot.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-gray-50 px-6 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 group-hover:bg-primary-50/30 transition-colors">
+                        <span class="flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg> 15 min</span>
+                        <span
+                            class="font-medium text-primary-600 group-hover:translate-x-1 transition-transform">Pelajari
+                            &rarr;</span>
                     </div>
                 </a>
 
                 <!-- Lesson 2 -->
-                <a href="/lesson/2" class="card bg-white border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all duration-200">
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl">
+                <a href="/lesson/2"
+                    class="group card border border-gray-100 hover:border-primary-100 hover:shadow-xl hover:shadow-primary-900/5 transition-all duration-300 p-0 overflow-hidden flex flex-col h-full">
+                    <div class="p-6 flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
                                 2️⃣
                             </div>
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Selesai
+                            </span>
                         </div>
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <h4 class="text-lg font-bold text-gray-900">Triggers & Swap</h4>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">✓ Selesai</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-2">
-                                Menguasai hx-trigger dan berbagai strategi hx-swap
-                            </p>
-                            <div class="flex items-center text-xs text-gray-500">
-                                <span>⏱️ 20 menit</span>
-                                <span class="mx-2">•</span>
-                                <span>📝 3 widget interaktif</span>
-                            </div>
-                        </div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                            Triggers & Swap</h4>
+                        <p class="text-sm text-gray-500 line-clamp-2">
+                            Menguasai mekanisme triggering event dan berbagai strategi swapping konten.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-gray-50 px-6 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 group-hover:bg-primary-50/30 transition-colors">
+                        <span class="flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg> 20 min</span>
+                        <span
+                            class="font-medium text-primary-600 group-hover:translate-x-1 transition-transform">Pelajari
+                            &rarr;</span>
                     </div>
                 </a>
 
                 <!-- Lesson 3 -->
-                <a href="/lesson/3" class="card bg-white border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all duration-200">
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl">
+                <a href="/lesson/3"
+                    class="group card border border-gray-100 hover:border-primary-100 hover:shadow-xl hover:shadow-primary-900/5 transition-all duration-300 p-0 overflow-hidden flex flex-col h-full">
+                    <div class="p-6 flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
                                 3️⃣
                             </div>
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Selesai
+                            </span>
                         </div>
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <h4 class="text-lg font-bold text-gray-900">Forms & Validation</h4>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">✓ Selesai</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-2">
-                                Membuat form dengan hx-post dan Jakarta Bean Validation
-                            </p>
-                            <div class="flex items-center text-xs text-gray-500">
-                                <span>⏱️ 25 menit</span>
-                                <span class="mx-2">•</span>
-                                <span>📝 Contact form + validation</span>
-                            </div>
-                        </div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                            Forms & Validation</h4>
+                        <p class="text-sm text-gray-500 line-clamp-2">
+                            Handling form submissions, validasi sisi server, dan feedback user yang elegan.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-gray-50 px-6 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 group-hover:bg-primary-50/30 transition-colors">
+                        <span class="flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg> 25 min</span>
+                        <span
+                            class="font-medium text-primary-600 group-hover:translate-x-1 transition-transform">Pelajari
+                            &rarr;</span>
                     </div>
                 </a>
 
                 <!-- Lesson 4 -->
-                <a href="/lesson/4" class="card bg-white border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all duration-200">
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl">
+                <a href="/lesson/4"
+                    class="group card border border-gray-100 hover:border-primary-100 hover:shadow-xl hover:shadow-primary-900/5 transition-all duration-300 p-0 overflow-hidden flex flex-col h-full">
+                    <div class="p-6 flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
                                 4️⃣
                             </div>
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Selesai
+                            </span>
                         </div>
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <h4 class="text-lg font-bold text-gray-900">Todo List CRUD</h4>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">✓ Selesai</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-2">
-                                Full CRUD operations dengan hx-post, hx-put, hx-delete
-                            </p>
-                            <div class="flex items-center text-xs text-gray-500">
-                                <span>⏱️ 30 menit</span>
-                                <span class="mx-2">•</span>
-                                <span>📝 Create, Read, Update, Delete</span>
-                            </div>
-                        </div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                            Todo List CRUD</h4>
+                        <p class="text-sm text-gray-500 line-clamp-2">
+                            Full Create, Read, Update, Delete operations tanpa page reload.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-gray-50 px-6 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 group-hover:bg-primary-50/30 transition-colors">
+                        <span class="flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg> 30 min</span>
+                        <span
+                            class="font-medium text-primary-600 group-hover:translate-x-1 transition-transform">Pelajari
+                            &rarr;</span>
                     </div>
                 </a>
 
                 <!-- Lesson 5 -->
-                <a href="/lesson/5" class="card bg-white border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all duration-200">
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl">
+                <a href="/lesson/5"
+                    class="group card border border-gray-100 hover:border-primary-100 hover:shadow-xl hover:shadow-primary-900/5 transition-all duration-300 p-0 overflow-hidden flex flex-col h-full">
+                    <div class="p-6 flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
                                 5️⃣
                             </div>
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Selesai
+                            </span>
                         </div>
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <h4 class="text-lg font-bold text-gray-900">Global Search</h4>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">✓ Selesai</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-2">
-                                Live search dengan debouncing dan text highlighting
-                            </p>
-                            <div class="flex items-center text-xs text-gray-500">
-                                <span>⏱️ 20 menit</span>
-                                <span class="mx-2">•</span>
-                                <span>📝 Search bar + results dropdown</span>
-                            </div>
-                        </div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                            Global Search</h4>
+                        <p class="text-sm text-gray-500 line-clamp-2">
+                            Membangun fitur pencarian global dengan debouncing dan active search pattern.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-gray-50 px-6 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 group-hover:bg-primary-50/30 transition-colors">
+                        <span class="flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg> 20 min</span>
+                        <span
+                            class="font-medium text-primary-600 group-hover:translate-x-1 transition-transform">Pelajari
+                            &rarr;</span>
                     </div>
                 </a>
 
                 <!-- Lesson 6 -->
-                <a href="/lesson/6" class="card bg-white border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all duration-200">
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl">
+                <a href="/lesson/6"
+                    class="group card border border-gray-100 hover:border-primary-100 hover:shadow-xl hover:shadow-primary-900/5 transition-all duration-300 p-0 overflow-hidden flex flex-col h-full">
+                    <div class="p-6 flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
                                 6️⃣
                             </div>
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Selesai
+                            </span>
                         </div>
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <h4 class="text-lg font-bold text-gray-900">Alpine.js Basics</h4>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">✓ Selesai</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-2">
-                                Client-side reactivity dengan x-data, x-model, x-show, x-bind
-                            </p>
-                            <div class="flex items-center text-xs text-gray-500">
-                                <span>⏱️ 25 menit</span>
-                                <span class="mx-2">•</span>
-                                <span>📝 4 interactive demos</span>
-                            </div>
-                        </div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                            Alpine.js Basics</h4>
+                        <p class="text-sm text-gray-500 line-clamp-2">
+                            Pengantar Alpine.js untuk mengatur state di sisi klien tanpa kompleksitas framework besar.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-gray-50 px-6 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 group-hover:bg-primary-50/30 transition-colors">
+                        <span class="flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg> 25 min</span>
+                        <span
+                            class="font-medium text-primary-600 group-hover:translate-x-1 transition-transform">Pelajari
+                            &rarr;</span>
                     </div>
                 </a>
 
                 <!-- Lesson 7 -->
-                <a href="/lesson/7" class="card bg-white border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all duration-200">
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl">
+                <a href="/lesson/7"
+                    class="group card border border-gray-100 hover:border-primary-100 hover:shadow-xl hover:shadow-primary-900/5 transition-all duration-300 p-0 overflow-hidden flex flex-col h-full">
+                    <div class="p-6 flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
                                 7️⃣
                             </div>
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Selesai
+                            </span>
                         </div>
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <h4 class="text-lg font-bold text-gray-900">HTMX + Alpine.js</h4>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">✓ Selesai</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-2">
-                                Kombinasi HTMX dan Alpine.js untuk project management
-                            </p>
-                            <div class="flex items-center text-xs text-gray-500">
-                                <span>⏱️ 30 menit</span>
-                                <span class="mx-2">•</span>
-                                <span>📝 Full CRUD project manager</span>
-                            </div>
-                        </div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                            HTMX + Alpine.js</h4>
+                        <p class="text-sm text-gray-500 line-clamp-2">
+                            Menggabungkan kekuatan Server Driven UI dengan Client Interactivity.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-gray-50 px-6 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 group-hover:bg-primary-50/30 transition-colors">
+                        <span class="flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg> 30 min</span>
+                        <span
+                            class="font-medium text-primary-600 group-hover:translate-x-1 transition-transform">Pelajari
+                            &rarr;</span>
                     </div>
                 </a>
 
                 <!-- Lesson 8 -->
-                <a href="/lesson/8" class="card bg-white border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all duration-200">
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl">
+                <a href="/lesson/8"
+                    class="group card border border-gray-100 hover:border-primary-100 hover:shadow-xl hover:shadow-primary-900/5 transition-all duration-300 p-0 overflow-hidden flex flex-col h-full">
+                    <div class="p-6 flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
                                 8️⃣
                             </div>
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Selesai
+                            </span>
                         </div>
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <h4 class="text-lg font-bold text-gray-900">Infinite Scroll</h4>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">✓ Selesai</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-2">
-                                Lazy loading dengan hx-trigger="revealed" dan pagination
-                            </p>
-                            <div class="flex items-center text-xs text-gray-500">
-                                <span>⏱️ 25 menit</span>
-                                <span class="mx-2">•</span>
-                                <span>📝 Notes archive dengan infinite scroll</span>
-                            </div>
-                        </div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                            Infinite Scroll</h4>
+                        <p class="text-sm text-gray-500 line-clamp-2">
+                            Implementasi pagination modern dengan infinite scroll pattern menggunakan revealed trigger.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-gray-50 px-6 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 group-hover:bg-primary-50/30 transition-colors">
+                        <span class="flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg> 25 min</span>
+                        <span
+                            class="font-medium text-primary-600 group-hover:translate-x-1 transition-transform">Pelajari
+                            &rarr;</span>
                     </div>
                 </a>
 
                 <!-- Lesson 9 -->
-                <a href="/lesson/9" class="card bg-white border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all duration-200">
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl">
+                <a href="/lesson/9"
+                    class="group card border border-gray-100 hover:border-primary-100 hover:shadow-xl hover:shadow-primary-900/5 transition-all duration-300 p-0 overflow-hidden flex flex-col h-full">
+                    <div class="p-6 flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
                                 9️⃣
                             </div>
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Selesai
+                            </span>
                         </div>
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <h4 class="text-lg font-bold text-gray-900">File Upload</h4>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">✓ Selesai</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-2">
-                                Upload file dengan hx-encoding="multipart/form-data"
-                            </p>
-                            <div class="flex items-center text-xs text-gray-500">
-                                <span>⏱️ 25 menit</span>
-                                <span class="mx-2">•</span>
-                                <span>📝 Document manager dengan upload/download</span>
-                            </div>
-                        </div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                            File Upload</h4>
+                        <p class="text-sm text-gray-500 line-clamp-2">
+                            Handling file upload dengan progress bar dan validasi tipe file.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-gray-50 px-6 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 group-hover:bg-primary-50/30 transition-colors">
+                        <span class="flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg> 25 min</span>
+                        <span
+                            class="font-medium text-primary-600 group-hover:translate-x-1 transition-transform">Pelajari
+                            &rarr;</span>
                     </div>
                 </a>
 
                 <!-- Lesson 10 -->
-                <a href="/lesson/10" class="card bg-white border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all duration-200">
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl">
+                <a href="/lesson/10"
+                    class="group card border border-gray-100 hover:border-primary-100 hover:shadow-xl hover:shadow-primary-900/5 transition-all duration-300 p-0 overflow-hidden flex flex-col h-full">
+                    <div class="p-6 flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
                                 🔟
                             </div>
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Selesai
+                            </span>
                         </div>
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <h4 class="text-lg font-bold text-gray-900">Polling & Real-time</h4>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">✓ Selesai</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-2">
-                                Real-time updates dengan hx-trigger="every Xs" polling
-                            </p>
-                            <div class="flex items-center text-xs text-gray-500">
-                                <span>⏱️ 20 menit</span>
-                                <span class="mx-2">•</span>
-                                <span>📝 Notification center dengan auto-polling</span>
-                            </div>
-                        </div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                            Polling & Real-time</h4>
+                        <p class="text-sm text-gray-500 line-clamp-2">
+                            Membuat aplikasi terasa real-time dengan teknik short-polling yang efisien.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-gray-50 px-6 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 group-hover:bg-primary-50/30 transition-colors">
+                        <span class="flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg> 20 min</span>
+                        <span
+                            class="font-medium text-primary-600 group-hover:translate-x-1 transition-transform">Pelajari
+                            &rarr;</span>
                     </div>
                 </a>
 
                 <!-- Lesson 11 -->
-                <a href="/lesson/11" class="card bg-white border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all duration-200">
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl">
+                <a href="/lesson/11"
+                    class="group card border border-gray-100 hover:border-primary-100 hover:shadow-xl hover:shadow-primary-900/5 transition-all duration-300 p-0 overflow-hidden flex flex-col h-full">
+                    <div class="p-6 flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-gray-50 text-gray-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
                                 🎓
                             </div>
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Selesai
+                            </span>
                         </div>
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <h4 class="text-lg font-bold text-gray-900">Best Practices</h4>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">✓ Selesai</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-2">
-                                Security, performance, accessibility, production tips
-                            </p>
-                            <div class="flex items-center text-xs text-gray-500">
-                                <span>⏱️ 30 menit</span>
-                                <span class="mx-2">•</span>
-                                <span>📝 Final lesson & review</span>
-                            </div>
-                        </div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                            Best Practices</h4>
+                        <p class="text-sm text-gray-500 line-clamp-2">
+                            Tips produksi, keamanan, dan optimasi performa untuk aplikasi HTMX + Spring Boot.
+                        </p>
                     </div>
-                </a>
-            </div>
-        </div>
-
-        <!-- Quick Start -->
-        <div class="card bg-indigo-50 border-l-4 border-indigo-500 mb-8">
-            <h3 class="text-xl font-bold text-indigo-900 mb-3">🚀 Mulai Belajar</h3>
-            <p class="text-indigo-800 mb-4">
-                Setiap pelajaran dirancang untuk berdiri sendiri namun membangun di atas konsep sebelumnya.
-                Gunakan sidebar di sebelah kiri untuk navigasi antar pelajaran.
-            </p>
-            <div class="flex space-x-3">
-                <a href="/lesson/1"
-                   class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">
-                    Review Pelajaran 1
-                </a>
-                <a href="/lesson/3"
-                   class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">
-                    Review Pelajaran 3
+                    <div
+                        class="bg-gray-50 px-6 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 group-hover:bg-primary-50/30 transition-colors">
+                        <span class="flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg> 30 min</span>
+                        <span
+                            class="font-medium text-primary-600 group-hover:translate-x-1 transition-transform">Pelajari
+                            &rarr;</span>
+                    </div>
                 </a>
             </div>
         </div>
 
         <!-- Tech Stack -->
-        <div class="card bg-gray-50">
-            <h3 class="text-xl font-bold text-gray-900 mb-3">🛠️ Tech Stack</h3>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="text-center p-3 bg-white rounded-lg border border-gray-200">
-                    <div class="text-2xl mb-2">⚡</div>
-                    <div class="font-semibold text-sm">HTMX 2.0.4</div>
-                    <div class="text-xs text-gray-500">Hypermedia</div>
+        <div class="bg-white rounded-2xl border border-gray-200 p-8">
+            <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span>🛠️</span> Tech Stack & Library
+            </h3>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Stack Item -->
+                <div
+                    class="flex flex-col items-center justify-center p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-200">
+                    <span class="text-4xl mb-3">⚡</span>
+                    <div class="font-bold text-gray-900">HTMX</div>
+                    <div class="text-xs text-gray-500 mt-1">High-Power Tools for HTML</div>
                 </div>
-                <div class="text-center p-3 bg-white rounded-lg border border-gray-200">
-                    <div class="text-2xl mb-2">🏔️</div>
-                    <div class="font-semibold text-sm">Alpine.js 3.14</div>
-                    <div class="text-xs text-gray-500">Reactivity</div>
+                <div
+                    class="flex flex-col items-center justify-center p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-200">
+                    <span class="text-4xl mb-3">🏔️</span>
+                    <div class="font-bold text-gray-900">Alpine.js</div>
+                    <div class="text-xs text-gray-500 mt-1">Lightweight Reactivity</div>
                 </div>
-                <div class="text-center p-3 bg-white rounded-lg border border-gray-200">
-                    <div class="text-2xl mb-2">🍃</div>
-                    <div class="font-semibold text-sm">Spring Boot 4.0</div>
-                    <div class="text-xs text-gray-500">Backend</div>
+                <div
+                    class="flex flex-col items-center justify-center p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-200">
+                    <span class="text-4xl mb-3">🍃</span>
+                    <div class="font-bold text-gray-900">Spring Boot</div>
+                    <div class="text-xs text-gray-500 mt-1">Robust Backend</div>
                 </div>
-                <div class="text-center p-3 bg-white rounded-lg border border-gray-200">
-                    <div class="text-2xl mb-2">🎨</div>
-                    <div class="font-semibold text-sm">Tailwind CSS 4</div>
-                    <div class="text-xs text-gray-500">Styling</div>
+                <div
+                    class="flex flex-col items-center justify-center p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-200">
+                    <span class="text-4xl mb-3">🎨</span>
+                    <div class="font-bold text-gray-900">Tailwind CSS</div>
+                    <div class="text-xs text-gray-500 mt-1">Utility-First Styling</div>
                 </div>
             </div>
         </div>
     </div>
 </body>
+
 </html>

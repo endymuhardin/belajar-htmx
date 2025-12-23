@@ -1,169 +1,240 @@
 <!DOCTYPE html>
-<html lang="id" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+<html lang="id" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
 <head>
     <title>Pelajaran 1: HTMX Basics</title>
 </head>
+
 <body>
     <div layout:fragment="content">
         <!-- Lesson Header -->
-        <div class="mb-6">
-            <div class="flex items-center space-x-3 mb-2">
-                <span class="text-4xl">1️⃣</span>
-                <h2 class="text-3xl font-bold text-gray-900">Pelajaran 1: HTMX Basics</h2>
+        <div class="mb-8">
+            <div class="flex items-center gap-3 mb-3">
+                <span
+                    class="flex items-center justify-center w-12 h-12 rounded-xl bg-orange-100 text-orange-600 text-2xl shadow-sm">
+                    1️⃣
+                </span>
+                <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">HTMX Basics</h2>
             </div>
-            <p class="text-gray-600 text-lg">
-                Memahami konsep dasar HTMX: <code class="bg-gray-200 px-2 py-1 rounded text-sm">hx-get</code> dan
-                <code class="bg-gray-200 px-2 py-1 rounded text-sm">hx-target</code>
+            <p class="text-xl text-gray-600 max-w-3xl leading-relaxed">
+                Memahami konsep fundamental hypermedia: bagaimana menggunakan <code
+                    class="bg-primary-50 text-primary-700 px-1.5 py-0.5 rounded text-sm font-mono border border-primary-100">hx-get</code>
+                dan
+                <code
+                    class="bg-primary-50 text-primary-700 px-1.5 py-0.5 rounded text-sm font-mono border border-primary-100">hx-target</code>
+                untuk interaksi server.
             </p>
         </div>
 
         <!-- Lesson Overview -->
-        <div class="card bg-indigo-50 border-l-4 border-indigo-500 mb-6">
-            <h3 class="text-xl font-bold text-indigo-900 mb-3">📚 Konsep Pelajaran 1</h3>
+        <div class="card mb-8 border-l-4 border-l-primary-500">
+            <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span>📚</span> Konsep Utama
+            </h3>
 
-            <div class="space-y-3 text-sm text-indigo-800">
-                <p>
-                    <strong>Ide Utama:</strong> HTMX memungkinkan kita membuat request HTTP langsung dari elemen HTML
-                    tanpa menulis JavaScript, dan menerima fragment HTML sebagai response.
+            <div class="space-y-6">
+                <p class="text-gray-600 leading-relaxed">
+                    <strong>Ide Utama:</strong> HTMX memungkinkan elemen HTML (bukan hanya &lt;a&gt; atau &lt;form&gt;)
+                    untuk melakukan HTTP request dan mengganti bagian tertentu dari halaman dengan respons dari server.
                 </p>
 
-                <div class="bg-white rounded p-4 border border-indigo-200 space-y-3">
-                    <div>
-                        <p class="font-semibold mb-2">🎯 Atribut HTMX Dasar:</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li><code class="bg-indigo-100 px-1 rounded">hx-get="/endpoint"</code> - Kirim GET request ke server</li>
-                            <li><code class="bg-indigo-100 px-1 rounded">hx-target="#element-id"</code> - Target element untuk meletakkan response</li>
-                            <li><code class="bg-indigo-100 px-1 rounded">hx-swap="innerHTML"</code> - Cara memasukkan response (default: innerHTML)</li>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 rounded-xl p-5 border border-gray-100">
+                        <p class="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            Atribut HTMX Dasar
+                        </p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-2 text-sm text-gray-600">
+                                <code
+                                    class="bg-white px-1.5 py-0.5 rounded border border-gray-200 text-xs font-mono text-primary-600 min-w-[140px]">hx-get="/url"</code>
+                                <span>Mengirim GET request ke endpoint tertentu.</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm text-gray-600">
+                                <code
+                                    class="bg-white px-1.5 py-0.5 rounded border border-gray-200 text-xs font-mono text-primary-600 min-w-[140px]">hx-target="#id"</code>
+                                <span>Menentukan elemen mana yang akan di-update dengan respons.</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm text-gray-600">
+                                <code
+                                    class="bg-white px-1.5 py-0.5 rounded border border-gray-200 text-xs font-mono text-primary-600 min-w-[140px]">hx-swap="innerHTML"</code>
+                                <span>Metode penggantian konten (default: isi dalam target).</span>
+                            </li>
                         </ul>
                     </div>
 
-                    <div>
-                        <p class="font-semibold mb-2">💡 Alur Kerja:</p>
-                        <ol class="space-y-1 ml-5 text-xs list-decimal">
-                            <li>User klik button dengan atribut <code class="bg-indigo-100 px-1 rounded">hx-get</code></li>
-                            <li>HTMX kirim request ke server</li>
-                            <li>Server return HTML fragment (bukan JSON!)</li>
-                            <li>HTMX masukkan fragment ke element target</li>
+                    <div class="bg-gray-50 rounded-xl p-5 border border-gray-100">
+                        <p class="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+                                </path>
+                            </svg>
+                            Alur Kerja
+                        </p>
+                        <ol
+                            class="space-y-2 text-sm text-gray-600 list-decimal list-inside marker:text-primary-500 marker:font-bold">
+                            <li>User klik button dengan <code>hx-get</code></li>
+                            <li>HTMX melakukan AJAX request</li>
+                            <li>Server merender <strong>fragmen HTML</strong></li>
+                            <li>HTMX menyisipkan HTML tersebut ke target</li>
                         </ol>
                     </div>
                 </div>
 
-                <div class="bg-white rounded p-3 border border-indigo-200">
-                    <p class="font-semibold mb-2">📂 Lihat di source code:</p>
-                    <ul class="space-y-1 ml-4 text-xs font-mono">
-                        <li>👉 <strong>Controller:</strong> controller/HomeController.java:30-37</li>
-                        <li>👉 <strong>Template:</strong> templates/lesson-1.html:75-80</li>
-                        <li>👉 <strong>Fragment:</strong> templates/fragments/stats-widget.html</li>
-                    </ul>
+                <div
+                    class="flex items-center gap-2 text-xs text-gray-400 font-mono bg-white p-2 rounded border border-dashed border-gray-200 w-fit">
+                    <span>📂 Referensi Code:</span>
+                    <span>HomeController.java</span>
+                    <span>•</span>
+                    <span>lesson-1.html</span>
+                    <span>•</span>
+                    <span>stats-widget.html</span>
                 </div>
             </div>
         </div>
 
         <!-- Interactive Demo -->
-        <div class="card bg-white border-2 border-indigo-200 mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">
-                🎮 Demo Interaktif: Klik untuk Memuat Statistik
+        <div class="mb-8">
+            <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span>🎮</span> Demo Interaktif
             </h3>
 
-            <div class="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-300">
-                <p class="text-sm text-yellow-900">
-                    <strong>💡 Perhatikan:</strong> Saat kamu klik tombol di bawah:
-                </p>
-                <ul class="mt-2 ml-5 text-sm text-yellow-800 space-y-1 list-disc text-left">
-                    <li>HTMX akan kirim GET request ke <code class="bg-yellow-200 px-1 rounded">/stats</code></li>
-                    <li>Server return fragment HTML (bukan JSON)</li>
-                    <li>Fragment dimasukkan ke dalam <code class="bg-yellow-200 px-1 rounded">#stats-container</code></li>
-                    <li>Tidak ada JavaScript yang kamu tulis!</li>
-                </ul>
-            </div>
+            <div class="card p-0 overflow-hidden">
+                <div class="bg-amber-50 border-b border-amber-100 p-4">
+                    <div class="flex items-start gap-3">
+                        <div class="p-1.5 bg-amber-100 rounded-lg text-amber-600 mt-0.5">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-sm text-amber-900">
+                            <strong>Observasi:</strong> Klik tombol di bawah ini. Perhatikan bahwa halaman <strong>tidak
+                                reload</strong>, tetapi konten di dalam kotak akan terisi data dari server.
+                        </div>
+                    </div>
+                </div>
 
-            <button
-                hx-get="/stats"
-                hx-target="#stats-container"
-                class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-indigo-700 hover:to-purple-700 transform hover:-translate-y-0.5 transition-all duration-200 mb-4">
-                🚀 Muat Statistik
-            </button>
+                <div class="p-8 flex flex-col items-center justify-center bg-white">
+                    <button hx-get="/stats" hx-target="#stats-container"
+                        class="btn btn-primary mb-8 px-8 py-3 text-lg shadow-lg shadow-primary-500/30 hover:-translate-y-0.5">
+                        <span class="mr-2">🚀</span> Muat Statistik
+                    </button>
 
-            <div id="stats-container" class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-6 flex items-center justify-center text-gray-400">
-                <div class="text-center">
-                    <p class="text-lg mb-2">📭 Area kosong</p>
-                    <p class="text-sm">Klik tombol di atas untuk memuat konten dari server</p>
+                    <div id="stats-container"
+                        class="w-full max-w-md min-h-[160px] border-2 border-dashed border-gray-200 rounded-2xl flex items-center justify-center bg-gray-50/50 transition-all duration-300">
+                        <div class="text-center text-gray-400">
+                            <svg class="w-12 h-12 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                            <p class="text-sm">Area ini akan di-update oleh HTMX</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Code Explanation -->
-        <div class="card bg-gray-50 border-l-4 border-gray-400 mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-3">
-                📝 Penjelasan Kode
-            </h3>
-
-            <div class="space-y-4">
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">1. HTML Button (Frontend):</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;button
-    hx-get="/stats"
-    hx-target="#stats-container"&gt;
+        <div class="grid lg:grid-cols-2 gap-8 mb-8">
+            <div class="card bg-gray-900 text-gray-300 border-gray-800">
+                <div class="flex items-center justify-between mb-4 border-b border-gray-800 pb-2">
+                    <h3 class="font-semibold text-white flex items-center gap-2">
+                        <span>Frontend (HTML)</span>
+                    </h3>
+                    <span class="text-xs font-mono bg-gray-800 px-2 py-1 rounded text-gray-400">lesson-1.html</span>
+                </div>
+                <div class="font-mono text-sm leading-relaxed overflow-x-auto">
+                    <pre><code class="language-html">&lt;button
+    <span class="text-primary-400">hx-get</span>="/stats"
+    <span class="text-secondary-400">hx-target</span>="#stats-container"&gt;
     Muat Statistik
-&lt;/button&gt;</code></pre>
-                </div>
+&lt;/button&gt;
 
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">2. Spring Controller (Backend):</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@GetMapping("/stats")
-public String stats(Model model) {
-    model.addAttribute("userCount", 42);
-    model.addAttribute("taskCount", 127);
-    return "fragments/stats-widget";
-}</code></pre>
-                </div>
-
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">3. HTML Fragment Response:</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;div class="bg-gradient-to-br from-indigo-600..."&gt;
-    &lt;div th:text="${userCount}"&gt;0&lt;/div&gt;
-    &lt;div th:text="${taskCount}"&gt;0&lt;/div&gt;
+&lt;div <span class="text-secondary-400">id</span>="stats-container"&gt;
+   ...
 &lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="card bg-gray-900 text-gray-300 border-gray-800">
+                <div class="flex items-center justify-between mb-4 border-b border-gray-800 pb-2">
+                    <h3 class="font-semibold text-white flex items-center gap-2">
+                        <span>Backend (Java)</span>
+                    </h3>
+                    <span
+                        class="text-xs font-mono bg-gray-800 px-2 py-1 rounded text-gray-400">HomeController.java</span>
+                </div>
+                <div class="font-mono text-sm leading-relaxed overflow-x-auto">
+                    <pre><code class="language-java">@GetMapping("/stats")
+public String stats(Model model) {
+    // Business Logic
+    model.addAttribute("count", 42);
+    
+    // Return fragment view
+    return "<span class="text-green-400">fragments/stats-widget</span>";
+}</code></pre>
                 </div>
             </div>
         </div>
 
         <!-- Key Takeaways -->
-        <div class="card bg-green-50 border-l-4 border-green-500">
-            <h3 class="text-lg font-semibold text-green-900 mb-3">✅ Poin Penting Pelajaran 1</h3>
-            <ul class="space-y-2 text-sm text-green-800">
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>HTMX = Hypermedia</strong> - Server return HTML, bukan JSON</span>
+        <div class="card bg-gradient-to-br from-green-50 to-emerald-50 border-l-4 border-green-500 mb-8">
+            <h3 class="text-lg font-bold text-green-900 mb-3 flex items-center gap-2">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Poin Penting
+            </h3>
+            <ul class="grid sm:grid-cols-2 gap-3 text-sm text-green-800">
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>HTMX = Hypermedia</strong>: Server mengembalikan HTML yang siap dirender, bukan raw
+                        JSON.</span>
                 </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>hx-get</strong> - Kirim GET request tanpa JavaScript</span>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>hx-get</strong>: Cara deklaratif membuat GET request langsung dari elemen apa
+                        saja.</span>
                 </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>hx-target</strong> - Tentukan di mana response diletakkan</span>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>Partial Updates</strong>: Hanya bagian target yang diperbarui, sisa halaman tetap utuh
+                        (SPA feel).</span>
                 </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Partial Updates</strong> - Update sebagian halaman, bukan reload full page</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Progressive Enhancement</strong> - HTML yang simple, JavaScript yang minimal</span>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>Simplicity</strong>: Tidak perlu state management kompleks di sisi klien
+                        (Redux/Pinia).</span>
                 </li>
             </ul>
         </div>
 
         <!-- Next Lesson -->
-        <div class="mt-8 flex justify-end">
-            <a href="/lesson/2"
-               class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200">
-                Lanjut ke Pelajaran 2 →
+        <div class="flex justify-between items-center border-t border-gray-200 pt-6">
+            <a href="/" class="btn btn-ghost flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Kembali ke Dashboard
+            </a>
+            <a href="/lesson/2" class="btn btn-primary flex items-center gap-2 shadow-lg shadow-primary-500/20">
+                Lanjut ke Pelajaran 2
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3">
+                    </path>
+                </svg>
             </a>
         </div>
     </div>
 </body>
+
 </html>

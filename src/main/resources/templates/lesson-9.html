@@ -1,303 +1,225 @@
 <!DOCTYPE html>
-<html lang="id" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+<html lang="id" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
 <head>
     <title>Pelajaran 9: File Upload</title>
 </head>
+
 <body>
     <div layout:fragment="content">
         <!-- Lesson Header -->
-        <div class="mb-6">
-            <div class="flex items-center space-x-3 mb-2">
-                <span class="text-4xl">9️⃣</span>
-                <h2 class="text-3xl font-bold text-gray-900">Pelajaran 9: File Upload dengan HTMX</h2>
+        <div class="mb-8">
+            <div class="flex items-center gap-3 mb-3">
+                <span
+                    class="flex items-center justify-center w-12 h-12 rounded-xl bg-slate-100 text-slate-600 text-2xl shadow-sm">
+                    9️⃣
+                </span>
+                <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">File Upload</h2>
             </div>
-            <p class="text-gray-600 text-lg">
-                Upload file dengan <code class="bg-gray-200 px-2 py-1 rounded text-sm">hx-post</code>,
-                <code class="bg-gray-200 px-2 py-1 rounded text-sm">hx-encoding="multipart/form-data"</code>,
-                dan progress indicator
+            <p class="text-xl text-gray-600 max-w-3xl leading-relaxed">
+                Menangani upload file secara asynchronous dengan progress bar real-time, tanpa perlu reload halaman
+                penuh.
             </p>
         </div>
 
-        <!-- Lesson Overview -->
-        <div class="card bg-indigo-50 border-l-4 border-indigo-500 mb-6">
-            <h3 class="text-xl font-bold text-indigo-900 mb-3">📚 Konsep Pelajaran 9</h3>
+        <!-- Strategy Section -->
+        <div class="card bg-slate-50 border-slate-100 mb-8">
+            <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span>📂</span> Mekanisme Upload
+            </h3>
 
-            <div class="space-y-3 text-sm text-indigo-800">
-                <p>
-                    <strong>Konsep Baru:</strong> File upload adalah fitur umum dalam web apps. HTMX
-                    memungkinkan upload file via AJAX tanpa reload page, dengan progress indicator.
-                </p>
-
-                <div class="bg-white rounded p-4 border border-indigo-200 space-y-3">
-                    <div>
-                        <p class="font-semibold mb-2">📤 File Upload Pattern:</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li><code class="bg-indigo-100 px-1 rounded">hx-post="/documents/upload"</code> - POST ke upload endpoint</li>
-                            <li><code class="bg-indigo-100 px-1 rounded">hx-encoding="multipart/form-data"</code> - Required untuk file upload</li>
-                            <li><code class="bg-indigo-100 px-1 rounded">hx-indicator="#progress"</code> - Show progress saat upload</li>
-                            <li>Server return updated list setelah upload berhasil</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <p class="font-semibold mb-2">⚡ Keuntungan File Upload dengan HTMX:</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li>No page reload - smooth user experience</li>
-                            <li>Progress indicator untuk long uploads</li>
-                            <li>Instant feedback setelah upload</li>
-                            <li>Easy validation dan error handling</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <p class="font-semibold mb-2">🎯 Features yang Diimplementasi:</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li>✅ Single file upload dengan description</li>
-                            <li>✅ File list dengan download links</li>
-                            <li>✅ Delete file dengan hx-delete</li>
-                            <li>✅ File size formatting dan metadata</li>
-                        </ul>
-                    </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Checklist -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <h4 class="font-bold text-gray-900 mb-3 border-b border-gray-100 pb-2">Checklist Wajib:</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-500 font-bold">✓</span>
+                            <div>
+                                <strong class="text-slate-800 text-sm block">POST Method</strong>
+                                <span class="text-xs text-gray-500">Gunakan <code>hx-post</code>, bukan GET.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-500 font-bold">✓</span>
+                            <div>
+                                <strong class="text-slate-800 text-sm block">Multipart Encoding</strong>
+                                <span class="text-xs text-gray-500">Wajib set
+                                    <code>hx-encoding="multipart/form-data"</code>.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-500 font-bold">✓</span>
+                            <div>
+                                <strong class="text-slate-800 text-sm block">Progress Indicator</strong>
+                                <span class="text-xs text-gray-500">Gunakan <code>hx-indicator</code> untuk feedback
+                                    visual.</span>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
 
-                <div class="bg-white rounded p-3 border border-indigo-200">
-                    <p class="font-semibold mb-2">📂 Lihat di source code:</p>
-                    <ul class="space-y-1 ml-4 text-xs font-mono">
-                        <li>👉 <strong>Model:</strong> model/Document.java</li>
-                        <li>👉 <strong>Repository:</strong> repository/DocumentRepository.java</li>
-                        <li>👉 <strong>Service:</strong> service/FileStorageService.java</li>
-                        <li>👉 <strong>Controller:</strong> controller/DocumentController.java</li>
-                        <li>👉 <strong>Page:</strong> templates/document-list.html</li>
-                        <li>👉 <strong>Fragment:</strong> templates/fragments/upload-result.html</li>
-                        <li>👉 <strong>Migration:</strong> db/migration/V4__create_documents_table.sql</li>
-                    </ul>
+                <!-- Process Flow -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute right-0 top-0 p-4 opacity-5">
+                        <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M4 16v1.799c0 .996.812 1.83 1.805 1.83h12.388c.994 0 1.807-.834 1.807-1.83V16h1.948v1.799c0 2.029-1.685 3.689-3.755 3.689H5.805C3.736 21.489 2.05 19.829 2.05 17.799V16H4zm6.828-5.748L12.56 8.355V16h1.942V8.355l1.732 1.897L17.5 9.038 13.53 5.162 9.561 9.038l1.267 1.214z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-3 border-b border-gray-100 pb-2">Bagaimana HTMX Bekerja:</h4>
+                    <ol class="space-y-4 relative border-l-2 border-slate-100 ml-2 pl-4">
+                        <li class="text-sm">
+                            <span class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-slate-300"></span>
+                            <strong class="text-slate-700">Intercept:</strong> HTMX menangkap event submit form.
+                        </li>
+                        <li class="text-sm">
+                            <span class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-slate-300"></span>
+                            <strong class="text-slate-700">Package:</strong> Membungkus file dalam FormData object.
+                        </li>
+                        <li class="text-sm">
+                            <span class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-slate-300"></span>
+                            <strong class="text-slate-700">Send:</strong> Mengirim AJAX request dengan progress events.
+                        </li>
+                        <li class="text-sm">
+                            <span class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-slate-300"></span>
+                            <strong class="text-slate-700">Swap:</strong> Update area target dengan respon server.
+                        </li>
+                    </ol>
                 </div>
             </div>
         </div>
 
-        <!-- How it Works -->
-        <div class="card bg-purple-50 border-l-4 border-purple-500 mb-6">
-            <h3 class="text-lg font-semibold text-purple-900 mb-3">
-                ⚙️ Cara Kerja File Upload
-            </h3>
+        <!-- Demo Section -->
+        <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <span>🎮</span> Live Demo
+        </h3>
 
-            <div class="space-y-3 text-sm text-purple-800">
-                <div class="bg-white rounded p-4 border border-purple-200">
-                    <p class="font-semibold mb-2">📊 Flow Diagram:</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>1. User pilih file via &lt;input type="file"&gt;
-   → User bisa tambah description (optional)
-
-2. User klik Upload button
-   → Form submit dengan hx-post
-   → HTMX set encoding ke multipart/form-data
-   → Progress indicator muncul
-
-3. Server receive file
-   → FileStorageService save file ke disk
-   → Generate unique filename (UUID)
-   → Save metadata ke database
-
-4. Server return fragment
-   → Success message + updated document list
-   → HTMX swap content ke target
-   → Form di-reset untuk upload berikutnya</code></pre>
-                </div>
-
-                <div class="bg-white rounded p-4 border border-purple-200">
-                    <p class="font-semibold mb-2">🔍 Key HTMX Attributes:</p>
-                    <table class="w-full text-xs mt-2 border-collapse">
-                        <tr class="border-b border-purple-200 bg-purple-50">
-                            <th class="text-left py-2 px-2">Attribute</th>
-                            <th class="text-left py-2 px-2">Value</th>
-                            <th class="text-left py-2 px-2">Fungsi</th>
-                        </tr>
-                        <tr class="border-b border-purple-100">
-                            <td class="py-2 px-2 font-mono">hx-post</td>
-                            <td class="py-2 px-2 font-mono">"/documents/upload"</td>
-                            <td class="py-2 px-2">Upload endpoint</td>
-                        </tr>
-                        <tr class="border-b border-purple-100">
-                            <td class="py-2 px-2 font-mono">hx-encoding</td>
-                            <td class="py-2 px-2 font-mono">"multipart/form-data"</td>
-                            <td class="py-2 px-2">Required untuk file upload</td>
-                        </tr>
-                        <tr class="border-b border-purple-100">
-                            <td class="py-2 px-2 font-mono">hx-target</td>
-                            <td class="py-2 px-2 font-mono">"#upload-result"</td>
-                            <td class="py-2 px-2">Where to show result</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-2 font-mono">hx-indicator</td>
-                            <td class="py-2 px-2 font-mono">"#progress"</td>
-                            <td class="py-2 px-2">Show progress during upload</td>
-                        </tr>
-                    </table>
-                </div>
+        <div
+            class="card border-2 border-dashed border-slate-300 bg-gradient-to-br from-slate-50 to-gray-50 p-8 text-center mb-8">
+            <div
+                class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-4xl">
+                📤
             </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">Document Manager</h3>
+            <p class="text-gray-600 mb-6 max-w-lg mx-auto">
+                Aplikasi pengelolaan dokumen sederhana. Coba upload gambar atau file PDF, lihat progress bar, dan kelola
+                daftar file Anda.
+            </p>
+
+            <a href="/documents" target="_blank"
+                class="inline-flex items-center gap-2 px-8 py-4 bg-slate-700 text-white font-bold text-lg rounded-xl hover:bg-slate-800 transition-all shadow-lg hover:shadow-slate-500/30 hover:-translate-y-1">
+                Buka Document Manager
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+            </a>
+            <p class="text-xs text-slate-500 mt-4 opacity-75">*Membuka di tab baru.</p>
         </div>
 
         <!-- Code Explanation -->
-        <div class="card bg-gray-50 border-l-4 border-gray-400 mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-3">
-                📝 Penjelasan Kode
-            </h3>
+        <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <span>📝</span> Bedah Kode
+        </h3>
 
-            <div class="space-y-4">
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">1. Document Entity:</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@Entity
-@Table(name = "documents")
-public class Document {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String originalFilename;  // Nama asli file
-    private String storedFilename;    // UUID filename di disk
-    private String contentType;       // MIME type
-    private Long fileSize;            // Size dalam bytes
-    private String description;       // User description
-    private LocalDateTime uploadedAt;
-}</code></pre>
+        <div class="grid lg:grid-cols-2 gap-8 mb-8">
+            <div class="card bg-gray-900 text-gray-300 border-gray-800">
+                <div class="flex items-center justify-between mb-4 border-b border-gray-800 pb-2">
+                    <h3 class="font-semibold text-white flex items-center gap-2">
+                        <span>Frontend (Form)</span>
+                    </h3>
+                    <span class="text-xs font-mono bg-gray-800 px-2 py-1 rounded text-gray-400">upload-form.html</span>
                 </div>
+                <div class="font-mono text-sm leading-relaxed overflow-x-auto">
+                    <pre><code class="language-html">&lt;form <span class="text-blue-400">hx-post</span>="/upload"
+      <span class="text-fuchsia-400">hx-encoding</span>="multipart/form-data"
+      <span class="text-green-400">hx-target</span>="#file-list"
+      <span class="text-yellow-400">hx-indicator</span>="#progress"&gt;
+      
+    &lt;input type="file" name="file"&gt;
+    &lt;button&gt;Upload&lt;/button&gt;
 
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">2. FileStorageService:</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@Service
-public class FileStorageService {
-    private final Path fileStorageLocation = Paths.get("uploads");
-
-    public String storeFile(MultipartFile file) {
-        // Generate unique filename
-        String storedFilename = UUID.randomUUID().toString() + extension;
-
-        // Copy file to disk
-        Files.copy(file.getInputStream(), targetLocation);
-
-        return storedFilename;
-    }
-}</code></pre>
-                </div>
-
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">3. Upload Controller:</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@PostMapping("/documents/upload")
-public String uploadDocument(
-        @RequestParam("file") MultipartFile file,
-        @RequestParam("description") String description) {
-
-    // Save file to disk
-    String storedFilename = fileStorageService.storeFile(file);
-
-    // Save metadata to database
-    Document document = new Document();
-    document.setOriginalFilename(file.getOriginalFilename());
-    document.setStoredFilename(storedFilename);
-    documentRepository.save(document);
-
-    // Return success fragment
-    return "fragments/upload-result";
-}</code></pre>
-                </div>
-
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">4. Upload Form (HTML):</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;form hx-post="/documents/upload"
-      hx-encoding="multipart/form-data"
-      hx-target="#upload-result"
-      hx-indicator="#progress"&gt;
-
-    &lt;input type="file" name="file" required&gt;
-    &lt;input type="text" name="description" placeholder="Description"&gt;
-    &lt;button type="submit"&gt;Upload&lt;/button&gt;
-
-    &lt;div id="progress" class="htmx-indicator"&gt;
-        Uploading...
-    &lt;/div&gt;
-&lt;/form&gt;
-
-&lt;div id="upload-result"&gt;&lt;/div&gt;</code></pre>
+    &lt;!-- Progress Bar (Hidden by default) --&gt;
+    &lt;progress id="progress" class="htmx-indicator" max="100"&gt;&lt;/progress&gt;
+&lt;/form&gt;</code></pre>
                 </div>
             </div>
-        </div>
 
-        <!-- Demo Link -->
-        <div class="card bg-white border-2 border-indigo-200 mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">
-                🎮 Demo Interaktif: Document Upload
-            </h3>
-
-            <div class="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-300">
-                <p class="text-sm text-yellow-900">
-                    <strong>💡 Cara Test:</strong>
-                </p>
-                <ul class="mt-2 ml-5 text-sm text-yellow-800 space-y-1 list-disc text-left">
-                    <li>Klik tombol di bawah untuk buka Document Manager</li>
-                    <li>Pilih file untuk upload (gambar, PDF, dokumen, dll)</li>
-                    <li>Tambahkan description (optional)</li>
-                    <li>Perhatikan progress indicator saat upload (2s delay untuk demo)</li>
-                    <li>File akan muncul di list dengan download link</li>
-                    <li>Test delete file dengan hx-delete</li>
-                    <li>Open browser DevTools Network tab untuk lihat requests</li>
-                </ul>
-            </div>
-
-            <div class="text-center">
-                <a href="/documents"
-                   class="inline-block px-8 py-4 bg-indigo-600 text-white font-bold text-lg rounded-lg hover:bg-indigo-700 transition-colors shadow-lg">
-                    📤 Buka Document Manager →
-                </a>
+            <div class="card bg-gray-900 text-gray-300 border-gray-800">
+                <div class="flex items-center justify-between mb-4 border-b border-gray-800 pb-2">
+                    <h3 class="font-semibold text-white flex items-center gap-2">
+                        <span>Backend Controller</span>
+                    </h3>
+                    <span
+                        class="text-xs font-mono bg-gray-800 px-2 py-1 rounded text-gray-400">DocumentController.java</span>
+                </div>
+                <div class="font-mono text-sm leading-relaxed overflow-x-auto">
+                    <pre><code class="language-java">@PostMapping("/upload")
+public String upload(@RequestParam("file") MultipartFile file,
+                     Model model) {
+                     
+    // 1. Simpan file ke disk
+    storageService.store(file);
+    
+    // 2. Simpan metadata ke DB
+    repo.save(new Document(file));
+    
+    // 3. Return updated list fragment
+    return "fragments/file-list";
+}</code></pre>
+                </div>
             </div>
         </div>
 
         <!-- Key Takeaways -->
-        <div class="card bg-green-50 border-l-4 border-green-500 mb-6">
-            <h3 class="text-lg font-semibold text-green-900 mb-3">✅ Poin Penting Pelajaran 9</h3>
-            <ul class="space-y-2 text-sm text-green-800">
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>hx-encoding="multipart/form-data"</strong> - Wajib untuk file upload</span>
+        <div class="card bg-gradient-to-br from-green-50 to-emerald-50 border-l-4 border-green-500 mb-8">
+            <h3 class="text-lg font-bold text-green-900 mb-3 flex items-center gap-2">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Poin Penting
+            </h3>
+            <ul class="grid sm:grid-cols-2 gap-3 text-sm text-green-800">
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>Encoding Wajib:</strong> Jangan lupa <code>hx-encoding="multipart/form-data"</code>
+                        atau upload akan gagal.</span>
                 </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>MultipartFile</strong> - Spring Boot interface untuk handle uploaded files</span>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>Feedback:</strong> Progress bar sangat krusial untuk UX upload, memberi tahu user
+                        bahwa sistem sedang bekerja.</span>
                 </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>FileStorageService</strong> - Separate concern untuk file I/O operations</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>UUID filename</strong> - Prevent conflicts dan security issues</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Progress indicator</strong> - Better UX untuk long operations</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Download endpoint</strong> - Serve files dengan proper content-type</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Delete dengan hx-delete</strong> - Remove file dari disk dan database</span>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>Security:</strong> Selalu validasi tipe dan ukuran file di server, serta generate nama
+                        file baru (UUID) untuk keamanan.</span>
                 </li>
             </ul>
         </div>
 
         <!-- Navigation -->
-        <div class="flex justify-between">
-            <a href="/lesson/8"
-               class="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors">
-                ← Pelajaran 8
+        <div class="flex justify-between items-center border-t border-gray-200 pt-6">
+            <a href="/lesson/8" class="btn btn-ghost flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Pelajaran 8
             </a>
-            <a href="/lesson/10"
-               class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">
-                Pelajaran 10 →
+            <a href="/lesson/10" class="btn btn-primary flex items-center gap-2 shadow-lg shadow-primary-500/20">
+                Lanjut ke Pelajaran 10
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3">
+                    </path>
+                </svg>
             </a>
         </div>
     </div>
 </body>
+
 </html>

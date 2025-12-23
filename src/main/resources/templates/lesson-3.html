@@ -1,267 +1,263 @@
 <!DOCTYPE html>
-<html lang="id" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+<html lang="id" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
 <head>
     <title>Pelajaran 3: Forms & Validation</title>
 </head>
+
 <body>
     <div layout:fragment="content">
         <!-- Lesson Header -->
-        <div class="mb-6">
-            <div class="flex items-center space-x-3 mb-2">
-                <span class="text-4xl">3️⃣</span>
-                <h2 class="text-3xl font-bold text-gray-900">Pelajaran 3: Forms & Validation</h2>
+        <div class="mb-8">
+            <div class="flex items-center gap-3 mb-3">
+                <span
+                    class="flex items-center justify-center w-12 h-12 rounded-xl bg-violet-100 text-violet-600 text-2xl shadow-sm">
+                    3️⃣
+                </span>
+                <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">Forms & Validation</h2>
             </div>
-            <p class="text-gray-600 text-lg">
-                Menguasai form submission dengan <code class="bg-gray-200 px-2 py-1 rounded text-sm">hx-post</code>
-                dan server-side validation
+            <p class="text-xl text-gray-600 max-w-3xl leading-relaxed">
+                Menangani input pengguna secara elegan: mengirim form dengan <code
+                    class="bg-primary-50 text-primary-700 px-1.5 py-0.5 rounded text-sm font-mono border border-primary-100">hx-post</code>
+                dan menampilkan validasi sisi server tanpa refresh halaman.
             </p>
         </div>
 
         <!-- Lesson Overview -->
-        <div class="card bg-indigo-50 border-l-4 border-indigo-500 mb-6">
-            <h3 class="text-xl font-bold text-indigo-900 mb-3">📚 Konsep Pelajaran 3</h3>
+        <div class="card mb-8 border-l-4 border-l-violet-500">
+            <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span>📚</span> Konsep Utama
+            </h3>
 
-            <div class="space-y-3 text-sm text-indigo-800">
-                <p>
-                    <strong>Konsep Baru:</strong> HTMX tidak hanya untuk GET request, tapi juga bisa handle form submission
-                    dengan POST dan menampilkan error validation secara inline.
+            <div class="space-y-6">
+                <p class="text-gray-600 leading-relaxed">
+                    HTMX mengubah cara kita menangani form. Alih-alih submit full page, kita kirim data secara
+                    background dan menerima potongan HTML yang berisi status sukses atau form yang diperbarui dengan
+                    pesan error.
                 </p>
 
-                <div class="bg-white rounded p-4 border border-indigo-200 space-y-3">
-                    <div>
-                        <p class="font-semibold mb-2">📝 Form dengan HTMX:</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li><code class="bg-indigo-100 px-1 rounded">hx-post="/endpoint"</code> - Submit form via POST request</li>
-                            <li><code class="bg-indigo-100 px-1 rounded">hx-target="#container"</code> - Target untuk response (form + errors atau success message)</li>
-                            <li><code class="bg-indigo-100 px-1 rounded">hx-swap="innerHTML"</code> - Replace isi container dengan response</li>
-                            <li><code class="bg-indigo-100 px-1 rounded">@Valid</code> - Jakarta Bean Validation untuk validasi otomatis</li>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 rounded-xl p-5 border border-gray-100">
+                        <p class="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                </path>
+                            </svg>
+                            Atribut Form
+                        </p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-2 text-sm text-gray-600">
+                                <code
+                                    class="bg-white px-1.5 py-0.5 rounded border border-gray-200 text-xs font-mono text-violet-600 min-w-[140px]">hx-post="/url"</code>
+                                <span>Kirim data form via POST request.</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm text-gray-600">
+                                <code
+                                    class="bg-white px-1.5 py-0.5 rounded border border-gray-200 text-xs font-mono text-violet-600 min-w-[140px]">hx-target="#id"</code>
+                                <span>Area update (misal: div pembungkus form).</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm text-gray-600">
+                                <code
+                                    class="bg-white px-1.5 py-0.5 rounded border border-gray-200 text-xs font-mono text-violet-600 min-w-[140px]">@Valid</code>
+                                <span>Anotasi Spring untuk validasi DTO otomatis.</span>
+                            </li>
                         </ul>
                     </div>
 
-                    <div>
-                        <p class="font-semibold mb-2">✅ Validation Flow:</p>
-                        <ol class="space-y-1 ml-5 text-xs list-decimal">
-                            <li>User submit form dengan hx-post</li>
-                            <li>Server validasi data</li>
-                            <li>Jika error: return form dengan error messages</li>
-                            <li>Jika sukses: return success message</li>
+                    <div class="bg-gray-50 rounded-xl p-5 border border-gray-100">
+                        <p class="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Alur Validasi
+                        </p>
+                        <ol
+                            class="space-y-2 text-sm text-gray-600 list-decimal list-inside marker:text-violet-500 marker:font-bold">
+                            <li>Form di-submit ke server</li>
+                            <li>Spring memvalidasi input (Bean Validation)</li>
+                            <li><strong>Jika Error:</strong> Return fragmen form dengan pesan error</li>
+                            <li><strong>Jika Sukses:</strong> Return pesan sukses / fragmen lain</li>
                         </ol>
                     </div>
-
-                    <div>
-                        <p class="font-semibold mb-2">🔄 Key Benefits:</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li>Tidak reload full page - user experience lebih baik</li>
-                            <li>Form tetap terisi saat ada error - data tidak hilang</li>
-                            <li>Error messages inline di sebelah field yang error</li>
-                            <li>Server-side validation tetap aman</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded p-3 border border-indigo-200">
-                    <p class="font-semibold mb-2">📂 Lihat di source code:</p>
-                    <ul class="space-y-1 ml-4 text-xs font-mono">
-                        <li>👉 <strong>Controller:</strong> controller/HomeController.java:75-112</li>
-                        <li>👉 <strong>DTO:</strong> dto/ContactForm.java</li>
-                        <li>👉 <strong>Form Fragment:</strong> templates/fragments/contact-form.html</li>
-                        <li>👉 <strong>Success Fragment:</strong> templates/fragments/contact-success.html</li>
-                    </ul>
                 </div>
             </div>
         </div>
 
         <!-- Interactive Demo -->
-        <div class="card bg-white border-2 border-indigo-200 mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">
-                🎮 Demo Interaktif: Contact Form dengan Validation
-            </h3>
+        <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <span>🎮</span> Demo Interaktif
+        </h3>
 
-            <div class="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-300">
-                <p class="text-sm text-yellow-900">
-                    <strong>💡 Coba Eksperimen:</strong>
-                </p>
-                <ul class="mt-2 ml-5 text-sm text-yellow-800 space-y-1 list-disc text-left">
-                    <li>Submit form kosong - lihat error messages muncul</li>
-                    <li>Isi nama kurang dari 3 karakter - lihat error validation</li>
-                    <li>Isi email dengan format salah - lihat regex validation</li>
-                    <li>Isi semua field dengan benar - lihat success message</li>
-                    <li>Perhatikan form tetap terisi saat ada error!</li>
-                </ul>
+        <div class="grid lg:grid-cols-3 gap-8 mb-8">
+            <!-- Instructions -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="card bg-amber-50 border-amber-100">
+                    <p class="font-bold text-amber-900 mb-2 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Cobalah Skenario Ini:
+                    </p>
+                    <ul class="space-y-2 text-sm text-amber-800 list-disc list-outside ml-4">
+                        <li>Submit form kosong (lihat error global).</li>
+                        <li>Isi nama < 3 karakter.</li>
+                        <li>Isi email dengan format ngawur (tanpa @).</li>
+                        <li>Isi semua dengan benar untuk melihat pesan sukses.</li>
+                    </ul>
+                </div>
+
+                <div class="card p-0 overflow-hidden border border-gray-200">
+                    <div class="bg-gray-50 border-b border-gray-200 px-4 py-3 font-semibold text-gray-700 text-sm">
+                        📋 Validation Rules
+                    </div>
+                    <div class="divide-y divide-gray-100">
+                        <div class="p-3 text-sm flex gap-3">
+                            <span class="text-gray-400">👤</span>
+                            <div>
+                                <strong class="text-gray-900">Nama</strong>
+                                <p class="text-gray-500 text-xs">Wajib, Min 3 karakter</p>
+                            </div>
+                        </div>
+                        <div class="p-3 text-sm flex gap-3">
+                            <span class="text-gray-400">📧</span>
+                            <div>
+                                <strong class="text-gray-900">Email</strong>
+                                <p class="text-gray-500 text-xs">Wajib, Format valid</p>
+                            </div>
+                        </div>
+                        <div class="p-3 text-sm flex gap-3">
+                            <span class="text-gray-400">📝</span>
+                            <div>
+                                <strong class="text-gray-900">Pesan</strong>
+                                <p class="text-gray-500 text-xs">Wajib, Min 10 karakter</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div id="form-container">
-                <div
-                    hx-get="/contact-form"
-                    hx-trigger="load"
-                    hx-target="#form-container"
-                    hx-swap="innerHTML">
-                    <div class="min-h-[400px] border-2 border-dashed border-indigo-300 rounded-lg p-6 flex items-center justify-center text-indigo-400">
-                        <div class="text-center">
-                            <div class="animate-spin text-2xl mb-2">⏳</div>
-                            <p class="text-sm">Loading form...</p>
+            <!-- The Form -->
+            <div class="lg:col-span-2">
+                <div class="card relative overflow-hidden min-h-[500px] flex flex-col justify-center">
+                    <div id="form-container" class="w-full">
+                        <div hx-get="/contact-form" hx-trigger="load" hx-target="#form-container" hx-swap="innerHTML"
+                            class="flex flex-col items-center justify-center py-12 text-gray-400">
+                            <svg class="animate-spin h-8 w-8 text-primary-500 mb-3" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                            <p class="text-sm">Memuat form...</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Validation Rules -->
-        <div class="card bg-gray-50 border-l-4 border-gray-400 mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-3">
-                📋 Validation Rules
-            </h3>
-
-            <div class="space-y-3 text-sm">
-                <div class="flex items-start space-x-3">
-                    <span class="text-lg">📝</span>
-                    <div>
-                        <strong>Nama:</strong> Wajib diisi, minimal 3 karakter
-                    </div>
-                </div>
-                <div class="flex items-start space-x-3">
-                    <span class="text-lg">📧</span>
-                    <div>
-                        <strong>Email:</strong> Wajib diisi, format email valid
-                    </div>
-                </div>
-                <div class="flex items-start space-x-3">
-                    <span class="text-lg">💬</span>
-                    <div>
-                        <strong>Subjek:</strong> Wajib diisi
-                    </div>
-                </div>
-                <div class="flex items-start space-x-3">
-                    <span class="text-lg">✉️</span>
-                    <div>
-                        <strong>Pesan:</strong> Wajib diisi, minimal 10 karakter
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Code Explanation -->
-        <div class="card bg-gray-50 border-l-4 border-gray-400 mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-3">
-                📝 Penjelasan Kode
-            </h3>
+        <div class="grid lg:grid-cols-2 gap-8 mb-8">
+            <div class="card bg-gray-900 text-gray-300 border-gray-800">
+                <div class="flex items-center justify-between mb-4 border-b border-gray-800 pb-2">
+                    <h3 class="font-semibold text-white flex items-center gap-2">
+                        <span>Frontend (HTML)</span>
+                    </h3>
+                    <span class="text-xs font-mono bg-gray-800 px-2 py-1 rounded text-gray-400">contact-form.html</span>
+                </div>
+                <div class="font-mono text-sm leading-relaxed overflow-x-auto">
+                    <pre><code class="language-html">&lt;form <span class="text-primary-400">hx-post</span>="/contact"
+      <span class="text-secondary-400">hx-target</span>="#form-container"&gt;
+      
+    &lt;div&gt;
+        &lt;label&gt;Email&lt;/label&gt;
+        &lt;input type="email" name="email" 
+               th:classappend="${errors.has('email')} ? 'error'" /&gt;
+        &lt;span th:if="${errors.has('email')}" 
+              th:text="${errors.get('email')}"&gt;&lt;/span&gt;
+    &lt;/div&gt;
 
-            <div class="space-y-4">
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">1. HTML Form (Frontend):</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;form hx-post="/contact"
-      hx-target="#form-container"
-      hx-swap="innerHTML"&gt;
-    &lt;input type="text" name="name" /&gt;
-    &lt;input type="email" name="email" /&gt;
     &lt;button type="submit"&gt;Kirim&lt;/button&gt;
 &lt;/form&gt;</code></pre>
                 </div>
+            </div>
 
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">2. ContactForm DTO (Validation Annotations):</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>public class ContactForm {
-    @NotBlank(message = "Nama wajib diisi")
-    @Size(min = 3, message = "Nama minimal 3 karakter")
-    private String name;
-
-    @NotBlank(message = "Email wajib diisi")
-    @Email(message = "Format email tidak valid")
-    private String email;
-
-    @NotBlank(message = "Subjek wajib diisi")
-    private String subject;
-
-    @NotBlank(message = "Pesan wajib diisi")
-    @Size(min = 10, message = "Pesan minimal 10 karakter")
-    private String message;
-}</code></pre>
+            <div class="card bg-gray-900 text-gray-300 border-gray-800">
+                <div class="flex items-center justify-between mb-4 border-b border-gray-800 pb-2">
+                    <h3 class="font-semibold text-white flex items-center gap-2">
+                        <span>Backend (Java)</span>
+                    </h3>
+                    <span
+                        class="text-xs font-mono bg-gray-800 px-2 py-1 rounded text-gray-400">HomeController.java</span>
                 </div>
-
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">3. Spring Controller (Backend):</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@PostMapping("/contact")
-public String submitContact(@Valid ContactForm form,
-                           BindingResult bindingResult,
-                           Model model) {
-    if (bindingResult.hasErrors()) {
-        // Convert errors ke Map
-        Map&lt;String, String&gt; errors = new HashMap&lt;&gt;();
-        bindingResult.getFieldErrors().forEach(error -&gt;
-            errors.put(error.getField(), error.getDefaultMessage())
-        );
-        model.addAttribute("errors", errors);
-        model.addAttribute("form", form);
-        return "fragments/contact-form";
+                <div class="font-mono text-sm leading-relaxed overflow-x-auto">
+                    <pre><code class="language-java">@PostMapping("/contact")
+public String submit(@Valid ContactForm form, 
+                     BindingResult result) {
+                     
+    if (result.hasErrors()) {
+        // Validation failed: return form again with errors
+        return "<span class="text-red-400">fragments/contact-form</span>";
     }
-
-    model.addAttribute("name", form.getName());
-    return "fragments/contact-success";
+    
+    // Success: return success message
+    return "<span class="text-green-400">fragments/contact-success</span>";
 }</code></pre>
-                </div>
-
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">4. Error Display (Thymeleaf):</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;input type="text" name="name"
-       th:value="${form != null ? form.name : ''}"
-       th:classappend="${errors != null && errors.containsKey('name')}
-                       ? 'border-red-500' : ''" /&gt;
-
-&lt;p th:if="${errors != null && errors.containsKey('name')}"
-   class="text-red-600"
-   th:text="${errors.get('name')}"&gt;&lt;/p&gt;</code></pre>
                 </div>
             </div>
         </div>
 
         <!-- Key Takeaways -->
-        <div class="card bg-green-50 border-l-4 border-green-500 mb-6">
-            <h3 class="text-lg font-semibold text-green-900 mb-3">✅ Poin Penting Pelajaran 3</h3>
-            <ul class="space-y-2 text-sm text-green-800">
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>hx-post</strong> - Submit form tanpa reload page</span>
+        <div class="card bg-gradient-to-br from-green-50 to-emerald-50 border-l-4 border-green-500 mb-8">
+            <h3 class="text-lg font-bold text-green-900 mb-3 flex items-center gap-2">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Poin Penting
+            </h3>
+            <ul class="grid sm:grid-cols-2 gap-3 text-sm text-green-800">
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>Security:</strong> Validasi tetap dilakukan di server (Java), client (HTMX) hanya
+                        menampilkan hasilnya.</span>
                 </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Jakarta Bean Validation</strong> - Menggunakan @Valid, @NotBlank, @Email, @Size annotations</span>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>User Experience:</strong> State form terjaga saat terjadi error (user tidak perlu
+                        mengetik ulang).</span>
                 </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Server-side Validation</strong> - Validasi tetap di server, lebih aman</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Inline Error Messages</strong> - Error muncul langsung di sebelah field</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Form Preservation</strong> - Data form tidak hilang saat ada error</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Same Fragment Pattern</strong> - Server return fragment yang sama untuk error dan form kosong</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Progressive Enhancement</strong> - Form tetap bisa submit normal tanpa JavaScript</span>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>No JavaScript:</strong> Validasi canggih tanpa menulis satu baris pun JS validasi di
+                        frontend.</span>
                 </li>
             </ul>
         </div>
 
         <!-- Navigation -->
-        <div class="flex justify-between">
-            <a href="/lesson/2"
-               class="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors">
-                ← Pelajaran 2
+        <div class="flex justify-between items-center border-t border-gray-200 pt-6">
+            <a href="/lesson/2" class="btn btn-ghost flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Pelajaran 2
             </a>
-            <a href="/lesson/4"
-               class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">
-                Pelajaran 4 →
+            <a href="/lesson/4" class="btn btn-primary flex items-center gap-2 shadow-lg shadow-primary-500/20">
+                Lanjut ke Pelajaran 4
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3">
+                    </path>
+                </svg>
             </a>
         </div>
     </div>
 </body>
+
 </html>

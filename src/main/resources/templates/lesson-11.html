@@ -1,433 +1,229 @@
 <!DOCTYPE html>
-<html lang="id" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+<html lang="id" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
 <head>
     <title>Pelajaran 11: Best Practices & Review</title>
 </head>
+
 <body>
     <div layout:fragment="content">
         <!-- Lesson Header -->
-        <div class="mb-6">
-            <div class="flex items-center space-x-3 mb-2">
-                <span class="text-4xl">🎓</span>
-                <h2 class="text-3xl font-bold text-gray-900">Pelajaran 11: Best Practices & Advanced Patterns</h2>
+        <div
+            class="mb-8 relative overflow-hidden bg-gradient-to-r from-gray-900 to-indigo-900 rounded-3xl p-8 sm:p-12 text-white shadow-2xl">
+            <!-- Decorative Background -->
+            <div class="absolute top-0 right-0 -mr-8 -mt-8 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 -ml-8 -mb-8 w-48 h-48 bg-purple-500 opacity-20 rounded-full blur-3xl">
             </div>
-            <p class="text-gray-600 text-lg">
-                Security, performance, accessibility, dan production-ready patterns
-            </p>
+
+            <div class="relative z-10">
+                <div class="flex items-center gap-4 mb-4">
+                    <span
+                        class="flex items-center justify-center w-14 h-14 rounded-2xl bg-white/10 text-3xl backdrop-blur-sm border border-white/20">
+                        🎓
+                    </span>
+                    <div
+                        class="px-3 py-1 bg-amber-400 text-amber-900 text-xs font-bold uppercase tracking-wider rounded-full">
+                        Final Lesson
+                    </div>
+                </div>
+                <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">
+                    Best Practices & Mastery
+                </h2>
+                <p class="text-indigo-100 text-lg sm:text-xl max-w-2xl leading-relaxed">
+                    Menyempurnakan aplikasi dengan keamanan, performa, dan arsitektur yang solid siap produksi.
+                </p>
+            </div>
         </div>
 
         <!-- Completion Banner -->
-        <div class="card bg-gradient-to-r from-green-500 to-emerald-500 text-white mb-6">
-            <div class="text-center">
-                <div class="text-6xl mb-3">🎉</div>
-                <h3 class="text-2xl font-bold mb-2">Selamat! Anda telah menyelesaikan semua pelajaran!</h3>
-                <p class="text-green-100">
-                    Dari HTMX basics hingga advanced patterns - you've learned it all!
+        <div
+            class="card border-l-4 border-green-500 bg-green-50/50 mb-8 flex flex-col sm:flex-row items-center gap-6 p-6">
+            <div
+                class="w-16 h-16 shrink-0 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl">
+                🎉
+            </div>
+            <div class="text-center sm:text-left">
+                <h3 class="text-xl font-bold text-gray-900">Selamat! Anda sudah menyelesaikan kurikulum.</h3>
+                <p class="text-gray-600 mt-1">
+                    Anda telah mempelajari core concepts HTMX, integrasi Alpine.js, dan advanced patterns. Sekarang
+                    saatnya memoles skill dengan best practices.
                 </p>
             </div>
         </div>
 
-        <!-- Lesson Overview -->
-        <div class="card bg-indigo-50 border-l-4 border-indigo-500 mb-6">
-            <h3 class="text-xl font-bold text-indigo-900 mb-3">📚 Pelajaran 11: Final Lesson</h3>
-
-            <div class="space-y-3 text-sm text-indigo-800">
-                <p>
-                    <strong>Ringkasan:</strong> Lesson terakhir ini membahas best practices, security considerations,
-                    performance optimization, dan tips untuk production deployment.
+        <!-- Three Pillars Grid -->
+        <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <span>🛡️</span> The Three Pillars of Production
+        </h3>
+        <div class="grid lg:grid-cols-3 gap-6 mb-8">
+            <!-- Security -->
+            <div class="card border-t-4 border-red-500 hover:shadow-lg transition-all text-center">
+                <div
+                    class="w-12 h-12 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+                    🔐
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2">Security</h4>
+                <p class="text-sm text-gray-600 mb-4">
+                    Protect users and data with CSRF & Validation.
                 </p>
+                <ul class="text-left text-xs space-y-2 text-gray-500 bg-gray-50 p-3 rounded-lg">
+                    <li class="flex items-start gap-2">✓ CSRF Tokens on POST</li>
+                    <li class="flex items-start gap-2">✓ Server-side Input Validation</li>
+                    <li class="flex items-start gap-2">✓ Escape Output (XSS)</li>
+                </ul>
+            </div>
 
-                <div class="bg-white rounded p-4 border border-indigo-200 space-y-3">
-                    <div>
-                        <p class="font-semibold mb-2">🔐 Security Best Practices:</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li>CSRF protection untuk semua state-changing requests</li>
-                            <li>Input validation di server-side, jangan andalkan client-side</li>
-                            <li>XSS prevention dengan proper escaping</li>
-                            <li>Rate limiting untuk polling dan API endpoints</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <p class="font-semibold mb-2">⚡ Performance Optimization:</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li>Lazy loading dengan infinite scroll untuk large datasets</li>
-                            <li>Debouncing untuk search dan input validation</li>
-                            <li>Reasonable polling intervals (avoid aggressive polling)</li>
-                            <li>HTTP caching headers untuk static content</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <p class="font-semibold mb-2">♿ Accessibility (a11y):</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li>Semantic HTML dengan proper ARIA attributes</li>
-                            <li>Keyboard navigation support</li>
-                            <li>Screen reader friendly updates</li>
-                            <li>Focus management setelah AJAX updates</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <p class="font-semibold mb-2">🎯 Production Readiness:</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li>Error handling dan fallback UI</li>
-                            <li>Loading indicators untuk better UX</li>
-                            <li>Proper HTTP status codes</li>
-                            <li>Monitoring dan logging</li>
-                        </ul>
-                    </div>
+            <!-- Performance -->
+            <div class="card border-t-4 border-amber-500 hover:shadow-lg transition-all text-center">
+                <div
+                    class="w-12 h-12 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+                    ⚡
                 </div>
+                <h4 class="font-bold text-gray-900 mb-2">Performance</h4>
+                <p class="text-sm text-gray-600 mb-4">
+                    Optimize speed and reduce server load.
+                </p>
+                <ul class="text-left text-xs space-y-2 text-gray-500 bg-gray-50 p-3 rounded-lg">
+                    <li class="flex items-start gap-2">✓ Debounce Inputs</li>
+                    <li class="flex items-start gap-2">✓ Lazy Load (Infinite Scroll)</li>
+                    <li class="flex items-start gap-2">✓ Caching Policy</li>
+                </ul>
+            </div>
+
+            <!-- Architecture -->
+            <div class="card border-t-4 border-blue-500 hover:shadow-lg transition-all text-center">
+                <div
+                    class="w-12 h-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+                    🏗️
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2">Architecture</h4>
+                <p class="text-sm text-gray-600 mb-4">
+                    Maintainable and scalable codebase.
+                </p>
+                <ul class="text-left text-xs space-y-2 text-gray-500 bg-gray-50 p-3 rounded-lg">
+                    <li class="flex items-start gap-2">✓ Fragment-based Templates</li>
+                    <li class="flex items-start gap-2">✓ Thin Controllers</li>
+                    <li class="flex items-start gap-2">✓ Progressive Enhancement</li>
+                </ul>
             </div>
         </div>
 
-        <!-- Review of All Lessons -->
-        <div class="card bg-purple-50 border-l-4 border-purple-500 mb-6">
-            <h3 class="text-lg font-semibold text-purple-900 mb-3">
-                📖 Review: What You've Learned
-            </h3>
+        <!-- Deep Dive Code -->
+        <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <span>📝</span> Code Patterns Deep Dive
+        </h3>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-white rounded p-3 border border-purple-200">
-                    <h4 class="font-bold text-purple-900 mb-2">1️⃣ HTMX Basics</h4>
-                    <p class="text-xs text-purple-800">hx-get, hx-target, hx-swap - Foundation of HTMX</p>
+        <div class="space-y-6 mb-8">
+            <!-- CSRF Pattern -->
+            <div class="card bg-gray-900 text-gray-300 border-gray-800">
+                <div class="flex items-center justify-between mb-4 border-b border-gray-800 pb-2">
+                    <h3 class="font-semibold text-white flex items-center gap-2">
+                        <span>Pattern: Secure CSRF Form</span>
+                    </h3>
+                    <span
+                        class="text-xs font-mono bg-red-900/50 text-red-200 px-2 py-1 rounded border border-red-800">Security</span>
                 </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="font-mono text-sm leading-relaxed overflow-x-auto">
+                        <pre><code class="language-html">&lt;!-- Option 1: Inline (Easiest) --&gt;
+&lt;form <span class="text-blue-400">hx-post</span>="/save"
+      <span class="text-fuchsia-400">hx-headers</span>='{"X-CSRF-TOKEN": "[[${_csrf.token}]]"}'&gt;
+    ...
+&lt;/form&gt;
 
-                <div class="bg-white rounded p-3 border border-purple-200">
-                    <h4 class="font-bold text-purple-900 mb-2">2️⃣ Triggers & Swap</h4>
-                    <p class="text-xs text-purple-800">hx-trigger events, swap strategies, timing</p>
-                </div>
-
-                <div class="bg-white rounded p-3 border border-purple-200">
-                    <h4 class="font-bold text-purple-900 mb-2">3️⃣ Forms & Validation</h4>
-                    <p class="text-xs text-purple-800">hx-post, Jakarta Bean Validation, error handling</p>
-                </div>
-
-                <div class="bg-white rounded p-3 border border-purple-200">
-                    <h4 class="font-bold text-purple-900 mb-2">4️⃣ Todo List CRUD</h4>
-                    <p class="text-xs text-purple-800">Full CRUD operations, hx-delete, hx-put</p>
-                </div>
-
-                <div class="bg-white rounded p-3 border border-purple-200">
-                    <h4 class="font-bold text-purple-900 mb-2">5️⃣ Global Search</h4>
-                    <p class="text-xs text-purple-800">Live search, debouncing, highlighting</p>
-                </div>
-
-                <div class="bg-white rounded p-3 border border-purple-200">
-                    <h4 class="font-bold text-purple-900 mb-2">6️⃣ Alpine.js Basics</h4>
-                    <p class="text-xs text-purple-800">x-data, x-model, x-show, client-side reactivity</p>
-                </div>
-
-                <div class="bg-white rounded p-3 border border-purple-200">
-                    <h4 class="font-bold text-purple-900 mb-2">7️⃣ HTMX + Alpine</h4>
-                    <p class="text-xs text-purple-800">Combining both libraries, project manager</p>
-                </div>
-
-                <div class="bg-white rounded p-3 border border-purple-200">
-                    <h4 class="font-bold text-purple-900 mb-2">8️⃣ Infinite Scroll</h4>
-                    <p class="text-xs text-purple-800">hx-trigger="revealed", lazy loading, pagination</p>
-                </div>
-
-                <div class="bg-white rounded p-3 border border-purple-200">
-                    <h4 class="font-bold text-purple-900 mb-2">9️⃣ File Upload</h4>
-                    <p class="text-xs text-purple-800">multipart/form-data, file storage, download</p>
-                </div>
-
-                <div class="bg-white rounded p-3 border border-purple-200">
-                    <h4 class="font-bold text-purple-900 mb-2">🔟 Polling</h4>
-                    <p class="text-xs text-purple-800">hx-trigger="every Xs", real-time updates</p>
+&lt;!-- Option 2: Thymeleaf Syntax --&gt;
+&lt;form <span class="text-blue-400">hx-post</span>="/save"
+      <span class="text-fuchsia-400">th:hx-headers</span>='|{"X-CSRF-TOKEN": "${_csrf.token}"}|'&gt;
+    ...
+&lt;/form&gt;</code></pre>
+                    </div>
+                    <div class="text-sm text-gray-400">
+                        <p class="mb-2"><strong class="text-white">Why?</strong> Spring Security mewajibkan token CSRF
+                            untuk method POST/PUT/DELETE. Tanpa ini, HTMX request akan ditolak (403 Forbidden).</p>
+                        <p class="text-xs italic">Tips: Gunakan Option 1 karena lebih mudah dibaca dan tidak
+                            membingungkan syntax JSON.</p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Best Practices Deep Dive -->
-        <div class="card bg-gray-50 border-l-4 border-gray-400 mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-3">
-                💎 Best Practices Deep Dive
-            </h3>
-
-            <div class="space-y-4">
-                <div th:inline="none">
-                    <p class="text-sm font-semibold text-gray-700 mb-2">1. Security: CSRF Protection</p>
-                    <p class="text-xs text-gray-600 mb-2 italic">⚠️ CSRF token harus di-populate dengan Thymeleaf syntax. Ada 2 cara:</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto" th:inline="none"><code>&lt;!-- OPSI 1: Menggunakan [[${...}]] inline expression (PALING MUDAH) --&gt;
-&lt;form hx-post="/api/data"
-      hx-headers='{"X-CSRF-Token": "[[${_csrf.token}]]"}'&gt;
-    &lt;!-- form fields --&gt;
-&lt;/form&gt;
-
-&lt;!-- OPSI 2: Menggunakan th:hx-headers dengan literal substitution --&gt;
-&lt;form hx-post="/api/data"
-      th:hx-headers='|{"X-CSRF-Token": "${_csrf.token}"}|'&gt;
-    &lt;!-- form fields --&gt;
-&lt;/form&gt;
-
-&lt;!-- OPSI 3: Menggunakan th:attr (untuk kasus complex) --&gt;
-&lt;form hx-post="/api/data"
-      th:attr="hx-headers='{\u0022X-CSRF-Token\u0022: \u0022' + ${_csrf.token} + '\u0022}'"&gt;
-    &lt;!-- form fields --&gt;
-&lt;/form&gt;
-
-&lt;!-- ❌ SALAH: Tanpa th: atau [[...]], ini hanya literal string --&gt;
-&lt;form hx-post="/api/data"
-      hx-headers='{"X-CSRF-Token": "${_csrf.token}"}'&gt;
-    &lt;!-- Token TIDAK akan di-populate! --&gt;
-&lt;/form&gt;
-
-// Server-side: Spring Security automatically validates CSRF
-@PostMapping("/api/data")
-public String saveData(@Valid DataDto data) {
-    // CSRF token validated before reaching here
-}</code></pre>
-                    <p class="text-xs text-gray-600 mt-2">
-                        💡 <strong>Penjelasan:</strong> <code>${_csrf.token}</code> disediakan oleh Spring Security.
-                        Untuk Thymeleaf memproses expression ini, ada 3 cara:
-                    </p>
-                    <ul class="text-xs text-gray-600 mt-1 ml-5 list-disc space-y-1">
-                        <li><strong>Opsi 1 (Recommended):</strong> <code>[[${...}]]</code> inline expression - paling simple, langsung di attribute biasa</li>
-                        <li><strong>Opsi 2:</strong> <code>th:hx-headers='|...|'</code> - literal substitution, perhatikan gunakan single quote untuk attribute value supaya bisa pakai double quote untuk JSON</li>
-                        <li><strong>Opsi 3:</strong> <code>th:attr</code> dengan unicode escape <code>\u0022</code> untuk double quote - untuk kasus complex</li>
-                        <li>⚠️ <strong>PENTING:</strong> HTMX <code>hx-headers</code> memerlukan valid JSON dengan double quotes, bukan single quotes!</li>
-                    </ul>
-                    <p class="text-xs text-gray-600 mt-2">
-                        Tanpa Thymeleaf processing, browser akan kirim literal string <code>"${_csrf.token}"</code>, bukan token sebenarnya.
-                    </p>
+            <!-- Debounce Pattern -->
+            <div class="card bg-gray-900 text-gray-300 border-gray-800">
+                <div class="flex items-center justify-between mb-4 border-b border-gray-800 pb-2">
+                    <h3 class="font-semibold text-white flex items-center gap-2">
+                        <span>Pattern: Search Optimization</span>
+                    </h3>
+                    <span
+                        class="text-xs font-mono bg-amber-900/50 text-amber-200 px-2 py-1 rounded border border-amber-800">Performance</span>
                 </div>
-
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">2. Performance: Debouncing Search</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;!-- Good: Debounce search to reduce server load --&gt;
-&lt;input type="search"
-       hx-get="/search"
-       hx-trigger="keyup changed delay:500ms"
-       hx-target="#results"&gt;
-
-&lt;!-- Bad: No debounce = too many requests --&gt;
-&lt;input type="search"
-       hx-get="/search"
-       hx-trigger="keyup"&gt;</code></pre>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="font-mono text-sm leading-relaxed overflow-x-auto">
+                        <pre><code class="language-html">&lt;input type="search" 
+       name="q"
+       <span class="text-blue-400">hx-get</span>="/search" 
+       <span class="text-fuchsia-400">hx-trigger</span>="keyup changed delay:500ms" 
+       <span class="text-green-400">hx-target</span>="#results"&gt;</code></pre>
+                    </div>
+                    <div class="text-sm text-gray-400">
+                        <ul class="space-y-1">
+                            <li><code>keyup</code>: Trigger setiap ketikan.</li>
+                            <li><code>changed</code>: Hanya jika nilai berubah (mengabaikan arrow keys dll).</li>
+                            <li><code>delay:500ms</code>: <strong>Crucial!</strong> Tunggu user berhenti mengetik 500ms
+                                request dikirim. Hemat resource server.</li>
+                        </ul>
+                    </div>
                 </div>
-
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">3. Error Handling: Graceful Degradation</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;!-- Show error message on failure --&gt;
-&lt;form hx-post="/api/save"
-      hx-target="#result"
-      hx-swap="innerHTML"
-      hx-on::after-request="if(event.detail.failed) showError()"&gt;
-&lt;/form&gt;
-
-// Server-side: Return proper error HTML
-@ExceptionHandler(Exception.class)
-public String handleError(Exception e, Model model) {
-    model.addAttribute("error", e.getMessage());
-    return "fragments/error";
-}</code></pre>
-                </div>
-
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">4. Accessibility: Focus Management</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;!-- Restore focus after swap --&gt;
-&lt;button hx-get="/content"
-        hx-target="#container"
-        hx-swap="innerHTML focus-scroll:true"&gt;
-    Load Content
-&lt;/button&gt;
-
-&lt;!-- Use semantic HTML --&gt;
-&lt;div role="alert" aria-live="polite"&gt;
-    &lt;!-- HTMX updates announced to screen readers --&gt;
-&lt;/div&gt;</code></pre>
-                </div>
-
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">5. Progressive Enhancement: Fallback</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;!-- Works without JavaScript --&gt;
-&lt;form action="/submit" method="post" hx-post="/submit" hx-target="#result"&gt;
-    &lt;input type="text" name="data"&gt;
-    &lt;button type="submit"&gt;Submit&lt;/button&gt;
-&lt;/form&gt;
-
-// Server returns full page OR fragment based on request
-@PostMapping("/submit")
-public String submit(@RequestHeader(value = "HX-Request", required = false) String hxRequest) {
-    if (hxRequest != null) {
-        return "fragments/result";  // HTMX request
-    }
-    return "redirect:/success";  // Regular form submission
-}</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- Architecture Patterns -->
-        <div class="card bg-blue-50 border-l-4 border-blue-500 mb-6">
-            <h3 class="text-lg font-semibold text-blue-900 mb-3">
-                🏗️ Architecture Patterns
-            </h3>
-
-            <div class="space-y-3 text-sm text-blue-800">
-                <div class="bg-white rounded p-3 border border-blue-200">
-                    <h4 class="font-bold mb-2">Fragment-Based Architecture</h4>
-                    <p class="text-xs mb-2">Organize templates into reusable fragments:</p>
-                    <pre class="bg-gray-800 text-gray-100 p-2 rounded text-xs overflow-x-auto"><code>templates/
-├── layout.html                 # Main layout
-├── dashboard.html              # Full pages
-├── lesson-1.html
-└── fragments/
-    ├── todo-list.html          # Reusable fragments
-    ├── search-results.html
-    └── notification-count.html</code></pre>
-                </div>
-
-                <div class="bg-white rounded p-3 border border-blue-200">
-                    <h4 class="font-bold mb-2">Controller Organization</h4>
-                    <p class="text-xs mb-2">Separate concerns clearly:</p>
-                    <pre class="bg-gray-800 text-gray-100 p-2 rounded text-xs overflow-x-auto"><code>@Controller
-public class TodoController {
-    @GetMapping("/todos")           // Full page
-    public String todosPage() { }
-
-    @GetMapping("/todos/list")      // Fragment for HTMX
-    public String getTodoList() { }
-
-    @PostMapping("/todos")          // CRUD operations
-    public String createTodo() { }
-}</code></pre>
-                </div>
-
-                <div class="bg-white rounded p-3 border border-blue-200">
-                    <h4 class="font-bold mb-2">Service Layer Pattern</h4>
-                    <p class="text-xs mb-2">Keep controllers thin, business logic in services:</p>
-                    <pre class="bg-gray-800 text-gray-100 p-2 rounded text-xs overflow-x-auto"><code>@Service
-public class TodoService {
-    public List&lt;Todo&gt; findAll() { }
-    public Todo save(Todo todo) { }
-    public void delete(Long id) { }
-}
-
-@Controller
-public class TodoController {
-    private final TodoService service;
-    // Delegate to service layer
-}</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- Production Checklist -->
-        <div class="card bg-yellow-50 border-l-4 border-yellow-500 mb-6">
-            <h3 class="text-lg font-semibold text-yellow-900 mb-3">
-                ✅ Production Deployment Checklist
-            </h3>
-
-            <div class="space-y-2 text-sm text-yellow-800">
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" class="form-checkbox">
-                    <span>CSRF protection enabled untuk semua POST/PUT/DELETE</span>
-                </label>
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" class="form-checkbox">
-                    <span>Input validation di server-side dengan Bean Validation</span>
-                </label>
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" class="form-checkbox">
-                    <span>Error handling dengan proper HTTP status codes</span>
-                </label>
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" class="form-checkbox">
-                    <span>Loading indicators untuk long-running operations</span>
-                </label>
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" class="form-checkbox">
-                    <span>Debouncing untuk search dan autocomplete</span>
-                </label>
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" class="form-checkbox">
-                    <span>Reasonable polling intervals (3-10s, bukan < 1s)</span>
-                </label>
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" class="form-checkbox">
-                    <span>Progressive enhancement: works without JavaScript</span>
-                </label>
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" class="form-checkbox">
-                    <span>Accessibility: keyboard navigation & screen readers</span>
-                </label>
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" class="form-checkbox">
-                    <span>HTTP caching headers untuk static assets</span>
-                </label>
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" class="form-checkbox">
-                    <span>Monitoring & logging untuk production issues</span>
-                </label>
             </div>
         </div>
 
         <!-- Next Steps -->
-        <div class="card bg-green-50 border-l-4 border-green-500 mb-6">
-            <h3 class="text-lg font-semibold text-green-900 mb-3">🚀 Next Steps</h3>
-            <div class="space-y-3 text-sm text-green-800">
-                <div>
-                    <h4 class="font-bold mb-1">📚 Further Learning:</h4>
-                    <ul class="ml-5 space-y-1 text-xs list-disc">
-                        <li><strong>HTMX Docs:</strong> <a href="https://htmx.org" class="underline" target="_blank">htmx.org</a> - Official documentation</li>
-                        <li><strong>Alpine.js Docs:</strong> <a href="https://alpinejs.dev" class="underline" target="_blank">alpinejs.dev</a> - Alpine documentation</li>
-                        <li><strong>Spring Boot:</strong> <a href="https://spring.io/guides" class="underline" target="_blank">spring.io/guides</a> - Spring guides</li>
-                        <li><strong>Hypermedia Systems:</strong> Book by Carson Gross (creator of HTMX)</li>
-                    </ul>
-                </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <span>🚀</span> Your Journey Continues...
+        </h3>
 
-                <div>
-                    <h4 class="font-bold mb-1">🛠️ Build Your Own Project:</h4>
-                    <ul class="ml-5 space-y-1 text-xs list-disc">
-                        <li>Apply these patterns to your own application</li>
-                        <li>Start with simple CRUD, gradually add complexity</li>
-                        <li>Focus on user experience & progressive enhancement</li>
-                        <li>Share your project dengan community!</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="font-bold mb-1">🌟 Advanced Topics to Explore:</h4>
-                    <ul class="ml-5 space-y-1 text-xs list-disc">
-                        <li>WebSockets untuk true real-time (vs polling)</li>
-                        <li>Server-Sent Events (SSE) untuk one-way updates</li>
-                        <li>Advanced HTMX extensions</li>
-                        <li>Testing strategies untuk HTMX applications</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Congratulations -->
-        <div class="card bg-gradient-to-r from-purple-500 to-pink-500 text-white mb-6">
-            <div class="text-center">
-                <div class="text-6xl mb-4">🏆</div>
-                <h3 class="text-3xl font-bold mb-3">Congratulations!</h3>
-                <p class="text-xl mb-4">
-                    You've completed all 11 lessons and mastered HTMX + Alpine.js + Spring Boot!
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <a href="https://htmx.org/docs" target="_blank"
+                class="card hover:border-gray-400 transition-all group cursor-pointer block">
+                <h4 class="font-bold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors">HTMX
+                    Documentation &rarr;</h4>
+                <p class="text-sm text-gray-500">Official docs adalah referensi terbaik untuk update terbaru.</p>
+            </a>
+            <a href="https://alpinejs.dev/start" target="_blank"
+                class="card hover:border-gray-400 transition-all group cursor-pointer block">
+                <h4 class="font-bold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors">Alpine.js
+                    Documentation &rarr;</h4>
+                <p class="text-sm text-gray-500">Pelajari modifiers dan plugins advanced lainnya.</p>
+            </a>
+            <a href="https://hypermedia.systems" target="_blank"
+                class="card hover:border-gray-400 transition-all group cursor-pointer block">
+                <h4 class="font-bold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors">Hypermedia
+                    Systems Book &rarr;</h4>
+                <p class="text-sm text-gray-500">Baca buku gratis dari creator HTMX tentang filosofi REST sebenarnya.
                 </p>
-                <p class="text-purple-100">
-                    You're now ready to build modern, hypermedia-driven web applications.
-                </p>
-            </div>
+            </a>
+            <a href="/"
+                class="card bg-indigo-50 border-indigo-200 hover:border-indigo-300 transition-all group cursor-pointer block">
+                <h4 class="font-bold text-indigo-900 mb-1 group-hover:text-indigo-700 transition-colors">Back to
+                    Dashboard &rarr;</h4>
+                <p class="text-sm text-indigo-700/70">Mulai implementasi di project Anda sendiri.</p>
+            </a>
         </div>
 
         <!-- Navigation -->
-        <div class="flex justify-between">
-            <a href="/lesson/10"
-               class="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors">
-                ← Pelajaran 10
+        <div class="flex justify-between items-center border-t border-gray-200 pt-6">
+            <a href="/lesson/10" class="btn btn-ghost flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Pelajaran 10
             </a>
             <a href="/"
-               class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">
-                🏠 Kembali ke Dashboard
+                class="btn bg-gray-900 text-white hover:bg-black shadow-lg shadow-gray-900/20 flex items-center gap-2 px-8">
+                <span class="text-lg">🏠</span> Dashboard Utama
             </a>
         </div>
     </div>
 </body>
+
 </html>

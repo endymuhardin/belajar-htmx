@@ -9,5 +9,7 @@
   "dependencies": {
     "@tailwindcss/cli": "^4.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "tailwindcss-animate": "^1.0.7"
+  }
 }

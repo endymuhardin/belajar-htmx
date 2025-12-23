@@ -1,237 +1,249 @@
 <!DOCTYPE html>
-<html lang="id" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+<html lang="id" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
 <head>
     <title>Pelajaran 5: Global Search</title>
 </head>
+
 <body>
     <div layout:fragment="content">
         <!-- Lesson Header -->
-        <div class="mb-6">
-            <div class="flex items-center space-x-3 mb-2">
-                <span class="text-4xl">5️⃣</span>
-                <h2 class="text-3xl font-bold text-gray-900">Pelajaran 5: Global Search dengan Debouncing</h2>
+        <div class="mb-8">
+            <div class="flex items-center gap-3 mb-3">
+                <span
+                    class="flex items-center justify-center w-12 h-12 rounded-xl bg-cyan-100 text-cyan-600 text-2xl shadow-sm">
+                    5️⃣
+                </span>
+                <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">Global Search dengan Debouncing</h2>
             </div>
-            <p class="text-gray-600 text-lg">
-                Implementasi live search dengan <code class="bg-gray-200 px-2 py-1 rounded text-sm">hx-trigger="keyup changed delay:500ms"</code>
+            <p class="text-xl text-gray-600 max-w-3xl leading-relaxed">
+                Implementasi pencarian real-time yang efisien menggunakan <code
+                    class="bg-primary-50 text-primary-700 px-1.5 py-0.5 rounded text-sm font-mono border border-primary-100">hx-trigger="keyup changed delay:500ms"</code>
+                untuk mengurangi beban server.
             </p>
         </div>
 
         <!-- Lesson Overview -->
-        <div class="card bg-indigo-50 border-l-4 border-indigo-500 mb-6">
-            <h3 class="text-xl font-bold text-indigo-900 mb-3">📚 Konsep Pelajaran 5</h3>
+        <div class="card mb-8 border-l-4 border-l-cyan-500">
+            <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span>📚</span> Konsep Utama
+            </h3>
 
-            <div class="space-y-3 text-sm text-indigo-800">
-                <p>
-                    <strong>Konsep Baru:</strong> Live search dengan debouncing untuk menghindari request berlebihan.
-                    Search dilakukan otomatis saat user mengetik, dengan delay untuk menunggu user selesai mengetik.
+            <div class="space-y-6">
+                <p class="text-gray-600 leading-relaxed">
+                    Fitur "Live Search" sangat powerful untuk UX, tapi bisa membebani server jika setiap ketukan tombol
+                    mengirim request. HTMX memiliki solusi built-in: <strong>Debouncing</strong>.
                 </p>
 
-                <div class="bg-white rounded p-4 border border-indigo-200 space-y-3">
-                    <div>
-                        <p class="font-semibold mb-2">⌨️ Debouncing dengan HTMX:</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li><code class="bg-indigo-100 px-1 rounded">hx-trigger="keyup changed delay:500ms"</code> - Trigger after 500ms idle</li>
-                            <li><code class="bg-indigo-100 px-1 rounded">changed</code> - Hanya trigger jika value berubah</li>
-                            <li><code class="bg-indigo-100 px-1 rounded">delay:500ms</code> - Wait 500ms sebelum request</li>
-                            <li><code class="bg-indigo-100 px-1 rounded">hx-indicator</code> - Show loading spinner saat request</li>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 rounded-xl p-5 border border-gray-100">
+                        <p class="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Anatomi Trigger
+                        </p>
+                        <div
+                            class="bg-white p-3 rounded border border-gray-200 font-mono text-sm text-center text-cyan-700 mb-3">
+                            keyup changed delay:500ms
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-2 text-sm text-gray-600">
+                                <span class="font-semibold text-cyan-700">keyup:</span>
+                                <span>Trigger event saat tombol keyboard dilepas.</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm text-gray-600">
+                                <span class="font-semibold text-cyan-700">changed:</span>
+                                <span>Hanya kirim request jika nilai input <strong>berubah</strong> (misal: user tekan
+                                    panah kanan tidak kirim request).</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm text-gray-600">
+                                <span class="font-semibold text-cyan-700">delay:500ms:</span>
+                                <span>Tunggu 500ms setelah user berhenti mengetik. Reset jika mengetik lagi.</span>
+                            </li>
                         </ul>
                     </div>
 
-                    <div>
-                        <p class="font-semibold mb-2">🔍 Search Features:</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li>Live search saat user mengetik</li>
-                            <li>Debouncing untuk efisiensi (tidak spam request)</li>
-                            <li>Highlight matching text dengan &lt;mark&gt; tag</li>
-                            <li>Loading indicator dengan htmx-indicator class</li>
-                            <li>Dropdown results dengan hover effects</li>
+                    <div class="bg-gray-50 rounded-xl p-5 border border-gray-100">
+                        <p class="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            Fitur Global Search
+                        </p>
+                        <ul class="space-y-3 text-sm text-gray-600">
+                            <li class="flex items-center gap-2">
+                                <span
+                                    class="bg-cyan-100 text-cyan-600 rounded-full w-5 h-5 flex items-center justify-center text-xs">✓</span>
+                                Live search (tanpa tekan enter)
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span
+                                    class="bg-cyan-100 text-cyan-600 rounded-full w-5 h-5 flex items-center justify-center text-xs">✓</span>
+                                Debouncing (hemat resource)
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span
+                                    class="bg-cyan-100 text-cyan-600 rounded-full w-5 h-5 flex items-center justify-center text-xs">✓</span>
+                                Highlight matching text
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span
+                                    class="bg-cyan-100 text-cyan-600 rounded-full w-5 h-5 flex items-center justify-center text-xs">✓</span>
+                                Loading indicator spinner
+                            </li>
                         </ul>
                     </div>
-
-                    <div>
-                        <p class="font-semibold mb-2">✨ UX Enhancements:</p>
-                        <ul class="space-y-1 ml-5 text-xs list-disc">
-                            <li>Empty state ketika tidak ada query</li>
-                            <li>No results state ketika tidak ditemukan</li>
-                            <li>Result count display</li>
-                            <li>Badge untuk status (Selesai/Belum selesai)</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded p-3 border border-indigo-200">
-                    <p class="font-semibold mb-2">📂 Lihat di source code:</p>
-                    <ul class="space-y-1 ml-4 text-xs font-mono">
-                        <li>👉 <strong>Service:</strong> service/SearchService.java</li>
-                        <li>👉 <strong>Controller:</strong> controller/SearchController.java</li>
-                        <li>👉 <strong>Results Fragment:</strong> templates/fragments/search-results.html</li>
-                        <li>👉 <strong>Navbar:</strong> templates/layout.html:30-56</li>
-                    </ul>
                 </div>
             </div>
         </div>
 
         <!-- Interactive Demo -->
-        <div class="card bg-white border-2 border-indigo-200 mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">
-                🎮 Demo Interaktif: Coba Search Bar di Navbar
-            </h3>
+        <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <span>🎮</span> Demo Interaktif
+        </h3>
 
-            <div class="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-300">
-                <p class="text-sm text-yellow-900">
-                    <strong>💡 Coba Eksperimen:</strong>
+        <div class="grid lg:grid-cols-2 gap-8 mb-8">
+            <div class="card bg-amber-50 border-amber-100">
+                <p class="font-bold text-amber-900 mb-2 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Cara Mencoba:
                 </p>
-                <ul class="mt-2 ml-5 text-sm text-yellow-800 space-y-1 list-disc text-left">
-                    <li>Gunakan search bar di navbar (bagian atas halaman)</li>
-                    <li>Ketik sesuatu - perhatikan delay 500ms sebelum search</li>
-                    <li>Lihat loading spinner muncul saat search</li>
-                    <li>Perhatikan matching text di-highlight dengan warna kuning</li>
-                    <li>Tambah beberapa todos dulu di Pelajaran 4 untuk test search</li>
+                <ul class="space-y-2 text-sm text-amber-800 list-disc list-outside ml-4">
+                    <li>Lihat ke bagian <strong>Navbar</strong> di paling atas halaman ini.</li>
+                    <li>Ketik kata kunci, misalnya "HTMX" atau judul Todo yang kamu buat.</li>
+                    <li>Perhatikan indikator loading di kanan search bar.</li>
+                    <li>Lihat hasil pencarian muncul secara <em>popover</em>.</li>
                 </ul>
             </div>
 
-            <div class="p-6 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-lg border-2 border-dashed border-indigo-300">
-                <div class="text-center">
-                    <svg class="w-16 h-16 mx-auto mb-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            <div
+                class="card border-2 border-dashed border-cyan-200 flex flex-col items-center justify-center text-center p-8 bg-cyan-50/50">
+                <div class="animate-bounce mb-4 text-cyan-500">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
                     </svg>
-                    <p class="text-lg font-semibold text-indigo-900 mb-2">
-                        ↑ Lihat Search Bar di Navbar
-                    </p>
-                    <p class="text-sm text-indigo-600">
-                        Search bar sudah terintegrasi di navbar bagian atas.<br>
-                        Coba ketik untuk mencari todos!
-                    </p>
                 </div>
+                <h4 class="text-lg font-bold text-gray-900">Demo ada di Navbar 👆</h4>
+                <p class="text-sm text-gray-500 max-w-xs mx-auto">
+                    Fitur Global Search diimplementasikan di Layout utama agar bisa diakses dari halaman mana saja.
+                </p>
             </div>
         </div>
 
         <!-- Code Explanation -->
-        <div class="card bg-gray-50 border-l-4 border-gray-400 mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-3">
-                📝 Penjelasan Kode
-            </h3>
+        <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <span>📝</span> Bedah Kode
+        </h3>
 
-            <div class="space-y-4">
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">1. Search Input (HTML dengan Debouncing):</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;input
-    type="search"
-    name="q"
-    hx-get="/search"
-    hx-trigger="keyup changed delay:500ms, search"
-    hx-target="#search-results-container"
-    hx-indicator="#search-loading"
-    autocomplete="off"&gt;</code></pre>
+        <div class="grid lg:grid-cols-2 gap-8 mb-8">
+            <!-- HTML Input -->
+            <div class="card bg-gray-900 text-gray-300 border-gray-800">
+                <div class="flex items-center justify-between mb-4 border-b border-gray-800 pb-2">
+                    <h3 class="font-semibold text-white flex items-center gap-2">
+                        <span>Frontend (HTML)</span>
+                    </h3>
+                    <span class="text-xs font-mono bg-gray-800 px-2 py-1 rounded text-gray-400">layout.html</span>
                 </div>
+                <div class="font-mono text-sm leading-relaxed overflow-x-auto">
+                    <pre><code class="language-html">&lt;input type="search" 
+       name="q"
+       <span class="text-primary-400">hx-get</span>="/search"
+       <span class="text-secondary-400">hx-trigger</span>="keyup changed delay:500ms"
+       <span class="text-secondary-400">hx-target</span>="#search-results"
+       <span class="text-yellow-400">hx-indicator</span>="#search-loading" /&gt;
 
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">2. SearchService (Highlight Logic):</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>private String highlightMatch(String text, String searchTerm) {
-    String lowerText = text.toLowerCase();
-    String lowerSearch = searchTerm.toLowerCase();
-
-    int index = lowerText.indexOf(lowerSearch);
-    StringBuilder result = new StringBuilder();
-
-    while (index != -1) {
-        result.append(text, lastIndex, index);
-        result.append("&lt;mark class=\"bg-yellow-200\"&gt;");
-        result.append(text, index, index + searchTerm.length());
-        result.append("&lt;/mark&gt;");
-        lastIndex = index + searchTerm.length();
-        index = lowerText.indexOf(lowerSearch, lastIndex);
-    }
-
-    return result.toString();
-}</code></pre>
+&lt;!-- Loading Spinner --&gt;
+&lt;div id="search-loading" class="<span class="text-yellow-400">htmx-indicator</span>"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+&lt;/div&gt;</code></pre>
                 </div>
+            </div>
 
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">3. SearchController (Simple Endpoint):</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>@GetMapping("/search")
-public String search(@RequestParam(required = false) String q,
-                    Model model) {
-    if (q == null || q.trim().isEmpty()) {
-        model.addAttribute("results", List.of());
-        model.addAttribute("isEmpty", true);
-        return "fragments/search-results";
-    }
-
-    List&lt;SearchResult&gt; results = searchService.search(q);
-    model.addAttribute("results", results);
-    model.addAttribute("query", q);
-    model.addAttribute("isEmpty", results.isEmpty());
-
-    return "fragments/search-results";
-}</code></pre>
+            <!-- CSS Logic -->
+            <div class="card bg-gray-900 text-gray-300 border-gray-800">
+                <div class="flex items-center justify-between mb-4 border-b border-gray-800 pb-2">
+                    <h3 class="font-semibold text-white flex items-center gap-2">
+                        <span>CSS (Tailwind)</span>
+                    </h3>
+                    <span class="text-xs font-mono bg-gray-800 px-2 py-1 rounded text-gray-400">input.css</span>
                 </div>
-
-                <div>
-                    <p class="text-sm font-semibold text-gray-700 mb-2">4. Loading Indicator (CSS):</p>
-                    <pre class="bg-gray-800 text-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;div id="search-loading" class="htmx-indicator"&gt;
-    &lt;svg class="animate-spin h-5 w-5"&gt;...&lt;/svg&gt;
-&lt;/div&gt;
-
-/* HTMX automatically shows/hides .htmx-indicator */
+                <div class="font-mono text-sm leading-relaxed overflow-x-auto">
+                    <pre><code class="language-css">/* Default hidden */
 .htmx-indicator {
-    display: none;  /* Hidden by default */
+    opacity: 0;
+    transition: opacity 200ms ease-in;
 }
+
+/* Shown when requesting */
 .htmx-request .htmx-indicator {
-    display: inline;  /* Shown during request */
-}</code></pre>
+    opacity: 1;
+}
+
+/* .htmx-request class ditambahkan otomatis
+   oleh HTMX ke elemen yang memicu request */</code></pre>
                 </div>
             </div>
         </div>
 
         <!-- Key Takeaways -->
-        <div class="card bg-green-50 border-l-4 border-green-500 mb-6">
-            <h3 class="text-lg font-semibold text-green-900 mb-3">✅ Poin Penting Pelajaran 5</h3>
-            <ul class="space-y-2 text-sm text-green-800">
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Debouncing</strong> - delay:500ms untuk menunggu user selesai mengetik</span>
+        <div class="card bg-gradient-to-br from-green-50 to-emerald-50 border-l-4 border-green-500 mb-8">
+            <h3 class="text-lg font-bold text-green-900 mb-3 flex items-center gap-2">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Poin Penting
+            </h3>
+            <ul class="grid sm:grid-cols-2 gap-3 text-sm text-green-800">
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>Delay is Key:</strong> Tanpa delay, server akan dibombardir request setiap ketukan
+                        jari.</span>
                 </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>changed modifier</strong> - Hanya trigger jika value berubah</span>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>Changed Modifier:</strong> Mencegah request ulang jika user menekan tombol
+                        non-character (arrow keys, shift).</span>
                 </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>hx-indicator</strong> - Loading state dengan htmx-indicator class</span>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>Visual Feedback:</strong> Loading indicator sangat penting untuk memberi tahu user
+                        bahwa sistem sedang bekerja.</span>
                 </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Text Highlighting</strong> - &lt;mark&gt; tag untuk highlight matching text</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>UX States</strong> - Empty state, no results state, loading state</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Efisiensi</strong> - Debouncing mengurangi jumlah request ke server</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="mr-2">•</span>
-                    <span><strong>Dropdown Pattern</strong> - Absolute positioning untuk search results</span>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 mt-1">●</span>
+                    <span><strong>Server-side Logic:</strong> Logic pencarian dan highlight tetap di Java, client hanya
+                        terima HTML jadi.</span>
                 </li>
             </ul>
         </div>
 
         <!-- Navigation -->
-        <div class="flex justify-between">
-            <a href="/lesson/4"
-               class="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors">
-                ← Pelajaran 4
+        <div class="flex justify-between items-center border-t border-gray-200 pt-6">
+            <a href="/lesson/4" class="btn btn-ghost flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Pelajaran 4
             </a>
-            <a href="/lesson/6"
-               class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">
-                Pelajaran 6 →
+            <a href="/lesson/6" class="btn btn-primary flex items-center gap-2 shadow-lg shadow-primary-500/20">
+                Lanjut ke Pelajaran 6
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3">
+                    </path>
+                </svg>
             </a>
         </div>
     </div>
 </body>
+
 </html>
